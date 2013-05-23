@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace EndpointMvc.Models {
 		/// The areas.
 		/// </value>
 		[XmlElement("Area")]
+		[Display ( Name = "Areas", Prompt = "Areas" )]
 		public List<EndpointArea> Areas { get; set; }
 	}
 }

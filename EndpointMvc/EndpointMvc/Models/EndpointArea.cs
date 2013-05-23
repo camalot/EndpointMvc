@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace EndpointMvc.Models {
 		/// The name.
 		/// </value>
 		[XmlAttribute]
+		[Display ( Name = "Name", Prompt = "Name" )]
 		public String Name { get; set; }
 
 		/// <summary>
@@ -34,6 +36,7 @@ namespace EndpointMvc.Models {
 		/// The services.
 		/// </value>
 		[XmlIgnore]
+		[Display ( Name = "Services", Prompt = "Services" )]
 		public Dictionary<String, EndpointService> Services { get; set; }
 
 		/// <summary>

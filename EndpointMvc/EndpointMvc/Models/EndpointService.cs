@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace EndpointMvc.Models {
 		/// The name.
 		/// </value>
 		[XmlAttribute]
+		[Display ( Name = "Name", Prompt = "Name" )]
 		public String Name { get; set; }
 		/// <summary>
 		/// Gets or sets the description.
@@ -34,6 +36,7 @@ namespace EndpointMvc.Models {
 		/// The description.
 		/// </value>
 		[XmlElement ( "Description" )]
+		[Display ( Name = "Description", Prompt = "Description" )]
 		public String Description { get; set; }
 		/// <summary>
 		/// Gets or sets the endpoints.

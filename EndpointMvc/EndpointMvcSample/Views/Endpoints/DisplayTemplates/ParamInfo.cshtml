@@ -1,4 +1,7 @@
-﻿@model EndpointMvc.Models.ParamInfo
+﻿@using EndpointMvc.Extensions;
+@using EndpointMvc.Models;
+
+@model ParamInfo
 
 <div>
 	<h4>@Model.Name <span class="endpoint-type small">@Model.Type</span></h4>
@@ -6,5 +9,6 @@
 	@if( Model.Default != null ) {
 		<div>@Model.Default</div>
 	}
-	@Html.CheckBoxFor(m => m.Optional)
+	<label>@Html.CheckBoxFor(m => m.Optional, new { disabled = "disabled" } ) 
+	@Html.LiteralFor(m => m.Optional)</label>
 </div>

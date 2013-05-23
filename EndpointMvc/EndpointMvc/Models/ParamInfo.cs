@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,7 @@ namespace EndpointMvc.Models {
 		/// The name.
 		/// </value>
 		[XmlAttribute]
+		[Display ( Name = "Name", Prompt = "Name" )]
 		public String Name { get; set; }
 		/// <summary>
 		/// Gets or sets the type.
@@ -25,6 +28,7 @@ namespace EndpointMvc.Models {
 		/// The type.
 		/// </value>
 		[XmlAttribute]
+		[Display ( Name = "Type", Prompt = "Type" )]
 		public String Type { get; set; }
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="ParamInfo"/> is optional.
@@ -33,6 +37,7 @@ namespace EndpointMvc.Models {
 		///   <c>true</c> if optional; otherwise, <c>false</c>.
 		/// </value>
 		[XmlAttribute]
+		[Display ( Name = "Optional", Prompt = "Optional" )]
 		public bool Optional { get; set; }
 		/// <summary>
 		/// Gets or sets the description.
@@ -41,6 +46,7 @@ namespace EndpointMvc.Models {
 		/// The description.
 		/// </value>
 		[XmlElement]
+		[Display ( Name = "Description", Prompt = "Description" )]
 		public String Description { get; set; }
 		/// <summary>
 		/// Gets or sets the default.
@@ -49,6 +55,7 @@ namespace EndpointMvc.Models {
 		/// The default.
 		/// </value>
 		[XmlElement("Default", IsNullable=true)]
+		[Display(Name = "Default", Prompt = "Default")]
 		public Object Default { get; set; }
 	}
 }

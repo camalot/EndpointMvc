@@ -1,11 +1,14 @@
-﻿@model EndpointMvc.Models.EndpointInfo
+﻿@using EndpointMvc.Extensions;
+@using EndpointMvc.Models;
+
+@model EndpointInfo
 
 <div class="endpoint-info">
 	<h3>@Model.Name</h3>
 	<div>
-		@Html.CheckBoxFor(m => m.Deprecated)
-		@Html.CheckBoxFor(m => m.RequiresAuthentication)
-		@Html.CheckBoxFor(m => m.Obsolete)
+		<label>@Html.CheckBoxFor(m => m.Deprecated, new { disabled = "disabled" })@Html.LiteralFor(m => m.Deprecated)</label>
+		<label>@Html.CheckBoxFor(m => m.RequiresAuthentication, new { disabled = "disabled" })@Html.LiteralFor(m => m.RequiresAuthentication)</label>
+		<label>@Html.CheckBoxFor(m => m.Obsolete, new { disabled = "disabled" })@Html.LiteralFor(m => m.Obsolete)</label>
 	</div>
 	<div>@Model.Description</div>
 	<div class="well">
