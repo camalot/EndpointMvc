@@ -9,6 +9,13 @@
 	@if( Model.Default != null ) {
 		<div>@Model.Default</div>
 	}
-	<label>@Html.CheckBoxFor(m => m.Optional, new { disabled = "disabled" } ) 
-	@Html.LiteralFor(m => m.Optional)</label>
+	<table class="table table-striped table-bordered table-condensed">
+		<tr>
+			<th>@Html.LiteralFor(m => m.Optional)</th>
+		</tr>
+		<tr>
+			<td>@Html.CheckBoxFor(m => m.Optional, new { disabled = "disabled" } ) </td>
+		</tr>
+	</table>
+	<div>Default: @(Model.Default == null ? "null": Model.Default.ToString())</div>
 </div>

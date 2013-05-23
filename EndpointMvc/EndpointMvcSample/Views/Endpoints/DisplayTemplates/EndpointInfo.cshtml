@@ -3,14 +3,23 @@
 
 @model EndpointInfo
 
-<div class="endpoint-info">
+<div class="endpoint-info well">
 	<h3>@Model.Name</h3>
-	<div>
-		<label>@Html.CheckBoxFor(m => m.Deprecated, new { disabled = "disabled" })@Html.LiteralFor(m => m.Deprecated)</label>
-		<label>@Html.CheckBoxFor(m => m.RequiresAuthentication, new { disabled = "disabled" })@Html.LiteralFor(m => m.RequiresAuthentication)</label>
-		<label>@Html.CheckBoxFor(m => m.Obsolete, new { disabled = "disabled" })@Html.LiteralFor(m => m.Obsolete)</label>
-	</div>
 	<div>@Model.Description</div>
+	<div>
+		<table class="table table-striped table-bordered table-condensed">
+			<tr>
+				<th>@Html.LiteralFor(m => m.Deprecated)</th>
+				<th>@Html.LiteralFor(m => m.RequiresAuthentication)</th>
+				<th>@Html.LiteralFor(m => m.Obsolete)</th>
+			</tr>
+			<tr>
+				<td>@Html.CheckBoxFor(m => m.Deprecated, new { disabled = "disabled" } ) </td>
+				<td>@Html.CheckBoxFor(m => m.RequiresAuthentication, new { disabled = "disabled" } ) </td>
+				<td>@Html.CheckBoxFor(m => m.Obsolete, new { disabled = "disabled" } ) </td>
+			</tr>
+		</table>
+	</div>
 	<div class="well">
 		<h3>Methods</h3>
 		<ul>
