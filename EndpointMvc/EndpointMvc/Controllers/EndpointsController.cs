@@ -18,11 +18,19 @@ using System.Text.RegularExpressions;
 namespace EndpointMvc.Controllers {
 	public class EndpointsController : Controller {
 
+		/// <summary>
+		/// Returns the endpoints data as json
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult Json ( ) {
 			var data = BuildEndpointData ( );
 			return this.EndpointJson<Dictionary<String, EndpointArea>> ( data );
 		}
 
+		/// <summary>
+		/// Returns the endpoints data as xml
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult Xml ( ) {
 			var data = BuildEndpointData ( );
 			return this.EndpointXml<EndpointData> ( new EndpointData {
@@ -30,6 +38,10 @@ namespace EndpointMvc.Controllers {
 			} );
 		}
 
+		/// <summary>
+		/// Returns the endpoints data as html
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult Html ( ) {
 			var data = BuildEndpointData ( );
 			return View ( new EndpointData {
@@ -37,6 +49,10 @@ namespace EndpointMvc.Controllers {
 			} );
 		}
 
+		/// <summary>
+		/// Builds the endpoints data.
+		/// </summary>
+		/// <returns></returns>
 		private Dictionary<String, EndpointArea> BuildEndpointData ( ) {
 			var areaRoute = (String)RouteData.Values["area"];
 			var areas = new Dictionary<String, EndpointArea> ( );
@@ -133,15 +149,32 @@ namespace EndpointMvc.Controllers {
 			return areas;
 		}
 
+		/// <summary>
+		/// Finds the area from namespace.
+		/// </summary>
+		/// <param name="namespace">The namespace.</param>
+		/// <returns></returns>
 		private String FindAreaFromNamespace ( string @namespace ) {
 			var m = @namespace.Match ( "\\.(?:Controllers|Areas)\\.([^\\.]+)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace );
 			return m.Success ? m.Groups[1].Value : String.Empty;
 		}
 
+		/// <summary>
+		/// Generates the action URL.
+		/// </summary>
+		/// <param name="controller">The controller.</param>
+		/// <param name="action">The action.</param>
+		/// <param name="routeValues">The route values.</param>
+		/// <returns></returns>
 		private String GenerateActionUrl ( string controller, string action, object routeValues ) {
 			return Url.Action ( action, controller, routeValues, Request.Url.Scheme );
 		}
 
+		/// <summary>
+		/// Gets the parameters from the method info.
+		/// </summary>
+		/// <param name="mi">The method info.</param>
+		/// <returns></returns>
 		private List<ParamInfo> GetParams ( MethodInfo mi ) {
 			var paramList = new List<ParamInfo> ( );
 
@@ -152,6 +185,12 @@ namespace EndpointMvc.Controllers {
 			return paramList;
 		}
 
+		/// <summary>
+		/// Gets the parameter info.
+		/// </summary>
+		/// <param name="baseName">Name of the base.</param>
+		/// <param name="pi">The property info.</param>
+		/// <returns></returns>
 		private List<ParamInfo> GetParamInfo ( String baseName, ParameterInfo pi ) {
 			var list = new List<ParamInfo> ( );
 			var da = pi.GetCustomAttribute<DescriptionAttribute> ( );
@@ -180,6 +219,12 @@ namespace EndpointMvc.Controllers {
 			return list;
 		}
 
+		/// <summary>
+		/// Gets the property info.
+		/// </summary>
+		/// <param name="baseName">Name of the base.</param>
+		/// <param name="pi">The property info.</param>
+		/// <returns></returns>
 		private List<ParamInfo> GetPropertyInfo ( String baseName, PropertyInfo pi ) {
 			var list = new List<ParamInfo> ( );
 			var da = pi.GetCustomAttribute<DescriptionAttribute> ( );
@@ -208,6 +253,11 @@ namespace EndpointMvc.Controllers {
 
 
 
+		/// <summary>
+		/// Gets the method verbs.
+		/// </summary>
+		/// <param name="mi">The method info.</param>
+		/// <returns></returns>
 		private List<String> GetMethodVerbs ( MethodInfo mi ) {
 			var list = new List<String> ( );
 			var verbs = mi.GetCustomAttribute<AcceptVerbsAttribute> ( );

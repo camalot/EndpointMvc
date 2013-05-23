@@ -18,11 +18,6 @@ namespace EndpointMvc.Extensions {
 			return ( type.IsGenericType && type.GetGenericTypeDefinition ( ).Equals ( typeof ( Nullable<> ) ) );
 		}
 
-		/*public static T GetCustomAttribute<T> ( this Type type ) where T : Attribute {
-			var attr = type.GetCustomAttributes<T> ( ).FirstOrDefault ( );
-			return attr;
-		}*/
-
 		/// <summary>
 		/// Gets member info that have the specified attribute
 		/// </summary>
@@ -140,28 +135,70 @@ namespace EndpointMvc.Extensions {
 			return types;
 		}
 
+		/// <summary>
+		/// Determines whether the object is a type of <c>T</c>.
+		/// </summary>
+		/// <typeparam name="TType">The type of the type.</typeparam>
+		/// <param name="t">The t.</param>
+		/// <returns>
+		///   <c>true</c> if the object is a type of <c>T</c>; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool Is<TType> ( this TType t ) where TType : class {
 			return t.GetType ( ).Is<TType> ( );
 		}
 
+		/// <summary>
+		/// Determines whether the object is a type of <c>T</c>.
+		/// </summary>
+		/// <typeparam name="TType">The type of the type.</typeparam>
+		/// <param name="t">The t.</param>
+		/// <returns>
+		///   <c>true</c> if the object is a type of <c>T</c>; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool Is<TType> ( this object t ) {
 			return t is TType;
 		}
 
+		/// <summary>
+		/// Determines whether the object is a type of <c>T</c>.
+		/// </summary>
+		/// <typeparam name="TType">The type of the type.</typeparam>
+		/// <param name="t">The t.</param>
+		/// <returns>
+		///   <c>true</c> if the object is a type of <c>T</c>; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool Is<TType> ( this Type t ) where TType : class {
 			return typeof ( TType ).IsAssignableFrom ( t );
 		}
 
 
+		/// <summary>
+		/// Gets the fully qualified name of the type
+		/// </summary>
+		/// <param name="t">The type.</param>
+		/// <returns></returns>
 		public static String QualifiedName ( this Type t ) {
 			return "{0}, {1}".With ( t.FullName, t.Assembly.GetName ( ).Name );
 		}
 
+		/// <summary>
+		/// Creates the instance of <c>T</c>.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t">The t.</param>
+		/// <returns></returns>
 		public static T CreateInstance<T> ( this Type t ) {
 			var result = (T)Activator.CreateInstance ( t );
 			return result;
 		}
 
+		/// <summary>
+		/// Creates the instance of <c>T</c>.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t">The type.</param>
+		/// <param name="args">The args.</param>
+		/// <returns></returns>
 		public static T CreateInstance<T> ( this Type t, params object[] args ) {
 			var result = (T)Activator.CreateInstance ( t, args );
 			return result;

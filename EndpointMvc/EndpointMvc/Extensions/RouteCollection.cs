@@ -8,6 +8,11 @@ using System.Web.Routing;
 
 namespace EndpointMvc.Extensions {
 	public static partial class EndpointMvc {
+		/// <summary>
+		/// Registers the endpoint MVC routes.
+		/// </summary>
+		/// <param name="rc">The route collect.</param>
+		/// <returns></returns>
 		public static RouteCollection RegisterEndpointMvc ( this RouteCollection rc ) {
 			rc.MapRoute (
 					name: "EndpointMvc_Default",
@@ -18,6 +23,12 @@ namespace EndpointMvc.Extensions {
 			return rc;
 		}
 
+		/// <summary>
+		/// Registers the endpoint MVC routes for area.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="area">The area.</param>
+		/// <returns></returns>
 		public static AreaRegistrationContext RegisterEndpointMvcForArea ( this AreaRegistrationContext context, String area ) {
 			context.MapRoute (
 					name: "{0}_EndpointMvc_Default".With(area.Require()),

@@ -7,7 +7,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace EndpointMvc.Serialization {
+	/// <summary>
+	/// 
+	/// </summary>
 	internal static class JsonSerializerFactory {
+		/// <summary>
+		/// Creates an instance of the JsonSerializer
+		/// </summary>
+		/// <returns></returns>
 		public static JsonSerializer Create ( ) {
 			return new JsonSerializer {
 				// force camelCase properties
