@@ -1,0 +1,24 @@
+﻿@model EndpointMvc.Models.EndpointInfo
+
+<div class="endpoint-info">
+	<h3>@Model.Name</h3>
+	<div>
+		@Html.CheckBoxFor(m => m.Deprecated)
+		@Html.CheckBoxFor(m => m.RequiresAuthentication)
+		@Html.CheckBoxFor(m => m.Obsolete)
+	</div>
+	<div>@Model.Description</div>
+	<div class="well">
+		<h3>Methods</h3>
+		<ul>
+			@foreach ( var method in @Model.HttpMethods ) {
+				<li>@method</li>
+			}
+		</ul>
+	</div>
+	<div class="well">
+		<h3>Parameters</h3>
+		@Html.DisplayFor(m => m.Params)
+	</div>
+
+</div>

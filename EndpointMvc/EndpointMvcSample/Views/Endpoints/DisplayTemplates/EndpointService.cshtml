@@ -1,0 +1,11 @@
+﻿@model EndpointMvc.Models.EndpointService
+
+<div>
+	<h2>@Model.Name</h2>
+	<div>@Model.Description</div>
+	<div>
+		@foreach ( var item in Model.EndpointList ) {
+			@Html.DisplayFor(m => item)
+		}
+	</div>
+</div>
