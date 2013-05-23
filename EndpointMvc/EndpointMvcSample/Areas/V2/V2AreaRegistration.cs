@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using EndpointMvc.Extensions;
 
 namespace EndpointMvcSample.Areas.V2 {
 	public class V2AreaRegistration : AreaRegistration {
@@ -9,6 +10,7 @@ namespace EndpointMvcSample.Areas.V2 {
 		}
 
 		public override void RegisterArea ( AreaRegistrationContext context ) {
+			//context.RegisterEndpointMvcForArea ( AreaName );
 			context.MapRoute (
 					"V2_default",
 					"V2/{controller}/{action}/{id}",

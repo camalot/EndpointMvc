@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -16,10 +17,20 @@ namespace EndpointMvc.Extensions {
 		public static RouteCollection RegisterEndpointMvc ( this RouteCollection rc ) {
 			rc.MapRoute (
 					name: "EndpointMvc_Default",
-					url: "{area}/endpoints/{action}/{id}",
-					defaults: new { controller = "Endpoints", action = "Json", id = UrlParameter.Optional },
+					url: "{area}/endpoints/{action}",
+					defaults: new { controller = "Endpoints", action = "Json" },
 					namespaces: new String[] { "EndpointMvc.Controllers" }
 			);
+
+			GetRegisteredAreas().ForEach(a => {
+				var aname = a.AreaName;
+				rc.MapRoute (
+						name: "{0}_EndpointMvc_Default".With ( aname ),
+						url: "{area}/endpoints/{action}",
+						defaults: new { controller = "Endpoints", action = "Json", area = aname },
+						namespaces: new String[] { "EndpointMvc.Controllers" }
+				);
+			} );
 			return rc;
 		}
 
@@ -31,12 +42,21 @@ namespace EndpointMvc.Extensions {
 		/// <returns></returns>
 		public static AreaRegistrationContext RegisterEndpointMvcForArea ( this AreaRegistrationContext context, String area ) {
 			context.MapRoute (
-					name: "{0}_EndpointMvc_Default".With(area.Require()),
-					url: "{area}/endpoints/{action}/{id}",
-					defaults: new { controller = "Endpoints", action = "Json", area = area, id = UrlParameter.Optional },
+					name: "{0}_EndpointMvc_Default".With ( area.Require ( ) ),
+					url: "{area}/endpoints/{action}",
+					defaults: new { controller = "Endpoints", action = "Json", area = area },
 					namespaces: new String[] { "EndpointMvc.Controllers" }
 			);
 			return context;
+		}
+
+		private static IEnumerable<AreaRegistration> GetRegisteredAreas ( ) {
+			var areas = new List<AreaRegistration> ( );
+			foreach ( var area in AppDomain.CurrentDomain.GetAssemblies ( ).SelectMany ( asm => asm.GetTypesThatAre<AreaRegistration> ( ) ) ) {
+				var instance = (AreaRegistration)Activator.CreateInstance ( area );
+				areas.Add ( instance );
+			}
+			return areas;
 		}
 	}
 }
