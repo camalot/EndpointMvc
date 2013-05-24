@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace EndpointMvc.Extensions {
-	public static partial class EndpointMvc {
+	public static partial class EndpointMvcExtensions {
 		public static IHtmlString LiteralFor<TModel, TValue> ( this HtmlHelper<TModel> helper, Expression<Func<TModel, TValue>> expression ) {
 			return LiteralFor ( helper, expression, null );
 		}

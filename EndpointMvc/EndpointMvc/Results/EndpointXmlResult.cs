@@ -21,7 +21,7 @@ namespace EndpointMvc.Results {
 		/// </summary>
 		/// <param name="context">The context in which the result is executed. The context information includes the controller, HTTP content, request context, and route data.</param>
 		public override void ExecuteResult ( ControllerContext context ) {
-			context.HttpContext.Response.ContentType = "application/json";
+			context.HttpContext.Response.ContentType = "text/xml";
 			var ser = XmlSerializerFactory.Create<T> ( );
 			ser.Serialize ( context.HttpContext.Response.OutputStream, this.Data );
 		}

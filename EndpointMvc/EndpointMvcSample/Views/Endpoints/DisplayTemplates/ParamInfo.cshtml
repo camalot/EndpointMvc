@@ -4,7 +4,7 @@
 @model ParamInfo
 
 <div>
-	<h4>@Model.Name <span class="endpoint-type small">@Model.Type</span></h4>
+	<h4>@Model.Name <small>@Model.Type</small></h4>
 	<div>@Model.Description</div>
 	@if( Model.Default != null ) {
 		<div>@Model.Default</div>
@@ -17,5 +17,5 @@
 			<td>@Html.CheckBoxFor(m => m.Optional, new { disabled = "disabled" } ) </td>
 		</tr>
 	</table>
-	<div>Default: @(Model.Default == null ? "null": Model.Default.ToString())</div>
+	<div>Default: <small>@(Model.Default == null ? "null": Model.Default.ToString())</small></div>
 </div>

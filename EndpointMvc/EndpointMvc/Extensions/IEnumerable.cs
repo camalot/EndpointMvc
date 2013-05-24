@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EndpointMvc.Extensions {
-	public static partial class EndpointMvc {
+	public static partial class EndpointMvcExtensions {
 
 		/// <summary>
 		/// Iterates over each item of <c>T</c>

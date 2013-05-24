@@ -10,7 +10,7 @@ namespace EndpointMvc.Extensions {
 	/// <summary>
 	/// 
 	/// </summary>
-	public static partial class EndpointMvc {
+	public static partial class EndpointMvcExtensions {
 		/// <summary>
 		/// Exports to json.
 		/// </summary>

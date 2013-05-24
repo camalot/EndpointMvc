@@ -10,12 +10,12 @@ using EndpointMvcSample.Areas.Api.Models;
 
 namespace EndpointMvcSample.Areas.Api.Controllers {
 	[Endpoint]
+	[Description("User interaction endpoints v1")]
 	public class UserController : Controller {
 
 		[Description ( "Gets registered users" )]
 		public ActionResult List ( ) {
 			// all your code here to return your users api
-
 			return new EmptyResult ( );
 		}
 

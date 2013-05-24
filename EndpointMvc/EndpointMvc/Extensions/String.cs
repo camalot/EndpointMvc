@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EndpointMvc.Extensions {
-	public static partial class EndpointMvc {
+	public static partial class EndpointMvcExtensions {
 
 		/// <summary>
 		/// Applies the arguments to the supplied format string
@@ -211,6 +211,14 @@ namespace EndpointMvc.Extensions {
 		/// <returns></returns>
 		public static String ToPascalCase ( this String input ) {
 			return CultureInfo.CurrentUICulture.TextInfo.ToTitleCase ( input.Require ( "'input' cannot be null or empty." ) );
+		}
+
+		public static String StripHtml ( this string s ) {
+			if ( String.IsNullOrWhiteSpace ( s ) ) {
+				return s;
+			}
+			var options = RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline;
+			return s.Replace ( "\\<br\\s*/?\\>", Environment.NewLine, options ).Replace ( "<[^>]+>||&\\#\\d{1,};", String.Empty, options );
 		}
 
 	}

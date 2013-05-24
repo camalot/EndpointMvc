@@ -5,15 +5,32 @@ Builds api endpoint information / documentation dynamically by reflecting over t
 
 Route Registration
 ----------
-EndpointMvc needs to register the route to handle the calls. This can be done two ways: 
+EndpointMvc needs to register the route to handle the calls: 
 
-1. Register via the EndpoingMvc RouteConfig
+* Register via the EndpoingMvc RouteConfig
 >     EndpointMvc.Config.RouteConfig.RegisterRoutes ( routes );
 
-1. Register via the RouteCollection Extension Method
+* Register via the RouteCollection Extension Method
+
 >     using EndpointMvc.Extensions;
 >     //												
 >     routes.RegisterEndpointMvc();
+
+* If you want to be able to call EndpointMvc on specific areas you must either register EndpointMvc routes in each area registration
+or call <code>RegisterEnpointMvcForAllAreas()</code> before you call <code>AreaRegistration.RegisterAllAreas()</code>.
+
+>     protected void Application_Start ( ) {
+>       // this done before areas allows specific calls to /{area}/endpoints/ to get just area info
+>       RouteTable.Routes.RegisterEndpointMvc ( ).RegisterEnpointMvcForAllAreas ( );
+>       // now the original registrations
+>       AreaRegistration.RegisterAllAreas ( );
+>       WebApiConfig.Register ( GlobalConfiguration.Configuration );
+>       FilterConfig.RegisterGlobalFilters ( GlobalFilters.Filters );
+>       RouteConfig.RegisterRoutes ( RouteTable.Routes );
+>       BundleConfig.RegisterBundles ( BundleTable.Bundles );
+>       AuthConfig.RegisterAuth ( );
+>     }
+
 
 Once registered, you can get the endpoint data by calling the EndpointMvc controller (endpoints) and the format you 
 want to output

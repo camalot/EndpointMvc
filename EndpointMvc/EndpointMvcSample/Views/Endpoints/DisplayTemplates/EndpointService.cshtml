@@ -1,7 +1,6 @@
 ﻿@model EndpointMvc.Models.EndpointService
 
-<div class="well">
-	<a name="@Model.QualifiedName"></a>
+<div class="well" id="@Model.QualifiedName.Replace(".","_")">
 	<h2>@Model.Name</h2>
 	<div>@Model.Description</div>
 	<div>

@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using EndpointMvc.Extensions;
 
 namespace EndpointMvcSample {
 	// Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -13,6 +14,9 @@ namespace EndpointMvcSample {
 
 	public class MvcApplication : System.Web.HttpApplication {
 		protected void Application_Start ( ) {
+			// this done before areas allows specific calls to /{area}/endpoints/ to get just area info
+			RouteTable.Routes.RegisterEndpointMvc ( ).RegisterEnpointMvcForAllAreas ( );
+
 			AreaRegistration.RegisterAllAreas ( );
 
 			WebApiConfig.Register ( GlobalConfiguration.Configuration );

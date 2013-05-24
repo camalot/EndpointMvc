@@ -1,36 +1,42 @@
 <?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="Publish">
-	<Import Project="$(MSBuildProjectDirectory)\SharedProperties.msbuild"
-				Condition="Exists('$(MSBuildProjectDirectory)\SharedProperties.msbuild') AND '$(SharedProperties)' != 'SharedProperties' " />
-	
-	<PropertyGroup>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<Project>EndpointMvc</Project>
 		<ProjectFriendlyName>EndpointMvc</ProjectFriendlyName>
 		<ReleaseName>$(ProjectFriendlyName) $(Version) $(Status)</ReleaseName>
 		<PublishNuGet Condition=" '$(PublishMode)' == 'NuGet' ">PublishNuGet</PublishNuGet>
 		<NuSpecFile Condition=" '$(NuSpecFile)' == '' ">$(ProjectFriendlyName).nuspec</NuSpecFile>
+		<OutputPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\debug</OutputPath>
 	</PropertyGroup>
+	
+	<ItemGroup>
+		<ProjectAssemblies Include="$(OutputPath)\$(Project).dll" />
+	</ItemGroup>
 
-	<Target Name="Publish" Condition=" '$(PublishMode)' == 'NuGet' ">
+	<Target Name="Publish" Condition=" '$(PublishMode)' == 'NuGet' " DependsOnTargets="NuGetPackage">
 		<Error Condition=" '$(NuGetKey)' == '' " Code="500" Text="'NuGetKey' property was not set."></Error>
 		<Error Condition=" '$(NuSpecFile)' == '' " Code="500" Text="'NuSpecFile' property was not set."></Error>
-		<Error Condition=" '$(CPUsername)' == '' " Code="500" Text="'CPUsername' property was not set."></Error>
-		<Error Condition=" '$(CPPassword)' == '' " Code="500" Text="'CPPassword' property was not set."></Error>
 
 		<Exec WorkingDirectory="$(OutputPath)" Command="nuget push setApiKey $(NuGetKey)" />
 		<Exec WorkingDirectory="$(OutputPath)" Command="nuget push $(ProjectFriendlyName).$(CCNetLabel).nupkg $(NuGetKey)" />
 	</Target>
+	
+	<Target Name="RetrieveIdentities">
+    <GetAssemblyIdentity
+        AssemblyFiles="@(ProjectAssemblies)">
+        <Output
+            TaskParameter="Assemblies"
+            ItemName="ProjectIdentities"/>
+    </GetAssemblyIdentity>
+</Target>
 
-	<Target Name="NuGetPackage">
-		<ReadTextFile Files="$(MSBuildProjectDirectory)\publish-changelog.txt">
+	<Target Name="NuGetPackage" DependsOnTargets="RetrieveIdentities">
+		<!--ReadTextFile Files="$(MSBuildProjectDirectory)\publish-changelog.txt">
 			<Output TaskParameter="OutputText" PropertyName="ReleaseDescription" />
-		</ReadTextFile>
+		</ReadTextFile-->
 
 
-		<CreateProperty Value="$(OutputPath)\$(CCNetProject).$(CCNetLabel)">
+		<CreateProperty Value="$(OutputPath)\$(ProjectFriendlyName).$(CCNetLabel)">
 			<Output TaskParameter="Value" PropertyName="PackagePath" />
 		</CreateProperty>
 		
@@ -38,18 +44,19 @@
 		<MakeDir Directories="$(PackagePath)\lib" Condition="!Exists('$(PackagePath)\lib')" />
 		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NuSpecFile)" DestinationFiles="$(PackagePath)\$(ProjectFriendlyName).nuspec" />
 		
-		<CreateItem Include="$(OutputPath)*.*" Exclude="$(OutputPath)*.msi;$(OutputPath)*.zip;$(OutputPath)*.vshost.*;$(OutputPath)madb.*">
+		<CreateItem Include="@(ProjectAssemblies)" Exclude="$(OutputPath)*.zip;$(OutputPath)*.vshost.*;">
 			<Output ItemName="CopyFiles" TaskParameter="Include"/>
 		</CreateItem>
+		
 		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(PackagePath)\lib" />
 		<XmlUpdate
 			XPath="/package/metadata/version"
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
-			Value="$(CCNetLabel)"/>
+			Value="%(ProjectIdentities.Version)"/>
 		<XmlUpdate
 			XPath="/package/metadata/id"
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
-			Value="$(CCNetProject)"/>
+			Value="$(ProjectFriendlyName)"/>
 		<XmlUpdate
 			XPath="/package/metadata/description"
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"

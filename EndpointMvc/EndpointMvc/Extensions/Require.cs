@@ -9,13 +9,13 @@ namespace EndpointMvc.Extensions {
 	/// <summary>
 	/// 
 	/// </summary>
-	public static partial class EndpointMvc {
+	public static partial class EndpointMvcExtensions {
 		/// <summary>
 		/// Makes the specified object required.
 		/// </summary>
 		/// <param name="obj">The obj.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static Object Require ( this Object obj ) {
 			if ( obj == null ) {
 				throw new MissingRequiredValueException ( );
@@ -29,7 +29,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="obj">The obj.</param>
 		/// <param name="message">The message.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static Object Require ( this Object obj, String message ) {
 			if ( obj == null ) {
 				throw new MissingRequiredValueException ( message );
@@ -53,7 +53,7 @@ namespace EndpointMvc.Extensions {
 		/// </summary>
 		/// <param name="guid">The GUID.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static Guid Require ( this Guid guid ) {
 			if ( guid == Guid.Empty ) {
 				throw new MissingRequiredValueException ( );
@@ -67,7 +67,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="guid">The GUID.</param>
 		/// <param name="message">The message.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static Guid Require ( this Guid guid, String message ) {
 			if ( guid == null ) {
 				throw new MissingRequiredValueException ( message );
@@ -82,7 +82,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="s">The object.</param>
 		/// <param name="message">The message.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static T Require<T> ( this T s, String message ) {
 			if ( s.Equals ( default ( T ) ) ) {
 				throw new MissingRequiredValueException ( message );
@@ -96,7 +96,7 @@ namespace EndpointMvc.Extensions {
 		/// <typeparam name="T"></typeparam>
 		/// <param name="s">The object.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static T Require<T> ( this T s ) {
 			if ( s.Equals ( default ( T ) ) ) {
 				throw new MissingRequiredValueException ( );
@@ -110,7 +110,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="s">The string.</param>
 		/// <param name="message">The message.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static String Require ( this String s, String message ) {
 			if ( String.IsNullOrWhiteSpace ( s ) ) {
 				throw new MissingRequiredValueException ( message );
@@ -122,7 +122,7 @@ namespace EndpointMvc.Extensions {
 		/// </summary>
 		/// <param name="s">The string.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static String Require ( this String s ) {
 			if ( String.IsNullOrWhiteSpace ( s ) ) {
 				throw new MissingRequiredValueException ( );
@@ -137,7 +137,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="s">The nullable object.</param>
 		/// <param name="message">The message.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static Nullable<T> Require<T> ( this Nullable<T> s, String message ) where T : struct, IComparable {
 			if ( !s.HasValue ) {
 				throw new MissingRequiredValueException ( message );
@@ -150,7 +150,7 @@ namespace EndpointMvc.Extensions {
 		/// <typeparam name="T"></typeparam>
 		/// <param name="s">The nullable object.</param>
 		/// <returns></returns>
-		/// <exception cref="EndpointMvc.Exceptions.MissingRequiredValueException"></exception>
+		/// <exception cref="EndpointMvcExtensions.Exceptions.MissingRequiredValueException"></exception>
 		public static Nullable<T> Require<T> ( this Nullable<T> s ) where T : struct, IComparable {
 			if ( !s.HasValue ) {
 				throw new MissingRequiredValueException ( );

@@ -2,14 +2,21 @@
 <package>
   <metadata>
     <id>EndpointMvc</id>
-    <version></version>
+    <version>1.0.0.0</version>
     <authors>Ryan Conrad</authors>
+		<owners>Ryan Conrad</owners>
     <licenseUrl>https://github.com/camalot/EndpointMvc/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/camalot/EndpointMvc</projectUrl>
     <iconUrl></iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>...description goes here...</description>
-    <summary>...summary goes here...</summary>
+    <description>Builds api endpoint information / documentation dynamically by reflecting over the controllers and actions</description>
+    <summary>Builds api endpoint information / documentation</summary>
     <language>en-US</language>
+		<releaseNotes></releaseNotes>
+		<copyright>Copyright 2013</copyright>
+		<tags>webapi aspnet mvc api rest json xml web services</tags>
+		<dependencies>
+			<dependency id="Newtonsoft.Json" version="5.0.5" />
+		</dependencies>
   </metadata>
 </package>

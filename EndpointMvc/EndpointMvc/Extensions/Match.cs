@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EndpointMvc.Extensions {
-	public static partial class EndpointMvc {
+	public static partial class EndpointMvcExtensions {
 		/// <summary>
 		/// Iterates over the matches in the Match
 		/// </summary>

@@ -62,7 +62,7 @@
     <Compile Include="Controllers\EndpointsController.cs" />
     <Compile Include="Exceptions\MissingRequiredValueException.cs" />
     <Compile Include="Extensions\Controller.cs" />
-    <Compile Include="Extensions\EndpointMvc.cs" />
+    <Compile Include="Extensions\EndpointMvcExtensions.cs" />
     <Compile Include="Extensions\HtmlHelper.cs" />
     <Compile Include="Extensions\IEnumerable.cs" />
     <Compile Include="Extensions\Match.cs" />

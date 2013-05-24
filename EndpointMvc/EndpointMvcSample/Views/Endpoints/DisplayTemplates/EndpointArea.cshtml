@@ -1,7 +1,6 @@
 ﻿@model EndpointMvc.Models.EndpointArea
 
-<div class="well">
-	<a name="@Model.QualifiedName"></a>
+<div class="well" id="@Model.QualifiedName.Replace(".","_")">
 	<h1>@Model.Name</h1>
 	<div>
 		@foreach ( var item in Model.ServicesList ) {
