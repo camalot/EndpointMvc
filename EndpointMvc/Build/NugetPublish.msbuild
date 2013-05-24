@@ -10,7 +10,9 @@
 		<PublishNuGet Condition=" '$(PublishMode)' == 'NuGet' ">PublishNuGet</PublishNuGet>
 		<NuSpecFile Condition=" '$(NuSpecFile)' == '' ">$(ProjectFriendlyName).nuspec</NuSpecFile>
 		<OutputPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\debug</OutputPath>
+		<ReleasesPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\nuget</ReleasesPath>
 		<NugetPath>$(MSBuildProjectDirectory)\..\.nuget</NugetPath>
+		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvcSample\Views\Endpoints</ViewsPath>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -18,11 +20,22 @@
 	</ItemGroup>
 
 	<Target Name="Publish" Condition=" '$(PublishMode)' == 'NuGet' " DependsOnTargets="NuGetPackage">
+
+		<CreateProperty Value="$(ProjectFriendlyName).$(ProjectVersion).nupkg">
+			<Output TaskParameter="Value" PropertyName="NugetPackage" />
+		</CreateProperty>
+
 		<Error Condition=" '$(NuGetKey)' == '' " Code="500" Text="'NuGetKey' property was not set."></Error>
 		<Error Condition=" '$(NuSpecFile)' == '' " Code="500" Text="'NuSpecFile' property was not set."></Error>
 
 		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push setApiKey $(NuGetKey)" />
-		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(ProjectFriendlyName).$(ProjectVersion).nupkg $(NuGetKey)" />
+		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(NugetPackage) $(NuGetKey)" />
+
+		
+		<MakeDir Directories="$(ReleasesPath)" Condition="!Exists('$(ReleasesPath)')" />
+		<Copy SourceFiles="$(NugetPath)\$(ProjectFriendlyName).$(ProjectVersion).nupkg" DestinationFolder="$(ReleasesPath)" />
+		<Delete Files="$(NugetPath)\$(NugetPackage)" />
+		
 	</Target>
 	
 	<Target Name="RetrieveIdentities">
@@ -35,11 +48,6 @@
 </Target>
 
 	<Target Name="NuGetPackage" DependsOnTargets="RetrieveIdentities">
-		<!--ReadTextFile Files="$(MSBuildProjectDirectory)\publish-changelog.txt">
-			<Output TaskParameter="OutputText" PropertyName="ReleaseDescription" />
-		</ReadTextFile-->
-
-
 		<CreateProperty Value="%(ProjectIdentities.Version)">
 			<Output TaskParameter="Value" PropertyName="ProjectVersion" />
 		</CreateProperty>
@@ -48,14 +56,26 @@
 			<Output TaskParameter="Value" PropertyName="PackagePath" />
 		</CreateProperty>
 
-		<MakeDir Directories="$(PackagePath)\lib" Condition="!Exists('$(PackagePath)\lib')" />
+		<CreateProperty Value="$(PackagePath)\lib\net40">
+			<Output TaskParameter="Value" PropertyName="Net4LibPath" />
+		</CreateProperty>
+
+		<MakeDir Directories="$(Net4LibPath)" Condition="!Exists('$(Net4LibPath)')" />
+		<MakeDir Directories="$(PackagePath)\content\Views\Endpoints" Condition="!Exists('$(PackagePath)\content\Views\Endpoints')" />
+		
 		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NuSpecFile)" DestinationFiles="$(PackagePath)\$(ProjectFriendlyName).nuspec" />
 		
 		<CreateItem Include="@(ProjectAssemblies)" Exclude="$(OutputPath)*.zip;$(OutputPath)*.vshost.*;">
 			<Output ItemName="CopyFiles" TaskParameter="Include"/>
 		</CreateItem>
+
+		<CreateItem Include="$(ViewsPath)\**\*.*">
+			<Output ItemName="CopyMvcViews" TaskParameter="Include"/>
+		</CreateItem>
 		
-		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(PackagePath)\lib" />
+		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(Net4LibPath)" />
+		<Copy SourceFiles="@(CopyMvcViews)" DestinationFolder="$(PackagePath)\content\Views\Endpoints\%(RecursiveDir)" />
+		
 		<XmlUpdate
 			XPath="/package/metadata/version"
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
