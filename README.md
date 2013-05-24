@@ -3,6 +3,10 @@ EndpointMvc
 
 Builds api endpoint information / documentation dynamically by reflecting over the controllers and actions
 
+Nuget
+----------
+>    Install-Package EndpointMvc
+
 Route Registration
 ----------
 EndpointMvc needs to register the route to handle the calls: 
@@ -15,6 +19,7 @@ EndpointMvc needs to register the route to handle the calls:
 >     using EndpointMvc.Extensions;
 >     //												
 >     routes.RegisterEndpointMvc();
+>     routes.RegisterEnpointMvcForAllAreas();
 
 * If you want to be able to call EndpointMvc on specific areas you must either register EndpointMvc routes in each area registration
 or call <code>RegisterEnpointMvcForAllAreas()</code> before you call <code>AreaRegistration.RegisterAllAreas()</code>.
@@ -37,7 +42,7 @@ want to output
 
 * Json
 * Xml
-* Html 
+* Html (default action)
 
 Calling Html requires there be a view called <code>Html.cshtml</code> in the <code>~/Views/Endpoints</code> path. The sample Mvc application 
 has an example of the view
@@ -49,9 +54,11 @@ Endpoints must be defined in order for EndpointMvc to pick them up.
 * EndpointAttribute - <code>( Class )</code>
  - This is declared on a class that is the api endpoint. All public actions in the controller that is defined as an endpoint
 will then be registered as an endpoint, unless they are flagged with the <code>IgnoreAttribute</code>.
+
  >     [Endpoint]
  >     public class MyApiEndpoint { }
-* IgnoreAttribute - <code>( Class | Method | Parameter )</code>
+
+* IgnoreAttribute - <code>( Class | Method | Parameter | Property )</code>
  - Ignores a method, parameter, or class from EndpointMvc. 
  - *note: Overloaded action methods are not supported by EndpointMvc. You must flag other overloads with the <code>IgnoreAttribute</code>.*
 
@@ -67,6 +74,8 @@ will then be registered as an endpoint, unless they are flagged with the <code>I
  - Indicates that the class or method requires a user to be authenticated in order to call the endpoint. 
  - This attribute does not handle the checks on the endpoint to ensure the user is authenticated, you should have 
  some other attribute, like a filter, that performs the check that they are correctly authenticated.
+* AuthorizeAttribute - <code>( Class | Method )</code>
+ - Works like <code>RequiresAuthenticationAttribute</code>.
 * SinceVersionAttribute - <code>( Class | Method )</code>
  - Indicates that the specified class or method has been available since the specified version
 * ObsoleteAttribute - <code>( Class | Method )</code>
@@ -77,3 +86,8 @@ will then be registered as an endpoint, unless they are flagged with the <code>I
  - Indicates that the parameter must have a value passed to the endpoint
 * OptionalAttribute - <code>( Parameter )</code>
  - Can be used instead of the required attribute. 
+* AcceptsVerbs - <code>( Method )</code>
+ - This is used on the action methods to tell MVC what HTTP methods are accepted. EndpointMvc uses these to give details on this information
+ - The other single method attributes are used as well, like <code>HttpGetAttribute</code>.
+* RequireHttpsAttribute - <code>( Class | Method )</code>
+ - Indicates if the request requires SSL.

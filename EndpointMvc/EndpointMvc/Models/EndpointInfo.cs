@@ -96,6 +96,17 @@ namespace EndpointMvc.Models {
 		[Display ( Name = "Requires Authentication", Prompt = "Requires Authentication" )]
 		public bool RequiresAuthentication { get; set; }
 
+		[XmlAttribute]
+		[Display( Name = "Require SSL", Prompt = "Require SSL" )]
+		[JsonProperty("requireSSL")]
+		public bool RequireSsl { get; set; }
+
+		/// <summary>
+		/// Gets or sets the qualified name.
+		/// </summary>
+		/// <value>
+		/// the qualified name.
+		/// </value>
 		[XmlIgnore]
 		[JsonIgnore]
 		public String QualifiedName { get; set; }

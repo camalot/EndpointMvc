@@ -10,13 +10,15 @@
 		<table class="table table-bordered table-condensed">
 			<tr>
 				<th>@Html.LiteralFor(m => m.Deprecated)</th>
-				<th>@Html.LiteralFor(m => m.RequiresAuthentication)</th>
 				<th>@Html.LiteralFor(m => m.Obsolete)</th>
+				<th>@Html.LiteralFor(m => m.RequiresAuthentication)</th>
+				<th>@Html.LiteralFor(m => m.RequireSsl)</th>
 			</tr>
 			<tr>
 				<td>@Html.CheckBoxFor(m => m.Deprecated, new { disabled = "disabled" } ) </td>
-				<td>@Html.CheckBoxFor(m => m.RequiresAuthentication, new { disabled = "disabled" } ) </td>
 				<td>@Html.CheckBoxFor(m => m.Obsolete, new { disabled = "disabled" } ) </td>
+				<td>@Html.CheckBoxFor(m => m.RequiresAuthentication, new { disabled = "disabled" } ) </td>
+				<td>@Html.CheckBoxFor(m => m.RequireSsl, new { disabled = "disabled" } )</td>
 			</tr>
 		</table>
 	</div>
@@ -32,5 +34,4 @@
 		<h4>Parameters</h4>
 		@Html.DisplayFor(m => m.Params)
 	</div>
-
 </div>

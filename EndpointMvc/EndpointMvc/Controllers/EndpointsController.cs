@@ -67,6 +67,7 @@ namespace EndpointMvc.Controllers {
 						Name = areaName,
 						QualifiedName = areaName
 					};
+
 					if ( areas.ContainsKey ( areaName ) ) {
 						carea = areas[areaName];
 					}
@@ -79,7 +80,8 @@ namespace EndpointMvc.Controllers {
 					var deprecated = type.GetCustomAttribute<DeprecatedAttribute> ( );
 					var obsolete = type.GetCustomAttribute<ObsoleteAttribute> ( );
 					var sinceVer = type.GetCustomAttribute<SinceVersionAttribute> ( );
-					var auth = type.GetCustomAttribute<RequiresAuthenticationAttribute> ( );
+					var auth = type.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || type.GetCustomAttribute<AuthorizeAttribute>() != null;
+					var epReqHttps = type.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
 
 					if ( endpoint != null ) {
 						if ( !areas.ContainsKey ( areaName ) ) {
@@ -94,7 +96,7 @@ namespace EndpointMvc.Controllers {
 						epService.Name = epn;
 						var epDa = type.GetCustomAttribute<DescriptionAttribute> ( );
 						epService.Description = epDa == null ? String.Empty : epDa.Description;
-						epService.QualifiedName = "{0}.{1}".With ( areaName, epService.Name ); ;
+						epService.QualifiedName = "{0}.{1}".With ( areaName, epService.Name );
 
 						type.GetMethods ( ).Where ( m =>
 								m.IsPublic &&
@@ -109,7 +111,8 @@ namespace EndpointMvc.Controllers {
 								var mdep = meth.GetCustomAttribute<DeprecatedAttribute> ( );
 								var mobsolete = meth.GetCustomAttribute<ObsoleteAttribute> ( );
 								var msv = meth.GetCustomAttribute<SinceVersionAttribute> ( );
-								var mauth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( );
+								var mauth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || meth.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
+								var mreqHttps = meth.GetCustomAttribute<RequireHttpsAttribute>() != null;
 
 								if ( ana != null ) {
 									name = ana.Name;
@@ -122,22 +125,21 @@ namespace EndpointMvc.Controllers {
 								var vbs = GetMethodVerbs ( meth );
 								var paras = GetParams ( meth );
 
-								var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) } );
+								var scheme = mreqHttps || epReqHttps ? "https" : Request.Url.Scheme;
 
-								// this is a fully qualified name so there can be endpoints with the same name
-								//var qualifiedEpiKey = "{0}.{1}.{2}".With ( areaName, epService.Name, name );
-
+								var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) }, scheme );
 
 								var epi = new EndpointInfo ( ) {
 									QualifiedName =  "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 									Name = name,
+									RequireSsl = mreqHttps || epReqHttps,
 									Description = desc,
 									HttpMethods = vbs,
 									Params = paras,
 									Url = actionUrl,
 									Deprecated = mdep != null || deprecated != null,
 									Obsolete = mobsolete != null || obsolete != null,
-									RequiresAuthentication = auth != null | mauth != null,
+									RequiresAuthentication = auth | mauth,
 									SinceVersion = sinceVer != null ? sinceVer.Version.ToString ( ) :
 										msv != null ? msv.Version.ToString ( ) :
 										null
@@ -169,8 +171,8 @@ namespace EndpointMvc.Controllers {
 		/// <param name="action">The action.</param>
 		/// <param name="routeValues">The route values.</param>
 		/// <returns></returns>
-		private String GenerateActionUrl ( string controller, string action, object routeValues ) {
-			return Url.Action ( action, controller, routeValues, Request.Url.Scheme );
+		private String GenerateActionUrl ( string controller, string action, object routeValues, String scheme ) {
+			return Url.Action ( action, controller, routeValues, scheme );
 		}
 
 		/// <summary>
