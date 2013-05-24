@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{BF4AC7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5EC1CBB1-0A9F-42B0-BA26-D540D1DF404C}"
 	ProjectSection(SolutionItems) = preProject
-		Build\EndpointMvs.nuspec = Build\EndpointMvs.nuspec
+		Build\EndpointMvc.nuspec = Build\EndpointMvc.nuspec
 		Build\NugetPublish.msbuild = Build\NugetPublish.msbuild
 	EndProjectSection
 EndProject
