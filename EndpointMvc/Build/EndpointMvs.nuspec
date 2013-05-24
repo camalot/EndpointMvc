@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>EndpointMvc</id>
+    <version></version>
+    <authors>Ryan Conrad</authors>
+    <licenseUrl>https://github.com/camalot/EndpointMvc/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/camalot/EndpointMvc</projectUrl>
+    <iconUrl></iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>...description goes here...</description>
+    <summary>...summary goes here...</summary>
+    <language>en-US</language>
+  </metadata>
+</package>

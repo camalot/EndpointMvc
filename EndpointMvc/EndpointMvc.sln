@@ -5,9 +5,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc", "EndpointMvc\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvcSample", "EndpointMvcSample\EndpointMvcSample.csproj", "{8E05A42A-D2D6-4872-AB95-1E6478552228}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{77151F1E-1C83-4B20-85BA-171055FD5B49}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2F5AB574-9EE9-4F30-A771-4B9BC440671E}"
 	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{BF4AC7F5-3ABC-447B-946A-15A2623BC203}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE.md = ..\LICENSE.md
 		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5EC1CBB1-0A9F-42B0-BA26-D540D1DF404C}"
+	ProjectSection(SolutionItems) = preProject
+		Build\EndpointMvs.nuspec = Build\EndpointMvs.nuspec
+		Build\NugetPublish.msbuild = Build\NugetPublish.msbuild
 	EndProjectSection
 EndProject
 Global

@@ -2,5 +2,13 @@
 @{
     ViewBag.Title = "Endpoints";
 }
-
-@Html.DisplayFor(m => m)
+<div class="container">
+	<div class="row">
+		<div class="span3">
+			@Html.Partial("_EndpointNavigation",Model)
+		</div>
+		<div class="span9">
+			@Html.DisplayFor(m => m)
+		</div>
+	</div>
+</div>

@@ -22,15 +22,10 @@ namespace EndpointMvc.Extensions {
 					namespaces: new String[] { "EndpointMvc.Controllers" }
 			);
 
-			GetRegisteredAreas().ForEach(a => {
-				var aname = a.AreaName;
-				rc.MapRoute (
-						name: "{0}_EndpointMvc_Default".With ( aname ),
-						url: "{area}/endpoints/{action}",
-						defaults: new { controller = "Endpoints", action = "Json", area = aname },
-						namespaces: new String[] { "EndpointMvc.Controllers" }
-				);
-			} );
+			/*GetRegisteredAreas ( ).ForEach ( a => {
+				AreaRegistrationContext context = new AreaRegistrationContext ( a.AreaName, rc, null );
+				context.RegisterEndpointMvcForArea ( a.AreaName );
+			} );*/
 			return rc;
 		}
 

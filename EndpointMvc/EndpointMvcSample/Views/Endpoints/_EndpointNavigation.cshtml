@@ -1,0 +1,26 @@
+﻿@model EndpointMvc.Models.EndpointData
+
+<ul class="nav nav-list endpoint-nav-bar affix">
+	@foreach ( var item in Model.Areas ) {
+		<li>
+			<i class="icon-chevron-right"></i>
+			<a href="#@(item.QualifiedName)">@item.Name</a>
+			<ul class="nav nav-list endpoint-nav-bar endpoint-nav-sub-bar l2">
+				@foreach ( var secitem in item.ServicesList ) {
+					<li>
+						<i class="icon-chevron-right"></i>
+						<a href="#@(secitem.QualifiedName)">@secitem.Name</a>
+							<ul class="nav nav-list endpoint-nav-bar endpoint-nav-sub-bar l3">
+								@foreach ( var epitem in secitem.EndpointList ) {
+									<li>
+										<i class="icon-chevron-right"></i>
+										<a href="#@(epitem.QualifiedName)">@epitem.Name</a>
+									</li>
+								}
+							</ul>
+					</li>
+				}
+			</ul>
+		</li> 
+	}
+</ul>

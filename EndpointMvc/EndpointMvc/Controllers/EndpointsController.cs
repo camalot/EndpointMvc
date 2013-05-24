@@ -34,7 +34,7 @@ namespace EndpointMvc.Controllers {
 		public ActionResult Xml ( ) {
 			var data = BuildEndpointData ( );
 			return this.EndpointXml<EndpointData> ( new EndpointData {
-				Areas = data.Select ( a => a.Value ).ToList()
+				Areas = data.Select ( a => a.Value ).OrderBy(a => a.Name).ToList()
 			} );
 		}
 
@@ -45,7 +45,7 @@ namespace EndpointMvc.Controllers {
 		public ActionResult Html ( ) {
 			var data = BuildEndpointData ( );
 			return View ( new EndpointData {
-				Areas = data.Select ( a => a.Value ).ToList()
+				Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
 			} );
 		}
 
@@ -64,7 +64,8 @@ namespace EndpointMvc.Controllers {
 				foreach ( var type in asm.GetTypes ( ).Where ( t => t.Is<Controller> ( ) && t.GetCustomAttribute<EndpointAttribute> ( ) != null ) ) {
 					var areaName = FindAreaFromNamespace ( type.Namespace );
 					var carea = new EndpointArea {
-						Name = areaName
+						Name = areaName,
+						QualifiedName = areaName
 					};
 					if ( areas.ContainsKey ( areaName ) ) {
 						carea = areas[areaName];
@@ -93,7 +94,7 @@ namespace EndpointMvc.Controllers {
 						epService.Name = epn;
 						var epDa = type.GetCustomAttribute<DescriptionAttribute> ( );
 						epService.Description = epDa == null ? String.Empty : epDa.Description;
-						//var qualifiedEpKey = "{0}.{1}".With ( areaName, epService.Name );
+						epService.QualifiedName = "{0}.{1}".With ( areaName, epService.Name ); ;
 
 						type.GetMethods ( ).Where ( m =>
 								m.IsPublic &&
@@ -126,7 +127,9 @@ namespace EndpointMvc.Controllers {
 								// this is a fully qualified name so there can be endpoints with the same name
 								//var qualifiedEpiKey = "{0}.{1}.{2}".With ( areaName, epService.Name, name );
 
+
 								var epi = new EndpointInfo ( ) {
+									QualifiedName =  "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 									Name = name,
 									Description = desc,
 									HttpMethods = vbs,

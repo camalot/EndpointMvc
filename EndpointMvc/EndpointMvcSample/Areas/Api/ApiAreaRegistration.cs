@@ -9,7 +9,7 @@ namespace EndpointMvcSample.Areas.Api {
 		}
 
 		public override void RegisterArea ( AreaRegistrationContext context ) {
-			//context.RegisterEndpointMvcForArea ( AreaName );
+			context.RegisterEndpointMvcForArea ( AreaName );
 			context.MapRoute (
 					"Api_default",
 					"Api/{controller}/{action}/{id}",

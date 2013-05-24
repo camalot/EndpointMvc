@@ -56,8 +56,12 @@ namespace EndpointMvc.Models {
 		[JsonIgnore]
 		public List<EndpointInfo> EndpointList {
 			get {
-				return Endpoints.Select ( e => e.Value ).ToList ( );
+				return Endpoints.Select ( e => e.Value ).OrderBy ( a => a.Name ).ToList ( );
 			}
 		}
+
+		[XmlIgnore]
+		[JsonIgnore]
+		public String QualifiedName { get; set; }
 	}
 }

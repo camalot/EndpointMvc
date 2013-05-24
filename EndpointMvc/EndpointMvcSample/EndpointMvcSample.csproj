@@ -295,6 +295,7 @@
     <Content Include="Views\Endpoints\DisplayTemplates\EndpointInfo.cshtml" />
     <Content Include="Views\Endpoints\DisplayTemplates\EndpointArea.cshtml" />
     <Content Include="Views\Endpoints\DisplayTemplates\EndpointService.cshtml" />
+    <Content Include="Views\Endpoints\_EndpointNavigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

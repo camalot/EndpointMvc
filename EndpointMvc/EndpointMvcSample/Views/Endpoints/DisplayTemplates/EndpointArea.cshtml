@@ -1,6 +1,7 @@
 ﻿@model EndpointMvc.Models.EndpointArea
 
 <div class="well">
+	<a name="@Model.QualifiedName"></a>
 	<h1>@Model.Name</h1>
 	<div>
 		@foreach ( var item in Model.ServicesList ) {

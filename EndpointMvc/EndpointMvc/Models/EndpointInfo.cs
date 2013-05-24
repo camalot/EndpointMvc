@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace EndpointMvc.Models {
 	/// <summary>
@@ -94,5 +95,10 @@ namespace EndpointMvc.Models {
 		[XmlAttribute]
 		[Display ( Name = "Requires Authentication", Prompt = "Requires Authentication" )]
 		public bool RequiresAuthentication { get; set; }
+
+		[XmlIgnore]
+		[JsonIgnore]
+		public String QualifiedName { get; set; }
+
 	}
 }

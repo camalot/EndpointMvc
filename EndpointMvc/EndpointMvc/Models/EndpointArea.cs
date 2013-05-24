@@ -49,9 +49,14 @@ namespace EndpointMvc.Models {
 		[JsonIgnore]
 		public List<EndpointService> ServicesList {
 			get {
-				return this.Services.Select ( v => v.Value ).ToList();
+				return this.Services.Select ( v => v.Value ).OrderBy ( a => a.Name ).ToList ( );
 			}
 		}
+
+		[XmlIgnore]
+		[JsonIgnore]
+		public String QualifiedName { get; set; }
+
 
 	}
 }

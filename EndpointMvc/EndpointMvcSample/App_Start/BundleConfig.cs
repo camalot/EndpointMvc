@@ -23,12 +23,13 @@ namespace EndpointMvcSample {
 			bundles.Add ( new ScriptBundle ( "~/bundles/modernizr" ).Include (
 									"~/Scripts/modernizr-*" ) );
 
-			bundles.Add ( new StyleBundle ( "~/Content/css" )
-				.Include ( "~/Content/site.css" ) );
-
 			bundles.Add ( new StyleBundle ( "~/bootstrap/css" )
 				.Include ( "~/content/bootstrap.css" )
 				.Include ( "~/content/bootstrap-responsive.css" ) );
+
+			bundles.Add ( new StyleBundle ( "~/Content/css" )
+				.Include ( "~/Content/site.css" ) );
+
 
 		}
 	}
