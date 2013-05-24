@@ -8,7 +8,7 @@ namespace EndpointMvc.Attributes {
 	/// <summary>
 	/// Flags an endpoint or parameter to be ignored
 	/// </summary>
-	[AttributeUsage ( AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter )]
+	[AttributeUsage ( AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property )]
 	public class IgnoreAttribute : Attribute {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="IgnoreAttribute"/> class.

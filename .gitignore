@@ -32,6 +32,7 @@ local.properties
 ## VS Nuget 
 #################
 [Pp]ackages/
+*.nupkg
 
 #################
 ## Visual Studio

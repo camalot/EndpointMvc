@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="Publish">
+	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"
+				Condition="'$(MSBuildCommunityTasksPath)' == ''"/>
+
 	<PropertyGroup>
 		<Project>EndpointMvc</Project>
 		<ProjectFriendlyName>EndpointMvc</ProjectFriendlyName>
@@ -7,6 +10,7 @@
 		<PublishNuGet Condition=" '$(PublishMode)' == 'NuGet' ">PublishNuGet</PublishNuGet>
 		<NuSpecFile Condition=" '$(NuSpecFile)' == '' ">$(ProjectFriendlyName).nuspec</NuSpecFile>
 		<OutputPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\debug</OutputPath>
+		<NugetPath>$(MSBuildProjectDirectory)\..\.nuget</NugetPath>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -17,8 +21,8 @@
 		<Error Condition=" '$(NuGetKey)' == '' " Code="500" Text="'NuGetKey' property was not set."></Error>
 		<Error Condition=" '$(NuSpecFile)' == '' " Code="500" Text="'NuSpecFile' property was not set."></Error>
 
-		<Exec WorkingDirectory="$(OutputPath)" Command="nuget push setApiKey $(NuGetKey)" />
-		<Exec WorkingDirectory="$(OutputPath)" Command="nuget push $(ProjectFriendlyName).$(CCNetLabel).nupkg $(NuGetKey)" />
+		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push setApiKey $(NuGetKey)" />
+		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(ProjectFriendlyName).$(ProjectVersion).nupkg $(NuGetKey)" />
 	</Target>
 	
 	<Target Name="RetrieveIdentities">
@@ -36,11 +40,14 @@
 		</ReadTextFile-->
 
 
-		<CreateProperty Value="$(OutputPath)\$(ProjectFriendlyName).$(CCNetLabel)">
+		<CreateProperty Value="%(ProjectIdentities.Version)">
+			<Output TaskParameter="Value" PropertyName="ProjectVersion" />
+		</CreateProperty>
+
+		<CreateProperty Value="$(OutputPath)\$(ProjectFriendlyName).$(ProjectVersion)">
 			<Output TaskParameter="Value" PropertyName="PackagePath" />
 		</CreateProperty>
-		
-		
+
 		<MakeDir Directories="$(PackagePath)\lib" Condition="!Exists('$(PackagePath)\lib')" />
 		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NuSpecFile)" DestinationFiles="$(PackagePath)\$(ProjectFriendlyName).nuspec" />
 		
@@ -58,11 +65,11 @@
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
 			Value="$(ProjectFriendlyName)"/>
 		<XmlUpdate
-			XPath="/package/metadata/description"
+			XPath="/package/metadata/releaseNotes"
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
 			Value="$(ReleaseDescription)"/>
 		
-		<Exec WorkingDirectory="$(OutputPath)" Command="nuget pack &quot;$(PackagePath)\$(ProjectFriendlyName).nuspec&quot;" />
+		<Exec WorkingDirectory="$(NugetPath)" Command="nuget pack &quot;$(PackagePath)\$(ProjectFriendlyName).nuspec&quot;" />
 		<RemoveDir Directories="$(PackagePath)" Condition="Exists('$(PackagePath)')" ContinueOnError="true" />
 	</Target>
 </Project>

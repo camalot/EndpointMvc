@@ -7,7 +7,7 @@
 		<owners>Ryan Conrad</owners>
     <licenseUrl>https://github.com/camalot/EndpointMvc/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/camalot/EndpointMvc</projectUrl>
-    <iconUrl></iconUrl>
+		<!--iconUrl></iconUrl-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Builds api endpoint information / documentation dynamically by reflecting over the controllers and actions</description>
     <summary>Builds api endpoint information / documentation</summary>
