@@ -18,7 +18,7 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 
 		[Description ( "Gets registered users" )]
 		[CustomProperty ( "Daily Limit", Value = 0 )]
-
+		[ReturnType(typeof(UserModel[]))]
 		public ActionResult List ( ) {
 			// all your code here to return your users api
 			return new EmptyResult ( );
@@ -27,6 +27,7 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 		[RequiresAuthentication]
 		[Description ( "Adds a new user to the system." )]
 		[AcceptVerbs ( HttpVerbs.Post | HttpVerbs.Put )]
+		[ReturnType ( typeof ( UserModel ) )]
 		public ActionResult Add (
 			[Required]
 			[Description ( "The user model" )]
@@ -38,6 +39,7 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 		[RequiresAuthentication]
 		[Description ( "Deleted a user from the system." )]
 		[AcceptVerbs ( HttpVerbs.Post | HttpVerbs.Delete )]
+		[ReturnType ( typeof ( UserModel ) )]
 		public ActionResult Delete (
 				[Required]
 				[Description ( "The user id" )]
@@ -52,6 +54,7 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 		[RequiresAuthentication]
 		[Description ( "Deleted a user from the system." )]
 		[AcceptVerbs ( HttpVerbs.Post | HttpVerbs.Delete )]
+		[ReturnType ( typeof ( UserModel ) )]
 		public ActionResult Delete (
 			[Required]
 			[Description ( "The user id" )]

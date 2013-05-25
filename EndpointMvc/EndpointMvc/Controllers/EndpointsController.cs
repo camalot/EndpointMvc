@@ -117,6 +117,14 @@ namespace EndpointMvc.Controllers {
 								var mauth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || meth.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
 								var mreqHttps = meth.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
 								var mcustProps = meth.GetCustomAttributes<CustomPropertyAttribute> ( );
+								var mcontentTypes = meth.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType ).ToList();
+								var mreturnType = meth.GetCustomAttribute<ReturnTypeAttribute> ( );
+								var dmreturnType = meth.ReturnType;
+
+								// get the return type
+								var returnType = dmreturnType.Is<ActionResult> ( ) ?
+									mreturnType == null ? typeof(object) : mreturnType.ReturnType :
+									mreturnType == null ? dmreturnType : mreturnType.ReturnType;
 
 								if ( ana != null ) {
 									name = ana.Name;
@@ -132,14 +140,17 @@ namespace EndpointMvc.Controllers {
 								var scheme = mreqHttps || epReqHttps ? "https" : Request.Url.Scheme;
 
 								var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) }, scheme );
-								var cust = GetCustomProperties ( mcustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty (  ),
-									new PropertyKeyValuePairEqualityComparer<String, Object> ( ) 
+								var cust = GetCustomProperties ( mcustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty ( ),
+									new PropertyKeyValuePairEqualityComparer<String, Object> ( )
 								).ToList ( );
 
 								var epi = new EndpointInfo ( ) {
 									QualifiedName = "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 									Name = name,
 									RequireSsl = mreqHttps || epReqHttps,
+									ReturnType = returnType.Name,
+									QualifiedReturnType = returnType.QualifiedName(),
+									ContentTypes = mcontentTypes,
 									Description = desc,
 									HttpMethods = vbs,
 									Params = paras,
@@ -220,10 +231,11 @@ namespace EndpointMvc.Controllers {
 				list.Add ( new ParamInfo {
 					Name = pi.Name.ToCamelCase ( ),
 					Type = typeName,
+					QualifiedType =  pi.ParameterType.QualifiedName ( ),
 					Description = da == null ? String.Empty : da.Description,
 					Optional = ( pi.IsOptional && req == null ) || opt != null,
 					Default = pi.DefaultValue,
-					Properties = GetCustomProperties(customProps)
+					Properties = GetCustomProperties ( customProps )
 				} );
 			} else {
 				// this gets the properties of the parameter that are not ignored
@@ -254,6 +266,7 @@ namespace EndpointMvc.Controllers {
 				list.Add ( new ParamInfo {
 					Name = "{0}{2}{1}".With ( baseName, pi.Name.ToCamelCase ( ), String.IsNullOrWhiteSpace ( baseName ) ? "" : "." ),
 					Type = typeName,
+					QualifiedType = pi.PropertyType.QualifiedName(),
 					Description = da == null ? String.Empty : da.Description,
 					Optional = req == null || opt != null,
 					Default = null

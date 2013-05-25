@@ -53,10 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ContentTypeAttribute.cs" />
     <Compile Include="Attributes\CustomPropertyAttribute.cs" />
     <Compile Include="Attributes\EndpointAttribute.cs" />
     <Compile Include="Attributes\IgnoreAttribute.cs" />
     <Compile Include="Attributes\RequiresAuthenticationAttribute.cs" />
+    <Compile Include="Attributes\ReturnTypeAttribute.cs" />
     <Compile Include="Attributes\SinceVersionAttribute.cs" />
     <Compile Include="Attributes\DeprecatedAttribute.cs" />
     <Compile Include="Config\RouteConfig.cs" />

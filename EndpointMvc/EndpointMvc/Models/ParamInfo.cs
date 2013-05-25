@@ -35,6 +35,10 @@ namespace EndpointMvc.Models {
 		[Display ( Name = "Type", Prompt = "Type" )]
 		public String Type { get; set; }
 
+		[XmlAttribute]
+		[Display ( Name = "QualifiedType", Prompt = "QualifiedType" )]
+		public String QualifiedType { get; set; }
+
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="ParamInfo"/> is optional.
 		/// </summary>

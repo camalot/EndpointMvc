@@ -131,5 +131,16 @@ namespace EndpointMvc.Models {
 		[JsonIgnore]
 		public String QualifiedName { get; set; }
 
+		[XmlAttribute]
+		public String ReturnType { get; set; }
+		[XmlAttribute]
+		[Display ( Name = "QualifiedReturnType", Prompt = "QualifiedReturnType" )]
+		public String QualifiedReturnType { get; set; }
+
+
+		[XmlArray("ContentTypes")]
+		[XmlArrayItem("ContentType")]
+		public List<String> ContentTypes { get; set; }
+
 	}
 }

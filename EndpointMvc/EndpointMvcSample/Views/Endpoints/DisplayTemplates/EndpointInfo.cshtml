@@ -6,6 +6,7 @@
 <div class="endpoint-info well" id="@Model.QualifiedName.Replace(".","_")">
 	<h3>@Model.Name</h3>
 	<div>@Model.Description</div>
+	<div>@Model.ReturnType</div>
 	<div>
 		<table class="table table-bordered table-condensed">
 			<tr>
@@ -23,6 +24,20 @@
 		</table>
 	</div>
 	@Html.Partial("_CustomProperties",Model.Properties)
+	@if ( Model != null && Model.ContentTypes.Count > 0 ) {
+	<div>
+		<table class="table table-bordered table-condensed">
+			<tr>
+				<th>Content Types</th>
+			</tr>
+			@foreach ( var item in Model.ContentTypes ) {
+				<tr>
+					<td>@item</td>
+				</tr> 
+			}
+		</table>
+	</div>
+	}
 	<div class="well">
 		<h4>Methods</h4>
 		<ul class="unstyled">

@@ -81,6 +81,11 @@ will then be registered as an endpoint, unless they are flagged with the <code>I
 properties that are added to a Class are merged with properties added to methods.
 * SinceVersionAttribute - <code>( Class | Method )</code>
  - Indicates that the specified class or method has been available since the specified version
+* ReturnTypeAttribute - <code>( Method )</code>
+ - For methods that return <code>ActionResult</code>, this allow you to specify what the return type is. If the return type
+is not an ActionResult, this will be calculated from the method. The attribute will override that type.
+* ContentTypeAttribute - <code>( Method )</code>
+ - Allows you to specify the content types that can be returned. Add an attribute for each.
 * ObsoleteAttribute - <code>( Class | Method )</code>
  - Flags a method or class as obsolete
 * DescriptionAttribute - <code>( Class | Method | Parameter )</code>
