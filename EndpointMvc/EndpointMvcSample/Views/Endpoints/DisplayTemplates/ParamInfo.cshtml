@@ -2,21 +2,21 @@
 @using EndpointMvc.Models;
 
 @model ParamInfo
-
+@{
+	var defaultValue = Model.Default == null ? "null" : Model.Default;
+}
 <div>
 	<h4>@Model.Name <small>@Model.Type</small></h4>
 	<div>@Model.Description</div>
-	@if( Model.Default != null ) {
-		<div>@Model.Default</div>
-	}
+	@Html.Partial("_CustomProperties",Model.Properties)
 	<table class="table table-bordered table-condensed">
 		<tr>
 			<th>@Html.LiteralFor(m => m.Optional)</th>
 		</tr>
 		<tr>
-			<td>@Html.CheckBoxFor(m => m.Optional, new { disabled = "disabled" } ) </td>
+			<td>@Html.DisplayFor(m => m.Optional ) </td>
 		</tr>
 	</table>
-	<div>Default: <small>@(Model.Default == null ? "null": Model.Default.ToString())</small></div>
+	<div>Default: <small>@Html.DisplayFor(m => defaultValue)</small></div>
 	<hr />
 </div>

@@ -76,6 +76,9 @@ will then be registered as an endpoint, unless they are flagged with the <code>I
  some other attribute, like a filter, that performs the check that they are correctly authenticated.
 * AuthorizeAttribute - <code>( Class | Method )</code>
  - Works like <code>RequiresAuthenticationAttribute</code>.
+* CustomPropertyAttribute - <code>( Class | Method | Parameter | Property )</code>
+ - Allows custom properties to be added to the generated documentation. You can add multiple attributes to the element. Custom 
+properties that are added to a Class are merged with properties added to methods.
 * SinceVersionAttribute - <code>( Class | Method )</code>
  - Indicates that the specified class or method has been available since the specified version
 * ObsoleteAttribute - <code>( Class | Method )</code>

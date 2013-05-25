@@ -1,0 +1,17 @@
+﻿@using EndpointMvc.Models;
+@using EndpointMvc.Extensions;
+
+@model List<PropertyKeyValuePair<String,Object>>
+@if ( Model != null && Model.Count > 0 ) {
+	<div>
+		<table class="table table-bordered table-condensed">
+			@foreach ( var item in Model.Where( i => i != null && !String.IsNullOrWhiteSpace(i.Key)) ) {
+		   var val = (item.Value == null ? String.Empty : item.Value);
+				<tr>
+					<td>@item.Key</td>
+					<td>@Html.DisplayFor(m => val)</td>
+				</tr> 
+			}
+		</table>
+	</div>
+}

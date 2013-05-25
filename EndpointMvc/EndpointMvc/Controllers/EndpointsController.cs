@@ -34,7 +34,7 @@ namespace EndpointMvc.Controllers {
 		public ActionResult Xml ( ) {
 			var data = BuildEndpointData ( );
 			return this.EndpointXml<EndpointData> ( new EndpointData {
-				Areas = data.Select ( a => a.Value ).OrderBy(a => a.Name).ToList()
+				Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
 			} );
 		}
 
@@ -80,15 +80,18 @@ namespace EndpointMvc.Controllers {
 					var deprecated = type.GetCustomAttribute<DeprecatedAttribute> ( );
 					var obsolete = type.GetCustomAttribute<ObsoleteAttribute> ( );
 					var sinceVer = type.GetCustomAttribute<SinceVersionAttribute> ( );
-					var auth = type.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || type.GetCustomAttribute<AuthorizeAttribute>() != null;
+					var auth = type.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || type.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
 					var epReqHttps = type.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
+					var customProperties = type.GetCustomAttributes<CustomPropertyAttribute> ( );
 
 					if ( endpoint != null ) {
 						if ( !areas.ContainsKey ( areaName ) ) {
 							areas.Add ( areaName, carea );
 						}
 
-						var epService = new EndpointService ( );
+						var epService = new EndpointService {
+							Properties = GetCustomProperties ( customProperties )
+						};
 						var epn = String.IsNullOrWhiteSpace ( endpoint.Name ) ? type.Name : endpoint.Name;
 						if ( epn.EndsWith ( "Controller" ) ) {
 							epn = epn.Substring ( 0, epn.Length - 10 );
@@ -112,7 +115,8 @@ namespace EndpointMvc.Controllers {
 								var mobsolete = meth.GetCustomAttribute<ObsoleteAttribute> ( );
 								var msv = meth.GetCustomAttribute<SinceVersionAttribute> ( );
 								var mauth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || meth.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
-								var mreqHttps = meth.GetCustomAttribute<RequireHttpsAttribute>() != null;
+								var mreqHttps = meth.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
+								var mcustProps = meth.GetCustomAttributes<CustomPropertyAttribute> ( );
 
 								if ( ana != null ) {
 									name = ana.Name;
@@ -128,9 +132,12 @@ namespace EndpointMvc.Controllers {
 								var scheme = mreqHttps || epReqHttps ? "https" : Request.Url.Scheme;
 
 								var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) }, scheme );
+								var cust = GetCustomProperties ( mcustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty (  ),
+									new PropertyKeyValuePairEqualityComparer<String, Object> ( ) 
+								).ToList ( );
 
 								var epi = new EndpointInfo ( ) {
-									QualifiedName =  "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
+									QualifiedName = "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 									Name = name,
 									RequireSsl = mreqHttps || epReqHttps,
 									Description = desc,
@@ -142,7 +149,8 @@ namespace EndpointMvc.Controllers {
 									RequiresAuthentication = auth | mauth,
 									SinceVersion = sinceVer != null ? sinceVer.Version.ToString ( ) :
 										msv != null ? msv.Version.ToString ( ) :
-										null
+										null,
+									Properties = cust
 								};
 								epService.Endpoints.Add ( name, epi );
 							} );
@@ -201,6 +209,7 @@ namespace EndpointMvc.Controllers {
 			var da = pi.GetCustomAttribute<DescriptionAttribute> ( );
 			var req = pi.GetCustomAttribute<RequiredAttribute> ( );
 			var opt = pi.GetCustomAttribute<OptionalAttribute> ( );
+			var customProps = pi.GetCustomAttributes<CustomPropertyAttribute> ( );
 
 			// if the parameter is not a "system" type then we try to break it down.
 			if ( pi.ParameterType.Namespace.StartsWith ( "System" ) ) {
@@ -213,7 +222,8 @@ namespace EndpointMvc.Controllers {
 					Type = typeName,
 					Description = da == null ? String.Empty : da.Description,
 					Optional = ( pi.IsOptional && req == null ) || opt != null,
-					Default = pi.DefaultValue
+					Default = pi.DefaultValue,
+					Properties = GetCustomProperties(customProps)
 				} );
 			} else {
 				// this gets the properties of the parameter that are not ignored
@@ -256,7 +266,16 @@ namespace EndpointMvc.Controllers {
 			return list;
 		}
 
-
+		private List<PropertyKeyValuePair<String, Object>> GetCustomProperties ( IEnumerable<CustomPropertyAttribute> props ) {
+			var skv = new List<PropertyKeyValuePair<String, Object>> ( );
+			foreach ( var item in props ) {
+				skv.Add ( new PropertyKeyValuePair<string, object> {
+					Key = item.Name,
+					Value = item.Value
+				} );
+			}
+			return skv;
+		}
 
 		/// <summary>
 		/// Gets the method verbs.

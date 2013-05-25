@@ -3,6 +3,7 @@
 <div class="well" id="@Model.QualifiedName.Replace(".","_")">
 	<h2>@Model.Name</h2>
 	<div>@Model.Description</div>
+	@Html.Partial("_CustomProperties",Model.Properties)
 	<div>
 		@foreach ( var item in Model.EndpointList ) {
 			@Html.DisplayFor(m => item)

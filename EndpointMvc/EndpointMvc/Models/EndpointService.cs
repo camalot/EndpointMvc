@@ -18,6 +18,7 @@ namespace EndpointMvc.Models {
 		/// </summary>
 		public EndpointService ( ) {
 			Endpoints = new Dictionary<String, EndpointInfo> ( );
+			Properties = new List<PropertyKeyValuePair<string, object>> ( );
 		}
 
 		/// <summary>
@@ -60,6 +61,22 @@ namespace EndpointMvc.Models {
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the properties.
+		/// </summary>
+		/// <value>
+		/// The properties.
+		/// </value>
+		[XmlArray ( "CustomProperties" )]
+		[XmlArrayItem ( "CustomProperty" )]
+		public List<PropertyKeyValuePair<String, Object>> Properties { get; set; }
+
+		/// <summary>
+		/// Gets or sets the qualified name.
+		/// </summary>
+		/// <value>
+		/// the qualified name.
+		/// </value>
 		[XmlIgnore]
 		[JsonIgnore]
 		public String QualifiedName { get; set; }

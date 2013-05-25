@@ -12,6 +12,9 @@ namespace EndpointMvc.Models {
 	/// 
 	/// </summary>
 	public class EndpointInfo {
+		public EndpointInfo ( ) {
+			Properties = new List<PropertyKeyValuePair<string, object>> ( );
+		}
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
@@ -96,10 +99,27 @@ namespace EndpointMvc.Models {
 		[Display ( Name = "Requires Authentication", Prompt = "Requires Authentication" )]
 		public bool RequiresAuthentication { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether SSL is required.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if SSL is required; otherwise, <c>false</c>.
+		/// </value>
 		[XmlAttribute]
 		[Display( Name = "Require SSL", Prompt = "Require SSL" )]
 		[JsonProperty("requireSSL")]
 		public bool RequireSsl { get; set; }
+
+		/// <summary>
+		/// Gets or sets the properties.
+		/// </summary>
+		/// <value>
+		/// The properties.
+		/// </value>
+		[XmlArray ( "CustomProperties" )]
+		[XmlArrayItem ( "CustomProperty" )]
+		public List<PropertyKeyValuePair<String, Object>> Properties { get; set; }
+
 
 		/// <summary>
 		/// Gets or sets the qualified name.

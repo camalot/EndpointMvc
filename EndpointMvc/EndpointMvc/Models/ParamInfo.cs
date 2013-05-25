@@ -12,6 +12,9 @@ namespace EndpointMvc.Models {
 	/// Parameter information for an endpoint
 	/// </summary>
 	public class ParamInfo {
+		public ParamInfo ( ) {
+			Properties = new List<PropertyKeyValuePair<string, object>> ( );
+		}
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
@@ -21,6 +24,7 @@ namespace EndpointMvc.Models {
 		[XmlAttribute]
 		[Display ( Name = "Name", Prompt = "Name" )]
 		public String Name { get; set; }
+
 		/// <summary>
 		/// Gets or sets the type.
 		/// </summary>
@@ -30,6 +34,7 @@ namespace EndpointMvc.Models {
 		[XmlAttribute]
 		[Display ( Name = "Type", Prompt = "Type" )]
 		public String Type { get; set; }
+
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="ParamInfo"/> is optional.
 		/// </summary>
@@ -39,6 +44,7 @@ namespace EndpointMvc.Models {
 		[XmlAttribute]
 		[Display ( Name = "Optional", Prompt = "Optional" )]
 		public bool Optional { get; set; }
+
 		/// <summary>
 		/// Gets or sets the description.
 		/// </summary>
@@ -48,6 +54,7 @@ namespace EndpointMvc.Models {
 		[XmlElement]
 		[Display ( Name = "Description", Prompt = "Description" )]
 		public String Description { get; set; }
+
 		/// <summary>
 		/// Gets or sets the default.
 		/// </summary>
@@ -57,5 +64,16 @@ namespace EndpointMvc.Models {
 		[XmlElement("Default", IsNullable=true)]
 		[Display(Name = "Default", Prompt = "Default")]
 		public Object Default { get; set; }
+
+		/// <summary>
+		/// Gets or sets the properties.
+		/// </summary>
+		/// <value>
+		/// The properties.
+		/// </value>
+		[XmlArray ( "CustomProperties" )]
+		[XmlArrayItem ( "CustomProperty" )]
+		public List<PropertyKeyValuePair<String, Object>> Properties { get; set; }
+
 	}
 }

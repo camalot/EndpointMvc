@@ -53,6 +53,12 @@ namespace EndpointMvc.Models {
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the qualified name.
+		/// </summary>
+		/// <value>
+		/// the qualified name.
+		/// </value>
 		[XmlIgnore]
 		[JsonIgnore]
 		public String QualifiedName { get; set; }
