@@ -25,11 +25,10 @@
 			<Output TaskParameter="Value" PropertyName="NugetPackage" />
 		</CreateProperty>
 
-		<Error Condition=" '$(NuGetKey)' == '' " Code="500" Text="'NuGetKey' property was not set."></Error>
 		<Error Condition=" '$(NuSpecFile)' == '' " Code="500" Text="'NuSpecFile' property was not set."></Error>
 
-		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push setApiKey $(NuGetKey)" />
-		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(NugetPackage) $(NuGetKey)" />
+		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push setApiKey $(NuGetKey)" Condition=" '$(NuGetKey)' != '' "/>
+		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(NugetPackage) $(NuGetKey)"  Condition=" '$(NuGetKey)' != '' "/>
 
 		
 		<MakeDir Directories="$(ReleasesPath)" Condition="!Exists('$(ReleasesPath)')" />

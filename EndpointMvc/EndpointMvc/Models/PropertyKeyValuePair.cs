@@ -19,11 +19,11 @@ namespace EndpointMvc.Models {
 		#region IEqualityComparer<PropertyKeyValuePair<K,V>> Members
 
 		public bool Equals ( PropertyKeyValuePair<K, V> x, PropertyKeyValuePair<K, V> y ) {
-			return x.Key.Equals ( y.Key );
+			return x == null ? x == y : x.Key.Equals ( y.Key );
 		}
 
 		public int GetHashCode ( PropertyKeyValuePair<K, V> obj ) {
-			return obj.Key.GetHashCode ( );
+			return obj == null ? 0 : obj.Key.GetHashCode ( );
 		}
 
 		#endregion
