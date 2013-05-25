@@ -3,51 +3,65 @@
 
 @model EndpointInfo
 
-<div class="endpoint-info well" id="@Model.QualifiedName.Replace(".","_")">
-	<h3>@Model.Name</h3>
-	<div>@Model.Description</div>
-	<div>@Model.ReturnType</div>
-	<div>
-		<table class="table table-bordered table-condensed">
+<div class="endpoint-info media mll" id="@Model.QualifiedName.Replace(".","_")">
+	<h3 class="media-heading">@Model.Name <small class="nowrap"><abbr data-bootstrap-tooltip="" title="@Model.QualifiedReturnType">@Model.ReturnType</abbr></small></h3>
+	<div class="media-body">
+		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
+			<blockquote class="alert alert-info">@Model.Description</blockquote>
+		}
+		<blockquote class="alert alert-success">@Model.Url</blockquote>
+		<table class="table table-bordered table-condensed ">
 			<tr>
-				<th>@Html.LiteralFor(m => m.Deprecated)</th>
-				<th>@Html.LiteralFor(m => m.Obsolete)</th>
-				<th>@Html.LiteralFor(m => m.RequiresAuthentication)</th>
-				<th>@Html.LiteralFor(m => m.RequireSsl)</th>
+				<th class="muted span6">@Html.LiteralFor(m => m.Deprecated)</th>
+				<td class="muted span6">@Html.DisplayFor(m => m.Deprecated ) </td>
 			</tr>
 			<tr>
-				<td>@Html.DisplayFor(m => m.Deprecated ) </td>
-				<td>@Html.DisplayFor(m => m.Obsolete ) </td>
-				<td>@Html.DisplayFor(m => m.RequiresAuthentication ) </td>
-				<td>@Html.DisplayFor(m => m.RequireSsl )</td>
+				<th class="muted span6">@Html.LiteralFor(m => m.Obsolete)</th>
+				<td class="muted span6">@Html.DisplayFor(m => m.Obsolete )</td>
 			</tr>
+			<tr>
+				<th class="muted span6">@Html.LiteralFor(m => m.RequiresAuthentication)</th>
+				<td class="muted span6">@Html.DisplayFor(m => m.RequiresAuthentication )</td>
+			</tr>
+			<tr>
+				<th class="muted span6">@Html.LiteralFor(m => m.RequireSsl)</th>
+				<td class="muted span6">@Html.DisplayFor(m => m.RequireSsl )</td>
+			</tr>
+			@Html.Partial("_CustomProperties",Model.Properties)
 		</table>
-	</div>
-	@Html.Partial("_CustomProperties",Model.Properties)
-	@if ( Model != null && Model.ContentTypes.Count > 0 ) {
-	<div>
-		<table class="table table-bordered table-condensed">
-			<tr>
-				<th>Content Types</th>
-			</tr>
-			@foreach ( var item in Model.ContentTypes ) {
+		@if ( Model != null && Model.ContentTypes.Count > 0 ) {
+		<div>
+			<table class="table table-bordered table-condensed">
 				<tr>
-					<td>@item</td>
-				</tr> 
-			}
-		</table>
-	</div>
-	}
-	<div class="well">
-		<h4>Methods</h4>
-		<ul class="unstyled">
-			@foreach ( var method in @Model.HttpMethods ) {
-				<li><strong>@method</strong></li>
-			}
-		</ul>
-	</div>
-	<div class="well">
-		<h4>Parameters</h4>
-		@Html.DisplayFor(m => m.Params)
+					<th class="muted">Content Types</th>
+				</tr>
+				@foreach ( var item in Model.ContentTypes ) {
+					<tr>
+						<td class="muted">@item</td>
+					</tr> 
+				}
+			</table>
+		</div>
+		}
+		<div class="media">
+			<h4 class="media-heading muted">Methods</h4>
+			<div class="media-body mll">
+				<ul class="unstyled">
+					@foreach ( var method in @Model.HttpMethods ) {
+						<li class="muted"><strong><em>@method</em></strong></li>
+					}
+				</ul>
+			</div>
+		</div>
+		@if ( Model.Params.Count > 0 ) {
+		<div class="media">
+			<h4 class="media-heading muted">Parameters</h4>
+			<div class="media-body">
+				<div class="media">
+					@Html.DisplayFor(m => m.Params)
+				</div>
+			</div>
+		</div>
+		}
 	</div>
 </div>

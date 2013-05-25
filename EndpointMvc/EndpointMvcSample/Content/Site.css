@@ -1,4 +1,7 @@
-﻿
+﻿html {
+	cursor: default;
+}
+
 .endpoint-nav-bar {
 	margin: 0;
 	padding: 0;
@@ -62,6 +65,20 @@
 		margin-top: 10px;
 		margin-right: 8px;
 	}
+
+.op25 {
+	opacity: .25;
+}
+
+.cursor-help {
+	cursor: help;
+}
+
+.nowrap .tooltip .tooltip-inner {
+	white-space:nowrap;
+	max-width: 400px !important;
+}
+
 /* main layout
 ----------------------------------------------------------*/
 .content-wrapper {
@@ -518,4 +535,137 @@ input[type="checkbox"].input-validation-error {
 		footer p {
 			margin: 0;
 		}
+}
+
+
+
+/* margin */
+.man, .mvn, .mtn {
+	margin-top: 0;
+}
+
+.man, .mvn, .mbn {
+	margin-bottom: 0;
+}
+
+.man, .mhn, .mln {
+	margin-left: 0;
+}
+
+.man, .mhn, .mrn {
+	margin-right: 0;
+}
+
+.mas, .mvs, .mts {
+	margin-top: 5px;
+}
+
+.mas, .mvs, .mbs {
+	margin-bottom: 5px;
+}
+
+.mas, .mhs, .mls {
+	margin-left: 5px;
+}
+
+.mas, .mhs, .mrs {
+	margin-right: 5px;
+}
+
+.mam, .mvm, .mtm {
+	margin-top: 10px;
+}
+
+.mam, .mvm, .mbm {
+	margin-bottom: 10px;
+}
+
+.mam, .mhm, .mlm {
+	margin-left: 10px;
+}
+
+.mam, .mhm, .mrm {
+	margin-right: 10px;
+}
+
+.mal, .mvl, .mtl {
+	margin-top: 15px;
+}
+
+.mal, .mvl, .mbl {
+	margin-bottom: 15px;
+}
+
+.mal, .mhl, .mll {
+	margin-left: 15px;
+}
+
+.mal, .mhl, .mrl {
+	margin-right: 15px;
+}
+
+/* Padding */
+
+.pan, .pvn, .ptn {
+	padding-top: 0;
+}
+
+.pan, .pvn, .pbn {
+	padding-bottom: 0;
+}
+
+.pan, .phn, .pln {
+	padding-left: 0;
+}
+
+.pan, .phn, .prn {
+	padding-right: 0;
+}
+
+.pas, .pvs, .pts {
+	padding-top: 5px;
+}
+
+.pas, .pvs, .pbs {
+	padding-bottom: 5px;
+}
+
+.pas, .phs, .pls {
+	padding-left: 5px;
+}
+
+.pas, .phs, .prs {
+	padding-right: 5px;
+}
+
+.pam, .pvm, .ptm {
+	padding-top: 10px;
+}
+
+.pam, .pvm, .pbm {
+	padding-bottom: 10px;
+}
+
+.pam, .phm, .plm {
+	padding-left: 10px;
+}
+
+.pam, .phm, .prm {
+	padding-right: 10px;
+}
+
+.pal, .pvl, .ptl {
+	padding-top: 15px;
+}
+
+.pal, .pvl, .pbl {
+	padding-bottom: 15px;
+}
+
+.pal, .phl, .pll {
+	padding-left: 15px;
+}
+
+.pal, .phl, .prl {
+	padding-right: 15px;
 }

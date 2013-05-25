@@ -284,7 +284,8 @@ namespace EndpointMvc.Controllers {
 			foreach ( var item in props ) {
 				skv.Add ( new PropertyKeyValuePair<string, object> {
 					Key = item.Name,
-					Value = item.Value
+					Value = item.Value,
+					Description = item.Description
 				} );
 			}
 			return skv;

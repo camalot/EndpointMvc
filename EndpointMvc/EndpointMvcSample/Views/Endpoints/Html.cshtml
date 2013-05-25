@@ -18,7 +18,19 @@
 		(function ($, window, document) {
 			"use strict";
 			$(function () {
-				//$(".nav").scrollspy();
+				var $popover = $("[data-bootstrap-popover]");
+				$popover.on("click",function(event) {
+					event.preventDefault();
+					event.stopPropagation();
+				}).popover();
+
+				var $tooltip = $("[data-bootstrap-tooltip]");
+				$tooltip.tooltip();
+
+				// hide all popovers
+				$(document).on("click", function () {
+					$popover.popover("hide");
+				});
 			});
 		})(window.jQuery, window, document);
 	</script>

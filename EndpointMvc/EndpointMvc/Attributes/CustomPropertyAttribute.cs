@@ -15,5 +15,6 @@ namespace EndpointMvc.Attributes {
 
 		public String Name { get; set; }
 		public Object Value { get; set; }
+		public String Description { get; set; }
 	}
 }

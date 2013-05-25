@@ -1,12 +1,20 @@
 ﻿@model EndpointMvc.Models.EndpointService
 
-<div class="well" id="@Model.QualifiedName.Replace(".","_")">
-	<h2>@Model.Name</h2>
-	<div>@Model.Description</div>
-	@Html.Partial("_CustomProperties",Model.Properties)
-	<div>
-		@foreach ( var item in Model.EndpointList ) {
-			@Html.DisplayFor(m => item)
+<div class="media mll ptl">
+	<h2 class="media-heading">@Model.Name</h2>
+	<div class="media-body" id="@Model.QualifiedName.Replace(".","_")">
+		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
+			<blockquote class="alert alert-info">@Model.Description</blockquote>
 		}
+		<table class="table table-bordered table-condensed ">
+		@Html.Partial("_CustomProperties",Model.Properties)
+		</table>
+		<div class="media">
+			<div class="media-body">
+				@foreach ( var item in Model.EndpointList ) {
+					@Html.DisplayFor(m => item)
+				}
+			</div>
+		</div>
 	</div>
 </div>

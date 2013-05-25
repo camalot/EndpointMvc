@@ -5,18 +5,20 @@
 @{
 	var defaultValue = Model.Default == null ? "null" : Model.Default;
 }
-<div>
-	<h4>@Model.Name <small>@Model.Type</small></h4>
-	<div>@Model.Description</div>
-	@Html.Partial("_CustomProperties",Model.Properties)
+<div class="media-body mll mbm">
+	<h4 class="media-heading muted">@Model.Name <small class="nowrap"><abbr data-bootstrap-tooltip="" title="@Model.QualifiedType">@Model.Type</abbr></small></h4>
+	@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
+		<blockquote class="alert alert-info">@Model.Description</blockquote>
+	}
 	<table class="table table-bordered table-condensed">
 		<tr>
-			<th>@Html.LiteralFor(m => m.Optional)</th>
+			<th class="muted span6">@Html.LiteralFor(m => m.Optional)</th>
+			<td class="muted span6">@Html.DisplayFor(m => m.Optional )</td>
 		</tr>
 		<tr>
-			<td>@Html.DisplayFor(m => m.Optional ) </td>
+			<th class="muted span6">Default Value</th>
+			<td class="muted span6">@Html.DisplayFor(m => defaultValue)</td>
 		</tr>
+		@Html.Partial("_CustomProperties",Model.Properties)
 	</table>
-	<div>Default: <small>@Html.DisplayFor(m => defaultValue)</small></div>
-	<hr />
 </div>

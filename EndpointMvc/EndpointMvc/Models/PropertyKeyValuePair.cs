@@ -12,6 +12,7 @@ namespace EndpointMvc.Models {
 		}
 		public K Key { get; set; }
 		public V Value { get; set; }
+		public String Description { get; set; }
 	}
 
 	internal sealed class PropertyKeyValuePairEqualityComparer<K, V> : IEqualityComparer<PropertyKeyValuePair<K, V>> {

@@ -11,8 +11,8 @@ using EndpointMvcSample.Areas.Api.Models;
 namespace EndpointMvcSample.Areas.Api.Controllers {
 	[Endpoint]
 	[Description ( "User interaction endpoints v1" )]
-	[CustomProperty ( "Daily Limit", Value = 1000 )]
-	[CustomProperty ( "Hourly Limit", Value = 100 )]
+	[CustomProperty ( "Daily Limit", Value = 1000, Description = "Maximum number of requests in a 24 hour period." )]
+	[CustomProperty ( "Hourly Limit", Value = 100, Description = "Maximum number of requests in a 60 minute period." )]
 	[CustomProperty ( "Awesome", Value = true )]
 	public class UserController : Controller {
 

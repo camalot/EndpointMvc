@@ -1,10 +1,12 @@
 ﻿@model EndpointMvc.Models.EndpointArea
 
 <div class="well" id="@Model.QualifiedName.Replace(".","_")">
-	<h1>@Model.Name</h1>
-	<div>
-		@foreach ( var item in Model.ServicesList ) {
-			@Html.DisplayFor(m => item)
-		}
+	<div class="media">
+		<h1 class="media-heading"><a class="" href="@Url.Action("", new { controller = "Endpoints", area = Model.Name })">@Model.Name</a></h1>
+		<div class="media-body">
+			@foreach ( var item in Model.ServicesList ) {
+				@Html.DisplayFor(m => item)
+			}
+		</div>
 	</div>
 </div>
