@@ -6,9 +6,11 @@
 		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
 			<blockquote class="alert alert-info">@Model.Description</blockquote>
 		}
+		@if ( Model.Properties.Count > 0 ) {
 		<table class="table table-bordered table-condensed ">
-		@Html.Partial("_CustomProperties",Model.Properties)
+			@Html.Partial("_CustomProperties",Model.Properties)
 		</table>
+		}
 		<div class="media">
 			<div class="media-body">
 				@foreach ( var item in Model.EndpointList ) {
