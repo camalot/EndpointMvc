@@ -125,6 +125,7 @@ namespace EndpointMvc.Controllers {
 								!m.IsSpecialName &&
 								!m.ReturnType.Is<Type> ( ) &&
 								!m.IsVirtual &&
+								m.GetCustomAttribute<NonActionAttribute>() == null &&
 								m.GetCustomAttribute<IgnoreAttribute> ( ) == null
 							).ForEach ( meth => {
 								// get the name of the method

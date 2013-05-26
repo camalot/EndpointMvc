@@ -11,9 +11,9 @@
 
 <div class="endpoint-info media mll" id="@Model.QualifiedName.Replace(".","_")">
 	<h3 class="media-heading">@Model.Name <small class="nowrap">
-		<abbr data-bootstrap-tooltip="" title="@Model.QualifiedReturnType">
+		<code data-bootstrap-tooltip="" title="@Model.QualifiedReturnType">
 			@Model.ReturnType
-		</abbr></small>
+		</code></small>
 	</h3>
 	<div class="media-body">
 		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
@@ -23,7 +23,7 @@
 			<div class="alert">@deprecated.Description</div>
 		}
 		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
-			<blockquote class="alert alert-info">@Model.Description</blockquote>
+			<blockquote class="pam mvm muted">@Model.Description</blockquote>
 		}
 		<blockquote class="alert alert-success">@Model.Url</blockquote>
 		<table class="table table-bordered table-condensed ">

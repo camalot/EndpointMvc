@@ -22,5 +22,18 @@ namespace EndpointMvcSample.Areas.V2.Controllers {
 			return false;
 		}
 
+		[SinceVersion("2.0")]
+		[RequiresAuthentication]
+		[Description("Unlocks a user account.")]
+		[AcceptVerbs( HttpVerbs.Post | HttpVerbs.Put )]
+		public bool Unlock ( String id ) {
+			return false;
+		}
+
+		[NonAction]
+		public bool NotAnAction ( ) {
+			return true;
+		}
+
 	}
 }
