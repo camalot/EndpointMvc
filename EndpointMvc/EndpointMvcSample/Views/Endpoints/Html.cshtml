@@ -19,18 +19,22 @@
 			"use strict";
 			$(function () {
 				var $popover = $("[data-bootstrap-popover]");
-				$popover.on("click",function(event) {
-					event.preventDefault();
-					event.stopPropagation();
-				}).popover();
+				if ($popover.popover) {
+					$popover.on("click", function (event) {
+						event.preventDefault();
+						event.stopPropagation();
+					}).popover();
+					// hide all popovers
+					$(document).on("click", function () {
+						$popover.popover("hide");
+					});
+				}
 
 				var $tooltip = $("[data-bootstrap-tooltip]");
-				$tooltip.tooltip();
+				if ($tooltip.tooltip) {
+					$tooltip.tooltip();
+				}
 
-				// hide all popovers
-				$(document).on("click", function () {
-					$popover.popover("hide");
-				});
 			});
 		})(window.jQuery, window, document);
 	</script>
