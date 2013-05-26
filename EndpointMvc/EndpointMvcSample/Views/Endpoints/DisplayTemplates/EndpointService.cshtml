@@ -1,8 +1,20 @@
 ﻿@model EndpointMvc.Models.EndpointService
+@{
+	var obsolete = Model.Properties.FirstOrDefault ( m => m.Key.Equals ( "Obsolete" ) );
+	var deprecated = Model.Properties.FirstOrDefault ( m => m.Key.Equals ( "Deprecated" ) );
+}
 
 <div class="media mll ptl">
 	<h2 class="media-heading">@Model.Name</h2>
 	<div class="media-body" id="@Model.QualifiedName.Replace(".","_")">
+		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
+			<div class="alert alert-error">@obsolete.Description</div>
+		}
+		@if ( deprecated != null && (bool)deprecated.Value && !String.IsNullOrWhiteSpace ( deprecated.Description ) ) {
+			<div class="alert">@deprecated.Description</div>
+		}
+
+
 		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
 			<blockquote class="alert alert-info">@Model.Description</blockquote>
 		}

@@ -3,30 +3,25 @@
 
 @model EndpointInfo
 
+@{
+	var obsolete = Model.Properties.FirstOrDefault ( m => m.Key.Equals ( "Obsolete" ) );
+	var deprecated = Model.Properties.FirstOrDefault ( m => m.Key.Equals ( "Deprecated" ) );
+}
+
 <div class="endpoint-info media mll" id="@Model.QualifiedName.Replace(".","_")">
 	<h3 class="media-heading">@Model.Name <small class="nowrap"><abbr data-bootstrap-tooltip="" title="@Model.QualifiedReturnType">@Model.ReturnType</abbr></small></h3>
 	<div class="media-body">
+		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
+			<div class="alert alert-error">@obsolete.Description</div>
+		}
+		@if ( deprecated != null && (bool)deprecated.Value && !String.IsNullOrWhiteSpace ( deprecated.Description ) ) {
+			<div class="alert">@deprecated.Description</div>
+		}
 		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
 			<blockquote class="alert alert-info">@Model.Description</blockquote>
 		}
 		<blockquote class="alert alert-success">@Model.Url</blockquote>
 		<table class="table table-bordered table-condensed ">
-			<tr>
-				<th class="muted span6">@Html.LiteralFor(m => m.Deprecated)</th>
-				<td class="muted span6">@Html.DisplayFor(m => m.Deprecated ) </td>
-			</tr>
-			<tr>
-				<th class="muted span6">@Html.LiteralFor(m => m.Obsolete)</th>
-				<td class="muted span6">@Html.DisplayFor(m => m.Obsolete )</td>
-			</tr>
-			<tr>
-				<th class="muted span6">@Html.LiteralFor(m => m.RequiresAuthentication)</th>
-				<td class="muted span6">@Html.DisplayFor(m => m.RequiresAuthentication )</td>
-			</tr>
-			<tr>
-				<th class="muted span6">@Html.LiteralFor(m => m.RequireSsl)</th>
-				<td class="muted span6">@Html.DisplayFor(m => m.RequireSsl )</td>
-			</tr>
 			@Html.Partial("_CustomProperties",Model.Properties)
 		</table>
 		@if ( Model != null && Model.ContentTypes.Count > 0 ) {

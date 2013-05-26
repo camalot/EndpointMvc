@@ -63,24 +63,6 @@ namespace EndpointMvc.Models {
 		[Display ( Name = "Parameters", Prompt = "Parameters" )]
 		public List<ParamInfo> Params { get; set; }
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="EndpointInfo" /> is obsolete.
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if obsolete; otherwise, <c>false</c>.
-		/// </value>
-		[XmlAttribute]
-		[Display ( Name = "Obsolete", Prompt = "Obsolete" )]
-		public bool Obsolete { get; set; }
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="EndpointInfo"/> is deprecated.
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if deprecated; otherwise, <c>false</c>.
-		/// </value>
-		[XmlAttribute]
-		[Display ( Name = "Deprecated", Prompt = "Deprecated" )]
-		public bool Deprecated { get; set; }
-		/// <summary>
 		/// Gets or sets the since version.
 		/// </summary>
 		/// <value>
@@ -89,26 +71,6 @@ namespace EndpointMvc.Models {
 		[XmlAttribute]
 		[Display ( Name = "Since Version", Prompt = "Since Version" )]
 		public String SinceVersion { get; set; }
-		/// <summary>
-		/// Gets or sets a value indicating whether this endpoint requires authentication.
-		/// </summary>
-		/// <value>
-		/// <c>true</c> if this endpoint requires authentication; otherwise, <c>false</c>.
-		/// </value>
-		[XmlAttribute]
-		[Display ( Name = "Requires Authentication", Prompt = "Requires Authentication" )]
-		public bool RequiresAuthentication { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether SSL is required.
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if SSL is required; otherwise, <c>false</c>.
-		/// </value>
-		[XmlAttribute]
-		[Display( Name = "Require SSL", Prompt = "Require SSL" )]
-		[JsonProperty("requireSSL")]
-		public bool RequireSsl { get; set; }
 
 		/// <summary>
 		/// Gets or sets the properties.
@@ -116,8 +78,8 @@ namespace EndpointMvc.Models {
 		/// <value>
 		/// The properties.
 		/// </value>
-		[XmlArray ( "CustomProperties" )]
-		[XmlArrayItem ( "CustomProperty" )]
+		[XmlArray ( "Properties" )]
+		[XmlArrayItem ( "Property" )]
 		public List<PropertyKeyValuePair<String, Object>> Properties { get; set; }
 
 

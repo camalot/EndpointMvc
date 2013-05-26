@@ -63,5 +63,22 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 			return Delete ( user.Username );
 		}
 
+		public string GetUser ( String id ) {
+			return String.Empty;
+		}
+
+		[Description ( "Find a user id by email" )]
+		[Deprecated ( "This method was replaced by Get." )]
+		public ActionResult FindUser ( String id ) {
+			return new EmptyResult ( );
+		}
+
+		[Description("Find a user id by email")]
+		[Obsolete("This method is no longer supported.")]
+		public ActionResult FindUserId ( String email ) {
+
+			return new EmptyResult();
+		}
+
 	}
 }

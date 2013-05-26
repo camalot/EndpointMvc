@@ -104,7 +104,8 @@ namespace EndpointMvc.Controllers {
 						type.GetMethods ( ).Where ( m =>
 								m.IsPublic &&
 								!m.IsSpecialName &&
-								( m.ReturnType.Is<ActionResult> ( ) || m.ReturnType.IsPrimitive ) &&
+								!m.ReturnType.Is<Type>() && 
+								//( m.ReturnType.Is<ActionResult> ( ) || m.ReturnType.IsPrimitive() ) &&
 								!m.IsVirtual &&
 								m.GetCustomAttribute<IgnoreAttribute> ( ) == null
 							).ForEach ( meth => {
@@ -138,16 +139,49 @@ namespace EndpointMvc.Controllers {
 								var paras = GetParams ( meth );
 
 								var scheme = mreqHttps || epReqHttps ? "https" : Request.Url.Scheme;
-
+								
 								var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) }, scheme );
-								var cust = GetCustomProperties ( mcustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty ( ),
+
+								// is this how I want to add the obsolete / deprecated info?
+								var actionProperties = new List<PropertyKeyValuePair<String, Object>> {
+									new PropertyKeyValuePair<String,object> {
+										Key = "Deprecated",
+										// get the value from either the method, or the type.
+										Value = mdep != null || deprecated != null,
+										// get the message from either the method, or the type
+										Description = mdep != null ? mdep.Message : 
+											deprecated != null ? deprecated.Message : String.Empty
+									},
+									new PropertyKeyValuePair<String,object> {
+										Key = "Obsolete",
+										// get the value from either the method, or the type.
+										Value = mobsolete != null || obsolete != null,
+										// get the message from either the method, or the type
+										Description = mobsolete != null ? mobsolete.Message : 
+											obsolete != null ? obsolete.Message : String.Empty
+									}, new PropertyKeyValuePair<String,object> {
+										Key = "Require SSL",
+										// get the value from either the method, or the type.
+										Value = mreqHttps || epReqHttps,
+										// get the message from either the method, or the type
+										Description = mreqHttps || epReqHttps ? "Forces an unsecured HTTP request to be re-sent over HTTPS." : String.Empty
+									},
+									new PropertyKeyValuePair<String,object> {
+										Key = "Require Authorization",
+										// get the value from either the method, or the type.
+										Value = mauth || auth,
+										// get the message from either the method, or the type
+										Description = mauth || auth ? "Users are required to authenticate before granted access to content." : String.Empty
+									}
+								};
+
+								var cust = actionProperties.Union(GetCustomProperties ( mcustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty ( ),
 									new PropertyKeyValuePairEqualityComparer<String, Object> ( )
-								).ToList ( );
+								)).ToList ( );
 
 								var epi = new EndpointInfo ( ) {
 									QualifiedName = "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 									Name = name,
-									RequireSsl = mreqHttps || epReqHttps,
 									ReturnType = returnType.Name,
 									QualifiedReturnType = returnType.QualifiedName(),
 									ContentTypes = mcontentTypes,
@@ -155,9 +189,6 @@ namespace EndpointMvc.Controllers {
 									HttpMethods = vbs,
 									Params = paras,
 									Url = actionUrl,
-									Deprecated = mdep != null || deprecated != null,
-									Obsolete = mobsolete != null || obsolete != null,
-									RequiresAuthentication = auth | mauth,
 									SinceVersion = sinceVer != null ? sinceVer.Version.ToString ( ) :
 										msv != null ? msv.Version.ToString ( ) :
 										null,

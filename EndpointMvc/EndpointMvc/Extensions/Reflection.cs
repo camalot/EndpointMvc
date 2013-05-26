@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace EndpointMvc.Extensions {
 	public static partial class EndpointMvcExtensions {
+
+		public static bool IsPrimitive ( this Type type ) {
+			return type.IsPrimitive || type.Is<String>() || type == typeof(Decimal) || type == typeof(DateTime) || type == typeof(TimeSpan) || type.Is<Object>();
+		}
+
 		/// <summary>
 		/// Determines whether the specified type is nullable.
 		/// </summary>

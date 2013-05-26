@@ -67,8 +67,8 @@ namespace EndpointMvc.Models {
 		/// <value>
 		/// The properties.
 		/// </value>
-		[XmlArray ( "CustomProperties" )]
-		[XmlArrayItem ( "CustomProperty" )]
+		[XmlArray ( "Properties" )]
+		[XmlArrayItem ( "Property" )]
 		public List<PropertyKeyValuePair<String, Object>> Properties { get; set; }
 
 		/// <summary>
