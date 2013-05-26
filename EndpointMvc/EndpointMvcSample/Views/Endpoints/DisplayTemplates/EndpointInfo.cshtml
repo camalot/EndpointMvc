@@ -6,10 +6,15 @@
 @{
 	var obsolete = Model.Properties.FirstOrDefault ( m => m.Key.Equals ( "Obsolete" ) );
 	var deprecated = Model.Properties.FirstOrDefault ( m => m.Key.Equals ( "Deprecated" ) );
+	var area = ViewContext.RouteData.Values["area"];
 }
 
 <div class="endpoint-info media mll" id="@Model.QualifiedName.Replace(".","_")">
-	<h3 class="media-heading">@Model.Name <small class="nowrap"><abbr data-bootstrap-tooltip="" title="@Model.QualifiedReturnType">@Model.ReturnType</abbr></small></h3>
+	<h3 class="media-heading">@Model.Name <small class="nowrap">
+		<abbr data-bootstrap-tooltip="" title="@Model.QualifiedReturnType">
+			@Model.ReturnType
+		</abbr></small>
+	</h3>
 	<div class="media-body">
 		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
 			<div class="alert alert-error">@obsolete.Description</div>

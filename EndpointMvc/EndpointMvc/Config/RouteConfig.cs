@@ -19,11 +19,18 @@ namespace EndpointMvc.Config {
 		/// </summary>
 		/// <param name="routes">The routes.</param>
 		public static void RegisterRoutes ( RouteCollection routes ) {
+			/*routes.MapRouteWithTrailingSlash (
+				name: DEFAULT_NAME.With ( "Define" ),
+				url: "define/{action}/{*id}",
+				defaults: new { controller = "Endpoints", action = DEFAULT_ACTION },
+				namespaces: new String[] { DEFAULT_NAMESPACE }
+			);*/
+
 			routes.MapRoute (
-					name: DEFAULT_NAME.With("Default"),
-					url: "endpoints/{action}/{id}",
-					defaults: new { controller = DEFAULT_CONTROLLER, action = DEFAULT_ACTION, id = UrlParameter.Optional },
-					namespaces: new String[] { DEFAULT_NAMESPACE }
+				name: DEFAULT_NAME.With("Default"),
+				url: "endpoints/{action}/{id}",
+				defaults: new { controller = DEFAULT_CONTROLLER, action = DEFAULT_ACTION, id = UrlParameter.Optional },
+				namespaces: new String[] { DEFAULT_NAMESPACE }
 			);
 		}
 
@@ -32,11 +39,18 @@ namespace EndpointMvc.Config {
 		}
 
 		public static void RegisterRoutesForArea ( AreaRegistrationContext context ) {
-			context.MapRoute (
-					name: DEFAULT_NAME.With ( context.AreaName ),
-					url: DEFAULT_URL,
-					defaults: new { controller = DEFAULT_CONTROLLER, action = DEFAULT_ACTION, area = context.AreaName, id = UrlParameter.Optional },
-					namespaces: new String[] { DEFAULT_NAMESPACE }
+			/*context.Routes.MapRouteWithTrailingSlash (
+				name: DEFAULT_NAME.With ( "{0}_Define".With( context.AreaName ) ),
+				url: DEFAULT_URL,
+				defaults: new { controller = "Endpoints", action = DEFAULT_ACTION, area = context.AreaName, id = UrlParameter.Optional },
+				namespaces: new String[] { DEFAULT_NAMESPACE }
+			);*/
+
+			context.Routes.MapRoute (
+				name: DEFAULT_NAME.With ( context.AreaName ),
+				url: DEFAULT_URL,
+				defaults: new { controller = DEFAULT_CONTROLLER, action = DEFAULT_ACTION, area = context.AreaName, id = UrlParameter.Optional },
+				namespaces: new String[] { DEFAULT_NAMESPACE }
 			);
 		}
 	}

@@ -4,9 +4,12 @@
 @model ParamInfo
 @{
 	var defaultValue = Model.Default == null ? "null" : Model.Default;
+	var area = ViewContext.RouteData.Values["area"];
+
 }
 <div class="media-body mll mbm">
-	<h4 class="media-heading muted">@Model.Name <small class="nowrap"><abbr data-bootstrap-tooltip="" title="@Model.QualifiedType">@Model.Type</abbr></small></h4>
+	<h4 class="media-heading muted">@Model.Name <small class="nowrap">
+		<abbr data-bootstrap-tooltip="" title="@Model.QualifiedType">@Model.Type</abbr></small></h4>
 	@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
 		<blockquote class="alert alert-info">@Model.Description</blockquote>
 	}

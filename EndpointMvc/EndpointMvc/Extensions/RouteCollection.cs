@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EndpointMvc.Routing;
 
 namespace EndpointMvc.Extensions {
 	public static partial class EndpointMvcExtensions {
@@ -25,6 +26,38 @@ namespace EndpointMvc.Extensions {
 				context.RegisterEndpointMvcForArea ( );
 			} );
 			return rc;
+		}
+
+		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults ) {
+			return routes.MapRouteWithTrailingSlash ( name, url, defaults, null );
+		}
+
+		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults, object constraints ) {
+			return routes.MapRouteWithTrailingSlash(name,url,defaults,constraints, null);
+		}
+
+		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults, String[] namespaces ) {
+			return routes.MapRouteWithTrailingSlash ( name, url, defaults, new { }, namespaces );
+		}
+
+
+		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults, object constraints, String[] namespaces ) {
+			routes.Require ( );
+			var route = new TrailingSlashRoute ( url.Require(), new MvcRouteHandler ( ) ) {
+				Defaults = new RouteValueDictionary ( defaults ),
+				Constraints = new RouteValueDictionary ( constraints ),
+			};
+
+			if ( ( namespaces != null ) && ( namespaces.Length > 0 ) ) {
+				route.DataTokens = new RouteValueDictionary ( );
+				route.DataTokens["Namespaces"] = namespaces;
+			}
+
+			if ( String.IsNullOrEmpty ( name ) )
+				routes.Add ( route );
+			else
+				routes.Add ( name, route );
+			return route;
 		}
 
 		/// <summary>

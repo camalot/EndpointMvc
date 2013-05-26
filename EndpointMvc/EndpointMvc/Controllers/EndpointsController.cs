@@ -17,36 +17,54 @@ using System.Text.RegularExpressions;
 
 namespace EndpointMvc.Controllers {
 	public class EndpointsController : Controller {
-
-		/// <summary>
-		/// Returns the endpoints data as json
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult Json ( ) {
-			var data = BuildEndpointData ( );
-			return this.EndpointJson<Dictionary<String, EndpointArea>> ( data );
+		public ActionResult Json ( /*String id*/ ) {
+			//if ( String.IsNullOrWhiteSpace ( id ) ) {
+				var data = BuildEndpointData ( );
+				return this.EndpointJson<Dictionary<String, EndpointArea>> ( data );
+			/*} else {
+				return this.EndpointJson<DefineData> ( GetDefineParamInfo ( id ) );
+			}*/
 		}
 
-		/// <summary>
-		/// Returns the endpoints data as xml
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult Xml ( ) {
-			var data = BuildEndpointData ( );
-			return this.EndpointXml<EndpointData> ( new EndpointData {
-				Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
-			} );
+		public ActionResult Xml ( /*String id*/ ) {
+			//if ( String.IsNullOrWhiteSpace ( id ) ) {
+				var data = BuildEndpointData ( );
+				return this.EndpointXml<EndpointData> ( new EndpointData {
+					Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
+				} );
+			/*} else {
+				return this.EndpointXml<DefineData> ( GetDefineParamInfo ( id ) );
+			}*/
 		}
 
-		/// <summary>
-		/// Returns the endpoints data as html
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult Html ( ) {
-			var data = BuildEndpointData ( );
-			return View ( new EndpointData {
-				Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
-			} );
+		public ActionResult Html ( /*String id*/ ) {
+			//if ( String.IsNullOrWhiteSpace ( id ) ) {
+				var data = BuildEndpointData ( );
+				return View ( new EndpointData {
+					Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
+				} );
+			/*} else {
+				var @params = GetDefineParamInfo ( id );
+				return View ( "Define", @params );
+			}*/
+		}
+
+		private DefineData GetDefineParamInfo ( String typeName ) {
+			var parts = typeName.Require ( ).Split ( ',' ).Require ( );
+			var asm = AppDomain.CurrentDomain.GetAssemblies ( ).FirstOrDefault ( a => a.GetName ( ).Name.Equals ( parts[1].Trim ( ).Replace ( "/", "" ), StringComparison.InvariantCultureIgnoreCase ) );
+			if ( asm != null ) {
+				var type = asm.GetType ( parts[0].Trim ( ), false, true );
+				var data = new DefineData {
+					Name = type.Name,
+					QualifiedName = type.QualifiedName ( ),
+				};
+				var props = type.GetProperties ( BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public ).Where ( p => p.GetCustomAttribute<IgnoreAttribute> ( ) == null );
+				foreach ( var prop in props ) {
+					data.Properties.AddRange ( GetPropertyInfo ( "", prop ) );
+				}
+				return data;
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -56,20 +74,19 @@ namespace EndpointMvc.Controllers {
 		private Dictionary<String, EndpointArea> BuildEndpointData ( ) {
 			var areaRoute = (String)RouteData.Values["area"];
 			var areas = new Dictionary<String, EndpointArea> ( );
-			var assemblies = AppDomain.CurrentDomain.GetAssemblies ( );
 
 			// each assembly, look for custom attribute
-			foreach ( var asm in assemblies ) {
+			foreach ( var asm in AppDomain.CurrentDomain.GetAssemblies ( ).Where ( a => !a.IsDynamic ) ) {
 				// get each type
 				foreach ( var type in asm.GetTypes ( ).Where ( t => t.Is<Controller> ( ) && t.GetCustomAttribute<EndpointAttribute> ( ) != null ) ) {
 					var areaName = FindAreaFromNamespace ( type.Namespace );
-					var carea = new EndpointArea {
+					var currentArea = new EndpointArea {
 						Name = areaName,
 						QualifiedName = areaName
 					};
 
 					if ( areas.ContainsKey ( areaName ) ) {
-						carea = areas[areaName];
+						currentArea = areas[areaName];
 					}
 
 					if ( !String.IsNullOrWhiteSpace ( areaRoute ) && String.Compare ( areaName, areaRoute, true ) != 0 ) {
@@ -81,31 +98,32 @@ namespace EndpointMvc.Controllers {
 					var obsolete = type.GetCustomAttribute<ObsoleteAttribute> ( );
 					var sinceVer = type.GetCustomAttribute<SinceVersionAttribute> ( );
 					var auth = type.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || type.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
-					var epReqHttps = type.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
+					var reqHttps = type.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
 					var customProperties = type.GetCustomAttributes<CustomPropertyAttribute> ( );
 
 					if ( endpoint != null ) {
 						if ( !areas.ContainsKey ( areaName ) ) {
-							areas.Add ( areaName, carea );
+							areas.Add ( areaName, currentArea );
 						}
 
 						var epService = new EndpointService {
 							Properties = GetCustomProperties ( customProperties )
 						};
-						var epn = String.IsNullOrWhiteSpace ( endpoint.Name ) ? type.Name : endpoint.Name;
-						if ( epn.EndsWith ( "Controller" ) ) {
-							epn = epn.Substring ( 0, epn.Length - 10 );
+
+						var endpointName = String.IsNullOrWhiteSpace ( endpoint.Name ) ? type.Name : endpoint.Name;
+						if ( endpointName.EndsWith ( "Controller" ) ) {
+							endpointName = endpointName.Substring ( 0, endpointName.Length - 10 );
 						}
-						epService.Name = epn;
-						var epDa = type.GetCustomAttribute<DescriptionAttribute> ( );
-						epService.Description = epDa == null ? String.Empty : epDa.Description;
+						epService.Name = endpointName;
+
+						var epDescription = type.GetCustomAttribute<DescriptionAttribute> ( );
+						epService.Description = epDescription == null ? String.Empty : epDescription.Description;
 						epService.QualifiedName = "{0}.{1}".With ( areaName, epService.Name );
 
 						type.GetMethods ( ).Where ( m =>
 								m.IsPublic &&
 								!m.IsSpecialName &&
-								!m.ReturnType.Is<Type>() && 
-								//( m.ReturnType.Is<ActionResult> ( ) || m.ReturnType.IsPrimitive() ) &&
+								!m.ReturnType.Is<Type> ( ) &&
 								!m.IsVirtual &&
 								m.GetCustomAttribute<IgnoreAttribute> ( ) == null
 							).ForEach ( meth => {
@@ -118,14 +136,14 @@ namespace EndpointMvc.Controllers {
 								var methAuth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || meth.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
 								var methReqHttps = meth.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
 								var methCustProps = meth.GetCustomAttributes<CustomPropertyAttribute> ( );
-								var methContentTypes = meth.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType ).ToList();
+								var methContentTypes = meth.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType ).ToList ( );
 								var methReturnType = meth.GetCustomAttribute<ReturnTypeAttribute> ( );
-								var dmreturnType = meth.ReturnType;
+								var defaultMethReturnType = meth.ReturnType;
 
 								// get the return type
-								var returnType = dmreturnType.Is<ActionResult> ( ) ?
-									methReturnType == null ? typeof(object) : methReturnType.ReturnType :
-									methReturnType == null ? dmreturnType : methReturnType.ReturnType;
+								var returnType = defaultMethReturnType.Is<ActionResult> ( ) ?
+									methReturnType == null ? typeof ( object ) : methReturnType.ReturnType :
+									methReturnType == null ? defaultMethReturnType : methReturnType.ReturnType;
 
 								if ( actionNameAttr != null ) {
 									name = actionNameAttr.Name;
@@ -144,10 +162,10 @@ namespace EndpointMvc.Controllers {
 								// get the method params
 								var paras = GetParams ( meth );
 
-								var scheme = methReqHttps || epReqHttps ? "https" : Request.Url.Scheme;
+								var scheme = methReqHttps || reqHttps ? "https" : Request.Url.Scheme;
 								var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) }, scheme );
 
-								// is this how I want to add the obsolete / deprecated info?
+								// info from some of the attributes.
 								var actionProperties = new List<PropertyKeyValuePair<String, Object>> {
 									new PropertyKeyValuePair<String,object> {
 										Key = "Deprecated",
@@ -167,9 +185,9 @@ namespace EndpointMvc.Controllers {
 									}, new PropertyKeyValuePair<String,object> {
 										Key = "Require SSL",
 										// get the value from either the method, or the type.
-										Value = methReqHttps || epReqHttps,
+										Value = methReqHttps || reqHttps,
 										// get the message from either the method, or the type
-										Description = methReqHttps || epReqHttps ? "Forces an unsecured HTTP request to be re-sent over HTTPS." : String.Empty
+										Description = methReqHttps || reqHttps ? "Forces an unsecured HTTP request to be re-sent over HTTPS." : String.Empty
 									},
 									new PropertyKeyValuePair<String,object> {
 										Key = "Require Authorization",
@@ -180,15 +198,15 @@ namespace EndpointMvc.Controllers {
 									}
 								};
 
-								var cust = actionProperties.Union(GetCustomProperties ( methCustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty ( ),
+								var cust = actionProperties.Union ( GetCustomProperties ( methCustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty ( ),
 									new PropertyKeyValuePairEqualityComparer<String, Object> ( )
-								)).ToList ( );
+								) ).ToList ( );
 
 								var epi = new EndpointInfo ( ) {
 									QualifiedName = "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 									Name = name,
 									ReturnType = returnType.Name,
-									QualifiedReturnType = returnType.QualifiedName(),
+									QualifiedReturnType = returnType.QualifiedName ( ),
 									ContentTypes = methContentTypes,
 									Description = desc,
 									HttpMethods = verbs,
@@ -202,7 +220,7 @@ namespace EndpointMvc.Controllers {
 								epService.Endpoints.Add ( name, epi );
 							} );
 
-						carea.Services.Add ( epService.Name, epService );
+						currentArea.Services.Add ( epService.Name, epService );
 					}
 				}
 			}
@@ -267,7 +285,7 @@ namespace EndpointMvc.Controllers {
 				list.Add ( new ParamInfo {
 					Name = pi.Name.ToCamelCase ( ),
 					Type = typeName,
-					QualifiedType =  pi.ParameterType.QualifiedName ( ),
+					QualifiedType = pi.ParameterType.QualifiedName ( ),
 					Description = da == null ? String.Empty : da.Description,
 					Optional = ( pi.IsOptional && req == null ) || opt != null,
 					Default = pi.DefaultValue,
@@ -302,7 +320,7 @@ namespace EndpointMvc.Controllers {
 				list.Add ( new ParamInfo {
 					Name = "{0}{2}{1}".With ( baseName, pi.Name.ToCamelCase ( ), String.IsNullOrWhiteSpace ( baseName ) ? "" : "." ),
 					Type = typeName,
-					QualifiedType = pi.PropertyType.QualifiedName(),
+					QualifiedType = pi.PropertyType.QualifiedName ( ),
 					Description = da == null ? String.Empty : da.Description,
 					Optional = req == null || opt != null,
 					Default = null

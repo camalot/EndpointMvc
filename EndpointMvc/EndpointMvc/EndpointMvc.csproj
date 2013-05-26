@@ -73,6 +73,7 @@
     <Compile Include="Extensions\Require.cs" />
     <Compile Include="Extensions\RouteCollection.cs" />
     <Compile Include="Extensions\String.cs" />
+    <Compile Include="Models\DefineData.cs" />
     <Compile Include="Models\EndpointArea.cs" />
     <Compile Include="Models\EndpointData.cs" />
     <Compile Include="Models\EndpointInfo.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Results\EndpointJsonResult.cs" />
     <Compile Include="Results\EndpointResult.cs" />
     <Compile Include="Results\EndpointXmlResult.cs" />
+    <Compile Include="Routing\TrailingSlashRoute.cs" />
     <Compile Include="Serialization\JsonSerializerFactory.cs" />
     <Compile Include="Serialization\XmlSerializerFactory.cs" />
   </ItemGroup>
