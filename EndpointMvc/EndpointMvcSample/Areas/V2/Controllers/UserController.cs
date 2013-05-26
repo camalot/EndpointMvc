@@ -17,9 +17,9 @@ namespace EndpointMvcSample.Areas.V2.Controllers {
 		[RequiresAuthentication]
 		[Description ( "Locks a user account." )]
 		[AcceptVerbs ( HttpVerbs.Post | HttpVerbs.Put )]
-		public ActionResult Lock ( String id ) {
+		public bool Lock ( String id ) {
 			// lock the user
-			return new EmptyResult ( );
+			return false;
 		}
 
 	}

@@ -111,35 +111,40 @@ namespace EndpointMvc.Controllers {
 							).ForEach ( meth => {
 								// get the name of the method
 								var name = meth.Name;
-								var ana = meth.GetCustomAttribute<ActionNameAttribute> ( );
-								var mdep = meth.GetCustomAttribute<DeprecatedAttribute> ( );
-								var mobsolete = meth.GetCustomAttribute<ObsoleteAttribute> ( );
-								var msv = meth.GetCustomAttribute<SinceVersionAttribute> ( );
-								var mauth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || meth.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
-								var mreqHttps = meth.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
-								var mcustProps = meth.GetCustomAttributes<CustomPropertyAttribute> ( );
-								var mcontentTypes = meth.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType ).ToList();
-								var mreturnType = meth.GetCustomAttribute<ReturnTypeAttribute> ( );
+								var actionNameAttr = meth.GetCustomAttribute<ActionNameAttribute> ( );
+								var methDeprecated = meth.GetCustomAttribute<DeprecatedAttribute> ( );
+								var methIbsolete = meth.GetCustomAttribute<ObsoleteAttribute> ( );
+								var methSinceVer = meth.GetCustomAttribute<SinceVersionAttribute> ( );
+								var methAuth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || meth.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
+								var methReqHttps = meth.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
+								var methCustProps = meth.GetCustomAttributes<CustomPropertyAttribute> ( );
+								var methContentTypes = meth.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType ).ToList();
+								var methReturnType = meth.GetCustomAttribute<ReturnTypeAttribute> ( );
 								var dmreturnType = meth.ReturnType;
 
 								// get the return type
 								var returnType = dmreturnType.Is<ActionResult> ( ) ?
-									mreturnType == null ? typeof(object) : mreturnType.ReturnType :
-									mreturnType == null ? dmreturnType : mreturnType.ReturnType;
+									methReturnType == null ? typeof(object) : methReturnType.ReturnType :
+									methReturnType == null ? dmreturnType : methReturnType.ReturnType;
 
-								if ( ana != null ) {
-									name = ana.Name;
+								if ( actionNameAttr != null ) {
+									name = actionNameAttr.Name;
 								}
-								var da = meth.GetCustomAttribute<DescriptionAttribute> ( );
+
+								// get the description attribute
+								var descAttr = meth.GetCustomAttribute<DescriptionAttribute> ( );
 								var desc = String.Empty;
-								if ( da != null ) {
-									desc = da.Description;
+								if ( descAttr != null ) {
+									desc = descAttr.Description;
 								}
-								var vbs = GetMethodVerbs ( meth );
+
+								// get the method verbs
+								var verbs = GetMethodVerbs ( meth );
+
+								// get the method params
 								var paras = GetParams ( meth );
 
-								var scheme = mreqHttps || epReqHttps ? "https" : Request.Url.Scheme;
-								
+								var scheme = methReqHttps || epReqHttps ? "https" : Request.Url.Scheme;
 								var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) }, scheme );
 
 								// is this how I want to add the obsolete / deprecated info?
@@ -147,35 +152,35 @@ namespace EndpointMvc.Controllers {
 									new PropertyKeyValuePair<String,object> {
 										Key = "Deprecated",
 										// get the value from either the method, or the type.
-										Value = mdep != null || deprecated != null,
+										Value = methDeprecated != null || deprecated != null,
 										// get the message from either the method, or the type
-										Description = mdep != null ? mdep.Message : 
+										Description = methDeprecated != null ? methDeprecated.Message : 
 											deprecated != null ? deprecated.Message : String.Empty
 									},
 									new PropertyKeyValuePair<String,object> {
 										Key = "Obsolete",
 										// get the value from either the method, or the type.
-										Value = mobsolete != null || obsolete != null,
+										Value = methIbsolete != null || obsolete != null,
 										// get the message from either the method, or the type
-										Description = mobsolete != null ? mobsolete.Message : 
+										Description = methIbsolete != null ? methIbsolete.Message : 
 											obsolete != null ? obsolete.Message : String.Empty
 									}, new PropertyKeyValuePair<String,object> {
 										Key = "Require SSL",
 										// get the value from either the method, or the type.
-										Value = mreqHttps || epReqHttps,
+										Value = methReqHttps || epReqHttps,
 										// get the message from either the method, or the type
-										Description = mreqHttps || epReqHttps ? "Forces an unsecured HTTP request to be re-sent over HTTPS." : String.Empty
+										Description = methReqHttps || epReqHttps ? "Forces an unsecured HTTP request to be re-sent over HTTPS." : String.Empty
 									},
 									new PropertyKeyValuePair<String,object> {
 										Key = "Require Authorization",
 										// get the value from either the method, or the type.
-										Value = mauth || auth,
+										Value = methAuth || auth,
 										// get the message from either the method, or the type
-										Description = mauth || auth ? "Users are required to authenticate before granted access to content." : String.Empty
+										Description = methAuth || auth ? "Request must be authenticated before access to content is permitted." : String.Empty
 									}
 								};
 
-								var cust = actionProperties.Union(GetCustomProperties ( mcustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty ( ),
+								var cust = actionProperties.Union(GetCustomProperties ( methCustProps ).DefaultIfEmpty ( ).Union ( epService.Properties.DefaultIfEmpty ( ),
 									new PropertyKeyValuePairEqualityComparer<String, Object> ( )
 								)).ToList ( );
 
@@ -184,13 +189,13 @@ namespace EndpointMvc.Controllers {
 									Name = name,
 									ReturnType = returnType.Name,
 									QualifiedReturnType = returnType.QualifiedName(),
-									ContentTypes = mcontentTypes,
+									ContentTypes = methContentTypes,
 									Description = desc,
-									HttpMethods = vbs,
+									HttpMethods = verbs,
 									Params = paras,
 									Url = actionUrl,
 									SinceVersion = sinceVer != null ? sinceVer.Version.ToString ( ) :
-										msv != null ? msv.Version.ToString ( ) :
+										methSinceVer != null ? methSinceVer.Version.ToString ( ) :
 										null,
 									Properties = cust
 								};
