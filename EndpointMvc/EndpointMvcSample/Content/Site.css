@@ -3,7 +3,7 @@
 }
 
 body {
-	padding-top: 40px;
+	margin-top: 30px;
 	margin-bottom: 45px;
 }
 
@@ -91,6 +91,14 @@ body {
 	color:#3fba2c;
 	border: solid 6px #888;
 	border-radius: 6px;
+}
+
+.gist-container .gist .gist-file {
+	border-radius: 4px;
+}
+
+.gist-container article.markdown-body {
+	padding: 10px;
 }
 
 /* main layout

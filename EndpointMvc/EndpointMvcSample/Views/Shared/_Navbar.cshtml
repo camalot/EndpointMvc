@@ -5,7 +5,17 @@
 			<a class="brand" href="@Url.Action("","")">EndpontMvc</a>
 			<ul class="nav">
 				<li class="divider-vertical"></li>
-				<li>@Html.ActionLink("Home", "Index", "Home")</li>
+				<li class="dropdown"><a href="#" data-toggle="dropdown">Documentation</a>
+					<ul class="dropdown-menu">
+						<li>@Html.ActionLink("Home","","")</li>
+						<li><a href="@Url.Action("","")#nuget">Nuget</a></li>
+						<li><a href="@Url.Action("","")#how-it-works">How it works</a></li>
+						<li><a href="@Url.Action("","")#register-routes">Register Routes</a></li>
+						<li><a href="@Url.Action("","")#output">Output</a></li>
+						<li><a href="@Url.Action("","")#attributes">Attributes</a></li>
+						<li><a href="@Url.Action("","")#license">License</a></li>
+					</ul>
+				</li>
 				<li>@Html.ActionLink("Demo", "", "endpoints")</li>
 				<li class="divider-vertical"></li>
 				<li><a href="https://github.com/camalot/endpointmvc/">Source Code</a></li>

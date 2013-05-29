@@ -7,6 +7,10 @@ Nuget
 ----------
 >    Install-Package EndpointMvc
 
+Demo
+---------
+[Live Demo](http://endpointmvc.bit13.com)
+
 Route Registration
 ----------
 EndpointMvc needs to register the route to handle the calls: 
