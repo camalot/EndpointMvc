@@ -1,4 +1,5 @@
-﻿@{
+﻿@using EndpointMvcSample.Models;
+@{
     ViewBag.Title = "EndpointMvc";
 }
 @section featured {
@@ -13,6 +14,16 @@
 }
 
 <div id="nuget"></div>
+
+<section class="mtl clear-fix span12 center adsense">
+	@Html.Partial("AdSense", new AdSenseModel {
+		Client = "ca-pub-9157593394596390",
+		Slot = "3200374236",
+		Height = 90,
+		Width = 728
+	})
+</section>
+
 <section class="">
 	<div class="modal-header mbl">
 		<h1>Nuget</h1>
@@ -72,6 +83,15 @@
 </section>
 
 <div id="attributes"></div>
+<section class="mtl clear-fix span12 center adsense">
+	@Html.Partial("AdSense", new AdSenseModel {
+		Client = "ca-pub-9157593394596390",
+		Slot = "3200374236",
+		Height = 90,
+		Width = 728
+	})
+</section>
+
 <section class="mtl">
 	<div class="modal-header mbl">
 		<h1>Attributes</h1>
@@ -118,6 +138,11 @@
 				<div>Allows you to described the content type that is returned. You can add multiple attributes to a method.</div>
 				<div class="gist-container">@Html.Partial("Gist","45c9ddd7b19772100b6b")</div>
 			</li>
+			<li><h4>GistAttribute <small>- <code>( Class | Method )</code></small></h4>
+				<div>Allows code examples to be added to the documentation. This uses <a href="https://gist.github.com" target="_blank">Gists</a> by <a href="https://github.com" target="_blank">GitHub</a>.</div>
+				<div class="alert mts"><strong>Note: </strong> Multiple Gist Attributes can be added to an element.</div>
+				<div class="gist-container">@Html.Partial("Gist","83d973d7d1fa8f35d55f")</div>
+			</li>
 			<li id="authorizeattribute"><h4>AuthorizeAttribute <small>- <code>( Class | Method )</code></small></h4>
 				<div>Indicates that a class or method requires the request to be authenticated before accessing the endpoint.</div>
 			</li>
@@ -148,6 +173,14 @@
 </section>
 
 <div id="license"></div>
+<section class="mtl clear-fix span12 center adsense">
+	@Html.Partial("AdSense", new AdSenseModel {
+		Client = "ca-pub-9157593394596390",
+		Slot = "3200374236",
+		Height = 90,
+		Width = 728
+	})
+</section>
 <section class="mtl">
 	<div class="modal-header mbl">
 		<h1>License</h1>

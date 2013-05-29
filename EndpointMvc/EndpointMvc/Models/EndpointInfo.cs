@@ -14,6 +14,7 @@ namespace EndpointMvc.Models {
 	public class EndpointInfo {
 		public EndpointInfo ( ) {
 			Properties = new List<PropertyKeyValuePair<string, object>> ( );
+			Gists = new List<Gist> ( );
 		}
 		/// <summary>
 		/// Gets or sets the name.
@@ -82,6 +83,9 @@ namespace EndpointMvc.Models {
 		[XmlArrayItem ( "Property" )]
 		public List<PropertyKeyValuePair<String, Object>> Properties { get; set; }
 
+		[XmlArray ( "Examples" )]
+		[XmlArrayItem ( "Gist" )]
+		public List<Gist> Gists { get; set; }
 
 		/// <summary>
 		/// Gets or sets the qualified name.

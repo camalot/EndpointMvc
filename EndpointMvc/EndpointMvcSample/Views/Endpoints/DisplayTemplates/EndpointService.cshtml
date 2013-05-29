@@ -14,10 +14,12 @@
 			<div class="alert">@deprecated.Description</div>
 		}
 
-
 		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
 			<blockquote class="pam mvm muted">@Model.Description</blockquote>
 		}
+
+		@Html.DisplayFor( m => m.Gists )
+
 		@if ( Model.Properties.Count > 0 ) {
 		<table class="table table-bordered table-condensed ">
 			@Html.Partial("_CustomProperties",Model.Properties)

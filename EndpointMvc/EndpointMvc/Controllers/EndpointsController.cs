@@ -100,6 +100,7 @@ namespace EndpointMvc.Controllers {
 					var auth = type.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || type.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
 					var reqHttps = type.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
 					var customProperties = type.GetCustomAttributes<CustomPropertyAttribute> ( );
+					var gists = type.GetCustomAttributes<GistAttribute> ( );
 
 					if ( endpoint != null ) {
 						if ( !areas.ContainsKey ( areaName ) ) {
@@ -107,7 +108,12 @@ namespace EndpointMvc.Controllers {
 						}
 
 						var epService = new EndpointService {
-							Properties = GetCustomProperties ( customProperties )
+							Properties = GetCustomProperties ( customProperties ),
+							Gists = gists.Select( g => new Gist {
+								Id = g.GistId,
+								Title = g.Title,
+								Description = g.Description
+							}).ToList()
 						};
 
 						var endpointName = String.IsNullOrWhiteSpace ( endpoint.Name ) ? type.Name : endpoint.Name;
@@ -140,6 +146,7 @@ namespace EndpointMvc.Controllers {
 								var methContentTypes = meth.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType ).ToList ( );
 								var methReturnType = meth.GetCustomAttribute<ReturnTypeAttribute> ( );
 								var defaultMethReturnType = meth.ReturnType;
+								var methGists = meth.GetCustomAttributes<GistAttribute> ( );
 
 								// get the return type
 								var returnType = defaultMethReturnType.Is<ActionResult> ( ) ?
@@ -216,7 +223,12 @@ namespace EndpointMvc.Controllers {
 									SinceVersion = sinceVer != null ? sinceVer.Version.ToString ( ) :
 										methSinceVer != null ? methSinceVer.Version.ToString ( ) :
 										null,
-									Properties = cust
+									Properties = cust,
+									Gists = methGists.Select ( g => new Gist {
+										Id = g.GistId,
+										Title = g.Title,
+										Description = g.Description
+									} ).ToList ( )
 								};
 								epService.Endpoints.Add ( name, epi );
 							} );
