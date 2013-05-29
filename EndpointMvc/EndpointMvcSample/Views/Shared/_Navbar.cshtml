@@ -5,25 +5,25 @@
 			<a class="brand" href="@Url.Action("","")">EndpontMvc</a>
 			<ul class="nav">
 				<li class="divider-vertical"></li>
-				<li class="dropdown"><a href="#" data-toggle="dropdown">Documentation</a>
+				<li class="dropdown"><a href="#" data-toggle="dropdown"><i class="mrs icon-book icon-white"></i><span class="mrs">Documentation</span><b class="caret caret-white"></b></a>
 					<ul class="dropdown-menu">
-						<li>@Html.ActionLink("Home","","")</li>
+						<li><a href="@Url.Action("","")"><i class="mrs icon-home"></i><span>Home</span></a></li>
 						<li class="divider"></li>
-						<li><a href="@Url.Action("","")#nuget" class="track">Nuget</a></li>
-						<li><a href="@Url.Action("","")#how-it-works" class="track">How it works</a></li>
-						<li><a href="@Url.Action("","")#register-routes" class="track">Register Routes</a></li>
-						<li><a href="@Url.Action("","")#output" class="track">Output</a></li>
-						<li><a href="@Url.Action("","")#attributes" class="track">Attributes</a></li>
+						<li><a href="@Url.Action("","")#nuget" class="track"><i class="mrs icon-download-alt"></i><span>Nuget</span></a></li>
+						<li><a href="@Url.Action("","")#how-it-works" class="track"><i class="mrs icon-retweet"></i><span>How it works</span></a></li>
+						<li><a href="@Url.Action("","")#register-routes" class="track"><i class="mrs icon-road"></i><span>Register Routes</span></a></li>
+						<li><a href="@Url.Action("","")#output" class="track"><i class="mrs icon-pencil"></i><span>Output</span></a></li>
+						<li><a href="@Url.Action("","")#attributes" class="track"><i class="mrs icon-tags"></i><span>Attributes</span></a></li>
 						<li class="divider"></li>
-						<li><a href="@Url.Action("","")#license" class="track">License</a></li>
+						<li><a href="@Url.Action("","")#license" class="track"><i class="mrs icon-certificate"></i><span>License</span></a></li>
 					</ul>
 				</li>
-				<li>@Html.ActionLink("Demo", "", "endpoints")</li>
+				<li><a href="@Url.Action("", "endpoints")"><i class="mrs icon-leaf icon-white"></i><span>Demo</span></a></li>
 				<li class="divider-vertical"></li>
-				<li><a href="https://github.com/camalot/endpointmvc/" class="track">Source Code</a></li>
-				<li><a href="https://nuget.org/packages/endpointmvc/" class="track">Nuget Package</a></li>
+				<li><a href="https://github.com/camalot/endpointmvc/" class="track"><i class="mrs icon-file icon-white"></i><span>Source Code</span></a></li>
+				<li><a href="https://nuget.org/packages/endpointmvc/" class="track"><i class="mrs icon-download-alt icon-white"></i><span>Nuget Package</span></a></li>
 				<li class="divider-vertical"></li>
-				<li><a href="https://github.com/camalot/EndpointMvc/blob/master/LICENSE.md" class="track">License</a></li>
+				<li><a href="@Url.Action("","")#license" class="track"><i class="mrs icon-certificate icon-white"></i><span>License</span></a></li>
 			</ul>
 		</div>
 	</div>

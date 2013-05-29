@@ -19,9 +19,9 @@ body {
 	box-shadow: 0 1px 4px rgba(0,0,0,.065);
 }
 
-.endpoint-nav-bar.affix {
-	width:258px;
-}
+	.endpoint-nav-bar.affix {
+		width: 258px;
+	}
 
 	.endpoint-nav-bar .endpoint-nav-sub-bar {
 		margin: 0;
@@ -42,34 +42,34 @@ body {
 	}
 
 
-		.endpoint-nav-sub-bar > li:first-child > a {
-		-webkit-border-radius: 0;
-		-moz-border-radius: 0;
-		border-radius: 0;
-	}
+.endpoint-nav-sub-bar > li:first-child > a {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
 
 
-	.endpoint-nav-bar > li > a {
-		display: block;
-		margin: 0;
-		padding: 8px 14px;
-		border: 1px solid #e5e5e5;
-	}
+.endpoint-nav-bar > li > a {
+	display: block;
+	margin: 0;
+	padding: 8px 14px;
+	border: 1px solid #e5e5e5;
+}
 
-	.endpoint-nav-sub-bar.l2 > li > a {
-		padding-left : 35px;
-	}
+.endpoint-nav-sub-bar.l2 > li > a {
+	padding-left: 35px;
+}
 
-	.endpoint-nav-sub-bar.l3 > li > a {
-		padding-left : 55px;
-	}
+.endpoint-nav-sub-bar.l3 > li > a {
+	padding-left: 55px;
+}
 
-	.endpoint-nav-bar .icon-chevron-right {
-		opacity: .25;
-		float: right;
-		margin-top: 10px;
-		margin-right: 8px;
-	}
+.endpoint-nav-bar .icon-chevron-right {
+	opacity: .25;
+	float: right;
+	margin-top: 10px;
+	margin-right: 8px;
+}
 
 .op25 {
 	opacity: .25;
@@ -80,7 +80,7 @@ body {
 }
 
 .nowrap .tooltip .tooltip-inner {
-	white-space:nowrap;
+	white-space: nowrap;
 	max-width: 400px !important;
 }
 
@@ -88,9 +88,51 @@ body {
 	font-family: Consolas, "Courier New", Courier, monospace;
 	padding: 0 0 0 10px;
 	background-color: #000;
-	color:#3fba2c;
+	color: #3fba2c;
 	border: solid 6px #888;
 	border-radius: 6px;
+}
+
+.caret.caret-white {
+	border-top-color: #fff;
+	border-bottom-color: #fff;
+}
+
+.navbar a {
+	-webkit-transition: color ease-in-out 500ms;
+	-moz-transition: color ease-in-out 500ms;
+	-o-transition: color ease-in-out 500ms;
+	transition: color ease-in-out 500ms;
+}
+
+	.navbar a b.caret-white,
+	.navbar a i[class^="icon-"], .navbar a i[class*=" icon-"] {
+		-webkit-transition: all ease-in-out 500ms;
+		-moz-transition: all ease-in-out 500ms;
+		-o-transition: all ease-in-out 500ms;
+		transition: all ease-in-out 500ms;
+		opacity: .6;
+	}
+
+.navbar .dropdown-menu a,
+.navbar .dropdown-menu a i[class^="icon-"], .navbar .dropdown-menu a i[class*=" icon-"] {
+	-moz-transition: none;
+	-o-transition: none;
+	-webkit-transition: none;
+	transition: none;
+	opacity: 1;
+}
+
+.navbar a:hover b.caret-white,
+.navbar a:hover i[class^="icon-"],
+.navbar a:hover i[class*=" icon-"],
+.navbar a:active b.caret-white,
+.navbar a:active i[class^="icon-"],
+.navbar a:active i[class*=" icon-"],
+.navbar a:focus b.caret-white,
+.navbar a:focus i[class^="icon-"],
+.navbar a:focus i[class*=" icon-"] {
+	opacity: 1;
 }
 
 .gist-container .gist .gist-file {
@@ -105,7 +147,7 @@ body {
 ----------------------------------------------------------*/
 
 footer {
-	text-align:center;
+	text-align: center;
 	clear: both;
 	background-color: #e2e2e2;
 	font-size: .8em;
