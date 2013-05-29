@@ -1,45 +1,143 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "EndpointMvc";
 }
 @section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
-        </div>
-    </section>
+  <section class="featured hero-unit">
+    <div class="container">
+      <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+				<h2 class="muted">Building your endpoint documentation, so you don't have to.</h2>
+      </hgroup>
+    </div>
+  </section>
 }
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
 
-    <li class="two">
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
+<section class="">
+	<div class="modal-header mbl">
+		<h1>Nuget</h1>
+	</div>
+	<p>To install EndpointMvc, run the following command in the <a href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console">Package Manager Console</a>.</p>
+	<div class="nuget">
+		<h3>PM&gt; Install-Package EndpointMvc</h3>
+	</div>
+</section>
 
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
+<section class="mtl">
+	<div class="modal-header mbl">
+		<h1>How it works</h1>
+		<p>EndpointMvc uses attributes that you already apply to your MVC controller actions. It also uses a couple custom attributes to add more meta data to be used for the documentation. 
+			It then uses Reflection to gather the information needed to build the documentation. So all you have to do is write your code, EndpointMvc will build the documentation.
+		</p>
+	</div>
+</section>
+
+<section class="mtl">
+	<div class="modal-header mbl">
+		<h1 class="">Register Routes</h1>
+	</div>
+	<p>EndpointMvc needs to register its routes to handle the calls</p>
+	<div class="gist mbs">
+		<div class="alert alert-info mbs">You can register the routes via the Extension methods.</div>
+		@Html.Partial("Gist","d0b621b2413ddc06bb2d")
+	</div>
+	<div class="gist mbs">
+		<div class="alert alert-info mbs">You can register the routes via EndpointMvc RouteConfig class.</div>
+		@Html.Partial("Gist", "424f2e910b74e4febbf4")
+	</div>
+	<div class="gist mbs">
+		<div class="alert alert-info mbs">If you want to be able to call EndpointMvc on specific areas, then you need to register before any area is registered.</div>
+		@Html.Partial("Gist","60af1afc4726e166613d")
+	</div>
+</section>
+
+<section class="mtl">
+	<div class="modal-header mbl">
+		<h1>Output</h1>
+		<p>EndpointMvc has 3 output formats:</p>
+	</div>
+	<div>
+		<ul>
+			<li>Json</li>
+			<li>Xml</li>
+			<li>Html</li>
+		</ul>
+		<p>Each of the output formats have an action, with <code>html</code> being the default.</p>
+		<p>Your action calls should look like the following:</p>
+		<div><code>~/endpoints/{format}/</code></div>
+	</div>
+</section>
+
+<section class="mtl">
+	<div class="modal-header mbl">
+		<h1>Attributes</h1>
+		<p>Attribute information to add rich meta data to your controller actions.</p>
+	</div>
+	<div>
+		<ul class="unstyled">
+			<li><h4>EndpointAttribute <small>- <code>( Class )</code></small></h4>
+				<div>This indicates that a class is an endpoint. All public actions in the controller will then be defined as endpoint actions, unless they are flagged with the <code>IgnoreAttribute</code> or the <code>NonActionAttribute</code>.</div>
+				<div class="gist mts">@Html.Partial("Gist","79fe05ecd0bd3e6f0de1")</div>
+			</li>
+			<li><h4>IgnoreAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
+				<div>Ignores a class, method, parameter, or property when building output.</div>
+				<div class="alert mts">
+					<strong>Note: </strong> Overloaded methods are not currently supported by EndpointMvc. You <strong>MUST</strong> flag other overloads with the <code>IgnoreAttribute</code>.
+				</div>
+				<div class="gist">@Html.Partial("Gist", "1cef103a7595330324d7")</div>
+			</li>
+			<li><h4>DeprecatedAttribute <small>- <code>( Class | Method )</code></small></h4>
+				<div>Marks a class or method as deprecated and includes the specified reason.</div>
+				<div class="gist">@Html.Partial("Gist","ce350605dcab94a60324")</div>
+			</li>
+			<li><h4>RequiresAuthenticationAttribute <small>- <code>( Class | Method )</code></small></h4>
+				<div>See <code><a href="#authorizeattribute">AuthorizeAttribute</a></code>.</div>
+				<div class="alert mts"><strong>Note: </strong> This attribute is not a filter and does not do any checks to see if the user is authenticated. You should use another attribute/filter to perform those checks.</div>
+			</li>
+			<li><h4>CustomPropertyAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
+				<div>Adds custom meta data to the class, method, parameter, or property. You can add multiple attributes to individual elements.</div>
+				<div class="alert mts"><strong>Note: </strong> Custom properties that are added to a class are merged with properties added to a method. If a method has one with the same key, the 
+					method property overrides the class level property.
+				</div>
+				<div class="gist">@Html.Partial("Gist","c488c9f20789fa7dea55")</div>
+			</li>
+			<li><h4>SinceVersionAttribute <small>- <code>( Class | Method )</code></small></h4>
+				<div>Indicates that the specified class or method has been available since the specified version.</div>
+			</li>
+			<li><h4>ReturnTypeAttribute <small>- <code>( Method )</code></small></h4>
+				<div>Mainly for methods that return <code>ActionResult</code>. This allows you to specify the actual type that is returned.</div>
+				<div class="alert mts"><strong>Note: </strong>If the return type is not <code>ActionResult</code>, that return type will be used. If you add this, it will override that type.</div>
+				<div class="alert"><strong>Note: </strong>If the attribute is not added to an <code>ActionResult</code>, the return type of that method will be described as an <code>Object</code>.</div>
+				<div class="gist">@Html.Partial("Gist","a50b9ff1cd13dd00e77c")</div>
+			</li>
+			<li><h4>ContentTypeAttribute <small>- <code>( Method )</code></small></h4>
+				<div>Allows you to described the content type that is returned. You can add multiple attributes to a method.</div>
+				<div class="gist">@Html.Partial("Gist","45c9ddd7b19772100b6b")</div>
+			</li>
+			<li id="authorizeattribute"><h4>AuthorizeAttribute <small>- <code>( Class | Method )</code></small></h4>
+				<div>Indicates that a class or method requires the request to be authenticated before accessing the endpoint.</div>
+			</li>
+			<li><h4>ObsoleteAttribute <small>- <code>( Class | Method )</code></small></h4>
+				<div>Marks a class or method as obsolete and includes the specified reason.</div>
+				<div class="gist">@Html.Partial("Gist","92d4537412ec6b7c5b26")</div>
+			</li>
+			<li><h4>DescriptionAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
+				<div>Describes the class, method, property, or parameter.</div>
+			</li>
+			<li><h4>RequiredAttribute <small>- <code>( Parameter )</code></small></h4>
+				<div>Indicates that the parameter must have a value passed to the request.</div>
+				<div class="alert mts">If the parameter is a non-nullable type, that does not have a default value set, this it will automatically be marked as required.</div>
+			</li>
+			<li><h4>OptionalAttribute <small>- <code>( Parameter )</code></small></h4>
+				<div>Can be used instead of the required attribute.</div>
+				<div class="alert mts">If the parameter is a non-nullable type, that does not have a default value set, this it will automatically be marked as required.</div>
+			</li>
+			<li><h4>AcceptsVerbsAttribute <small>- <code>( Method )</code></small></h4>
+				<div>This is used on the action methods to tell MVC what HTTP methods are accepted.</div>
+				<div class="alert mts">You can use the HTTP Method specific attributes as well, like <code>HttpGetAttribute</code>, <code>HttpPostAttribute</code>, etc.</div>
+			</li>
+			<li><h4>RequireHttpsAttribute <small>- <code>( Class | Method )</code></small></h4>
+				<div>Indicates if the request requires SSL.</div>
+			</li>
+		</ul>
+	</div>
+</section>

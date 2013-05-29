@@ -11,34 +11,18 @@
     </head>
     <body>
         <header>
-            <div class="content-wrapper">
-                <div class="pull-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="pull-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul class="nav nav-pills inline">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+          @Html.Partial("_Navbar")
         </header>
-        <div id="body">
+        <div class="container">
             @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
+            <section class="mtl clear-fix">
                 @RenderBody()
             </section>
         </div>
-        <footer>
-            <div class="content-wrapper">
+        <footer class="navbar-fixed-bottom">
+            <div class="container">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                    <p>Copyright &copy; Ryan Conrad @DateTime.Now.Year. All Rights Reserved.</p>
                 </div>
             </div>
         </footer>
