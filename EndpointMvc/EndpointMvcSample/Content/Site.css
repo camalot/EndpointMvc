@@ -98,6 +98,18 @@ body {
 	border-bottom-color: #fff;
 }
 
+.navbar .brand {
+	float: right;
+	color: #000;
+	font-weight:bold;
+
+	-webkit-text-shadow: 0 1px 0 rgba(255,255,255,.2), 0 0 30px rgba(255,255,255,.225);
+	text-shadow: 0 1px 0 rgba(255,255,255,.2), 0 0 30px rgba(255,255,255,.225);
+}
+
+	.navbar .brand:hover {
+	}
+
 .navbar a {
 	-webkit-transition: color ease-in-out 500ms;
 	-moz-transition: color ease-in-out 500ms;
