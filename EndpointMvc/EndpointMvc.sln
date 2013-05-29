@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5EC1CBB1
 	ProjectSection(SolutionItems) = preProject
 		Build\EndpointMvc.nuspec = Build\EndpointMvc.nuspec
 		Build\NugetPublish.msbuild = Build\NugetPublish.msbuild
+		Build\WebPublish.msbuild = Build\WebPublish.msbuild
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Tests", "EndpointMvc.Tests\EndpointMvc.Tests.csproj", "{CE1A0A40-BEA8-4867-9EE6-5C648F5514C4}"

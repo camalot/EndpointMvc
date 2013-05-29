@@ -25,10 +25,11 @@ namespace EndpointMvcSample {
 
 			bundles.Add ( new StyleBundle ( "~/bootstrap/css" )
 				.Include ( "~/content/bootstrap.css" )
-				.Include ( "~/content/bootstrap-responsive.css" ) );
+				.Include ( "~/content/bootstrap-responsive.css" ));
 
 			bundles.Add ( new StyleBundle ( "~/Content/css" )
-				.Include ( "~/Content/site.css" ) );
+				.Include ( "~/Content/site.css" )
+				.Include ( "~/content/gist.css") );
 
 
 		}

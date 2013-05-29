@@ -205,6 +205,7 @@
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
+    <Content Include="Content\gist.css" />
     <Content Include="Content\site.min.css">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
@@ -287,6 +288,7 @@
     <Content Include="Views\Endpoints\Define.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\Shared\Gist.cshtml" />
+    <Content Include="Views\Shared\Analytics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
