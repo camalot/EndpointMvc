@@ -188,11 +188,13 @@
     <Compile Include="Areas\Api\Models\UserModel.cs" />
     <Compile Include="Areas\V2\Controllers\UserController.cs" />
     <Compile Include="Areas\V2\V2AreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AdSenseModel.cs" />
+    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +206,6 @@
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
-    <Content Include="Content\gist.css" />
     <Content Include="Content\site.min.css">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
@@ -249,7 +250,9 @@
       <DependentUpon>knockout-2.2.0.debug.js</DependentUpon>
     </Content>
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -272,8 +275,20 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Endpoints\Html.cshtml" />
@@ -285,19 +300,12 @@
     <Content Include="Views\Endpoints\_EndpointNavigation.cshtml" />
     <Content Include="Views\Endpoints\_CustomProperties.cshtml" />
     <Content Include="Views\Endpoints\Define.cshtml" />
-    <Content Include="Views\Shared\_Navbar.cshtml" />
-    <Content Include="Views\Shared\Gist.cshtml" />
-    <Content Include="Views\Shared\Analytics.cshtml" />
-    <Content Include="Views\Shared\AdSense.cshtml" />
-    <Content Include="Views\Shared\Paypal.cshtml" />
-    <Content Include="Views\Endpoints\DisplayTemplates\Gist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Shared\" />
     <Folder Include="Areas\V2\Models\" />
     <Folder Include="Areas\V2\Views\Shared\" />
-    <Folder Include="Filters\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>

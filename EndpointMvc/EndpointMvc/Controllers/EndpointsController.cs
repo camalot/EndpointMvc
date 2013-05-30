@@ -78,7 +78,8 @@ namespace EndpointMvc.Controllers {
 			// each assembly, look for custom attribute
 			foreach ( var asm in AppDomain.CurrentDomain.GetAssemblies ( ).Where ( a => !a.IsDynamic ) ) {
 				// get each type
-				foreach ( var type in asm.GetTypes ( ).Where ( t => t.Is<Controller> ( ) && t.GetCustomAttribute<EndpointAttribute> ( ) != null ) ) {
+				// no longer require to be a controller
+				foreach ( var type in asm.GetTypes ( ).Where (t => t.HasAttribute<EndpointAttribute> ( ) ) ) {
 					var areaName = FindAreaFromNamespace ( type.Namespace );
 					var currentArea = new EndpointArea {
 						Name = areaName,
@@ -97,8 +98,8 @@ namespace EndpointMvc.Controllers {
 					var deprecated = type.GetCustomAttribute<DeprecatedAttribute> ( );
 					var obsolete = type.GetCustomAttribute<ObsoleteAttribute> ( );
 					var sinceVer = type.GetCustomAttribute<SinceVersionAttribute> ( );
-					var auth = type.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || type.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
-					var reqHttps = type.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
+					var auth = type.HasAttribute<RequiresAuthenticationAttribute> ( ) || type.HasAttribute<AuthorizeAttribute> ( );
+					var reqHttps = type.HasAttribute<RequireHttpsAttribute> ( );
 					var customProperties = type.GetCustomAttributes<CustomPropertyAttribute> ( );
 					var gists = type.GetCustomAttributes<GistAttribute> ( );
 
@@ -131,8 +132,8 @@ namespace EndpointMvc.Controllers {
 								!m.IsSpecialName &&
 								!m.ReturnType.Is<Type> ( ) &&
 								!m.IsVirtual &&
-								m.GetCustomAttribute<NonActionAttribute>() == null &&
-								m.GetCustomAttribute<IgnoreAttribute> ( ) == null
+								!m.HasAttribute<NonActionAttribute> ( ) &&
+								!m.HasAttribute<IgnoreAttribute> ( )
 							).ForEach ( meth => {
 								// get the name of the method
 								var name = meth.Name;
@@ -140,8 +141,8 @@ namespace EndpointMvc.Controllers {
 								var methDeprecated = meth.GetCustomAttribute<DeprecatedAttribute> ( );
 								var methIbsolete = meth.GetCustomAttribute<ObsoleteAttribute> ( );
 								var methSinceVer = meth.GetCustomAttribute<SinceVersionAttribute> ( );
-								var methAuth = meth.GetCustomAttribute<RequiresAuthenticationAttribute> ( ) != null || meth.GetCustomAttribute<AuthorizeAttribute> ( ) != null;
-								var methReqHttps = meth.GetCustomAttribute<RequireHttpsAttribute> ( ) != null;
+								var methAuth = meth.HasAttribute<RequiresAuthenticationAttribute> ( ) || meth.HasAttribute<AuthorizeAttribute> ( );
+								var methReqHttps = meth.HasAttribute<RequireHttpsAttribute> ( );
 								var methCustProps = meth.GetCustomAttributes<CustomPropertyAttribute> ( );
 								var methContentTypes = meth.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType ).ToList ( );
 								var methReturnType = meth.GetCustomAttribute<ReturnTypeAttribute> ( );
@@ -246,7 +247,8 @@ namespace EndpointMvc.Controllers {
 		/// <param name="namespace">The namespace.</param>
 		/// <returns></returns>
 		private String FindAreaFromNamespace ( string @namespace ) {
-			var m = @namespace.Match ( "\\.(?:Controllers|Areas)\\.([^\\.]+)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace );
+			// hubs added for SignalR
+			var m = @namespace.Match ( "\\.(?:Controllers|Areas|Hubs)\\.([^\\.]+)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace );
 			return m.Success ? m.Groups[1].Value : String.Empty;
 		}
 
@@ -366,27 +368,27 @@ namespace EndpointMvc.Controllers {
 		private List<String> GetMethodVerbs ( MethodInfo mi ) {
 			var list = new List<String> ( );
 			var verbs = mi.GetCustomAttribute<AcceptVerbsAttribute> ( );
-			if ( verbs != null ) {
+			if ( verbs != null && verbs.Verbs.Count > 0 ) {
 				list.AddRange ( verbs.Verbs );
 				return list;
 			}
 
-			var post = mi.GetCustomAttribute<HttpPostAttribute> ( );
-			var get = mi.GetCustomAttribute<HttpGetAttribute> ( );
-			var options = mi.GetCustomAttribute<HttpOptionsAttribute> ( );
-			var head = mi.GetCustomAttribute<HttpHeadAttribute> ( );
-			var put = mi.GetCustomAttribute<HttpPutAttribute> ( );
-			var delete = mi.GetCustomAttribute<HttpDeleteAttribute> ( );
+			var post = mi.HasAttribute<HttpPostAttribute> ( );
+			var get = mi.HasAttribute<HttpGetAttribute> ( );
+			var options = mi.HasAttribute<HttpOptionsAttribute> ( );
+			var head = mi.HasAttribute<HttpHeadAttribute> ( );
+			var put = mi.HasAttribute<HttpPutAttribute> ( );
+			var delete = mi.HasAttribute<HttpDeleteAttribute> ( );
 
-			if ( post != null ) {
+			if ( post ) {
 				list.Add ( WebRequestMethods.Http.Post );
-			} else if ( put != null ) {
+			} else if ( put ) {
 				list.Add ( WebRequestMethods.Http.Put );
-			} else if ( delete != null ) {
+			} else if ( delete ) {
 				list.Add ( "DELETE" );
-			} else if ( options != null ) {
+			} else if ( options ) {
 				list.Add ( "OPTIONS" );
-			} else if ( head != null ) {
+			} else if ( head ) {
 				list.Add ( WebRequestMethods.Http.Head );
 			} else {
 				list.Add ( WebRequestMethods.Http.Get );

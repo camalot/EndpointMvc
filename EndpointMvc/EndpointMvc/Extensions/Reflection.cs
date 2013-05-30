@@ -24,6 +24,88 @@ namespace EndpointMvc.Extensions {
 		}
 
 		/// <summary>
+		/// Determines whether the specified type has the specified attribute.
+		/// </summary>
+		/// <typeparam name="T">The atrribute</typeparam>
+		/// <param name="type">The type.</param>
+		/// <returns>
+		///   <c>true</c> if the specified type has attribute; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool HasAttribute<T> ( this Type type ) where T : Attribute {
+			return type.GetCustomAttribute<T> ( ) != null;
+		}
+
+		/// <summary>
+		/// Determines whether the specified member has the specified attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="member">The member.</param>
+		/// <returns>
+		///   <c>true</c> if the specified member has attribute; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool HasAttribute<T> ( this MemberInfo member ) where T : Attribute {
+			return member.GetCustomAttribute<T> ( ) != null;
+		}
+
+		/// <summary>
+		/// Determines whether the specified member has the specified attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="field">The field.</param>
+		/// <returns>
+		///   <c>true</c> if the specified field has attribute; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool HasAttribute<T> ( this FieldInfo field ) where T : Attribute {
+			return field.GetCustomAttribute<T> ( ) != null;
+		}
+
+		/// <summary>
+		/// Determines whether the specified property has the specified attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="property">The property.</param>
+		/// <returns>
+		///   <c>true</c> if the specified property has attribute; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool HasAttribute<T> ( this PropertyInfo property ) where T : Attribute {
+			return property.GetCustomAttribute<T> ( ) != null;
+		}
+
+		/// <summary>
+		/// Determines whether the specified parameter has the specified attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="param">The parameter.</param>
+		/// <returns>
+		///   <c>true</c> if the specified parameter has attribute; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool HasAttribute<T> ( this ParameterInfo param ) where T : Attribute {
+			return param.GetCustomAttribute<T> ( ) != null;
+		}
+
+		/// <summary>
+		/// Determines whether the specified module has the specified attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="module">The module.</param>
+		/// <returns>
+		///   <c>true</c> if the specified module has attribute; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool HasAttribute<T> ( this Module module ) where T : Attribute {
+			return module.GetCustomAttribute<T> ( ) != null;
+		}
+
+		/// <summary>
+		/// Gets types that have the specified attribute
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="assemblies">The assemblies.</param>
+		/// <returns></returns>
+		public static IEnumerable<Type> WithAttribute<T> ( this IEnumerable<Assembly> assemblies ) where T : Attribute {
+			return assemblies.SelectMany ( a => a.GetTypes ( ).Where ( t => t.GetCustomAttribute<T> ( ) != null ) );
+		}
+
+		/// <summary>
 		/// Gets member info that have the specified attribute
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
