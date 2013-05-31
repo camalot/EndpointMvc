@@ -1,38 +1,35 @@
 ﻿@model EndpointMvc.Models.EndpointData
 
-<div class="">
-	<ul class="nav nav-list endpoint-nav-bar">
+<nav class="mhn mbl mtn">
+	<ul class="nav nav-list endpoint-nav">
 		@foreach ( var item in Model.Areas ) {
-			<li>
-				<i class="icon-chevron-right"></i>
-				<a href="#@(item.QualifiedName.Replace(".","_"))">@item.Name</a>
-				<ul class="nav nav-list endpoint-nav-bar endpoint-nav-sub-bar l2">
+			<li class="nav-header"><i class="icon-chevron-right move-right"></i>
+				<a href="#@(item.QualifiedName.Replace(".","_"))">@(String.IsNullOrWhiteSpace(item.Name) ? "[Default]" : item.Name)</a>
+				<ul class="nav nav-list nested">
 					@foreach ( var secitem in item.ServicesList ) {
-						<li>
-							<i class="icon-chevron-right"></i>
+						<li><i class="icon-chevron-right move-right"></i>
 							<a href="#@(secitem.QualifiedName.Replace(".","_"))">@secitem.Name</a>
-								<ul class="nav nav-list endpoint-nav-bar endpoint-nav-sub-bar l3">
-									@foreach ( var epitem in secitem.EndpointList ) {
-										<li>
-											<i class="icon-chevron-right"></i>
-											<a href="#@(epitem.QualifiedName.Replace(".","_"))">@epitem.Name</a>
-										</li>
+							<ul class="nav nav-list nested">
+								@foreach ( var epitem in secitem.EndpointList ) {
+										<li><i class="icon-chevron-right move-right"></i>
+											<a href="#@(epitem.QualifiedName.Replace(".","_"))">@epitem.Name</a></li>
 									}
-								</ul>
+							</ul>
 						</li>
 					}
 				</ul>
-			</li> 
+			</li>
+			<li class="divider"></li>
 		}
 	</ul>
+</nav>
 
-	<div class="row mvl">
-		<script type="text/javascript">
-			google_ad_client = "ca-pub-9157593394596390";
-			google_ad_slot = "3339975035";
-			google_ad_width = 300;
-			google_ad_height = 600;
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	</div>
+<div class="row mvl">
+	<script type="text/javascript">
+		google_ad_client = "ca-pub-9157593394596390";
+		google_ad_slot = "3339975035";
+		google_ad_width = 300;
+		google_ad_height = 600;
+	</script>
+	<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 </div>

@@ -18,5 +18,12 @@
 		<dependencies>
 			<dependency id="Newtonsoft.Json" version="5.0.5" />
 		</dependencies>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Web.Mvc" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Web.Routing" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net40" />
+		</frameworkAssemblies>
   </metadata>
 </package>

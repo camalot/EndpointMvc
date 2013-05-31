@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -83,6 +84,7 @@
     <Compile Include="Models\ParamInfo.cs" />
     <Compile Include="Models\PropertyKeyValuePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Reflector.cs" />
     <Compile Include="Results\EndpointJsonResult.cs" />
     <Compile Include="Results\EndpointResult.cs" />
     <Compile Include="Results\EndpointXmlResult.cs" />

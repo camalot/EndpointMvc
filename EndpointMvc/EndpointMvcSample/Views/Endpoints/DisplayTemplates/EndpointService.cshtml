@@ -4,8 +4,10 @@
 	var deprecated = Model.Properties.FirstOrDefault ( m => m.Key.Equals ( "Deprecated" ) );
 }
 
-<div class="media mll ptl">
-	<h2 class="media-heading">@Model.Name</h2>
+<div class="mll pan">
+	<div class="page-header">
+		<h2 class="">@Model.Name</h2>
+	</div>
 	<div class="media-body" id="@Model.QualifiedName.Replace(".","_")">
 		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
 			<div class="alert alert-error">@obsolete.Description</div>
@@ -25,7 +27,7 @@
 			@Html.Partial("_CustomProperties",Model.Properties)
 		</table>
 		}
-		<div class="media">
+		<div>
 			<div class="media-body">
 				@foreach ( var item in Model.EndpointList ) {
 					@Html.DisplayFor(m => item)

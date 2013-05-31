@@ -14,6 +14,7 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 	[CustomProperty ( "Daily Limit", Value = 1000, Description = "Maximum number of requests in a 24 hour period." )]
 	[CustomProperty ( "Hourly Limit", Value = 100, Description = "Maximum number of requests in a 60 minute period." )]
 	[CustomProperty ( "Awesome", Value = true )]
+	[Gist ( "d4d2110ca4769876fb69", Title = "Gist Title", Description = "My Example Gist" )]
 	public class UserController : Controller {
 
 		[Description ( "Gets registered users" )]
@@ -40,7 +41,7 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 
 		[RequiresAuthentication]
 		[Description ( "Deleted a user from the system." )]
-		[AcceptVerbs ( HttpVerbs.Post | HttpVerbs.Delete )]
+		[AcceptVerbs ( HttpVerbs.Get )]
 		[ReturnType ( typeof ( UserModel ) )]
 		public ActionResult Delete (
 				[Required]
@@ -52,7 +53,6 @@ namespace EndpointMvcSample.Areas.Api.Controllers {
 			return new EmptyResult ( );
 		}
 
-		[Ignore]
 		[RequiresAuthentication]
 		[Description ( "Deleted a user from the system." )]
 		[AcceptVerbs ( HttpVerbs.Post | HttpVerbs.Delete )]

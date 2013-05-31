@@ -1,0 +1,371 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.ServiceModel;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using EndpointMvc.Attributes;
+using EndpointMvc.Extensions;
+using EndpointMvc.Models;
+
+namespace EndpointMvc.Reflection {
+	internal sealed class Reflector {
+		public IEnumerable<Type> GetTypes ( IEnumerable<Assembly> assemblies ) {
+			return GetTypes ( assemblies, f => {
+				return ( f.IsPublic && ( f.HasAttribute<EndpointAttribute> ( ) || f.HasAttribute<ServiceContractAttribute> ( ) ) && !f.Namespace.StartsWith ( "System." ) );
+			} );
+		}
+
+		public IEnumerable<Type> GetTypes ( IEnumerable<Assembly> assemblies, Func<Type, bool> predicate ) {
+			return assemblies.SelectMany ( a => a.GetTypes ( ).Where ( predicate ) );
+		}
+
+		public IEnumerable<Type> GetTypes ( AppDomain domain, Func<Type, bool> predicate ) {
+			return GetTypes ( domain.GetAssemblies ( ).Where ( a => !a.IsDynamic ), predicate );
+		}
+
+		public IEnumerable<Type> GetTypes ( AppDomain domain ) {
+			return GetTypes ( domain.GetAssemblies ( ).Where ( a => !a.IsDynamic ) );
+		}
+
+		public IEnumerable<MethodInfo> GetMethods ( Type type ) {
+			var isServiceContract = type.HasAttribute<ServiceContractAttribute> ( );
+			return type.GetMethods ( ).Where ( m =>
+				m.IsPublic &&
+				!m.IsSpecialName &&
+					// this ignores GetType method
+				!m.ReturnType.Is<Type> ( ) &&
+				( ( !m.IsVirtual && type.IsClass && !type.IsAbstract ) || ( m.IsVirtual && type.IsInterface ) ||
+					( isServiceContract && m.HasAttribute<OperationContractAttribute>() ) ) &&
+				!m.HasAttribute<System.Web.Mvc.NonActionAttribute> ( ) &&
+				!m.HasAttribute<System.Web.Http.NonActionAttribute> ( ) &&
+				!m.HasAttribute<IgnoreAttribute> ( ) );
+		}
+
+		public IEnumerable<MethodInfo> GetMethods<T> ( ) {
+			return GetMethods ( typeof ( T ) );
+		}
+
+		/// <summary>
+		/// Gets the custom attribute from the specified method, or from the declaring type if the method does not have it.
+		/// </summary>
+		/// <typeparam name="T">The attribute type</typeparam>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
+		public T GetCustomAttribute<T> ( MethodInfo method ) where T : Attribute {
+			var parentType = method.DeclaringType;
+			var mattr = method.GetCustomAttribute<T> ( );
+			var tattr = parentType.GetCustomAttribute<T> ( );
+			return mattr ?? tattr;
+		}
+
+		/// <summary>
+		/// Gets the custom attribute from the specified method, or from the declaring type if the method does not have it.
+		/// </summary>
+		/// <typeparam name="T">The attribute type</typeparam>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
+		public IEnumerable<T> GetCustomAttributes<T> ( MethodInfo method ) where T : Attribute {
+			var parentType = method.DeclaringType;
+			var mattr = method.GetCustomAttributes<T> ( );
+			var tattr = parentType.GetCustomAttributes<T> ( );
+			return mattr ?? tattr;
+		}
+
+		public String GetName ( Type type ) {
+			var endpoint = type.GetCustomAttribute<EndpointAttribute> ( );
+			var serviceContract = type.GetCustomAttribute<ServiceContractAttribute> ( );
+			var endpointName = type.Name;
+			if ( endpoint != null ) {
+				endpointName = String.IsNullOrWhiteSpace ( endpoint.Name ) ? type.Name : endpoint.Name;
+				if ( endpointName.EndsWith ( "Controller" ) ) {
+					endpointName = endpointName.Substring ( 0, endpointName.Length - 10 );
+				}
+			} else if ( serviceContract != null ) {
+				endpointName = String.IsNullOrWhiteSpace ( serviceContract.Name ) ? type.Name : serviceContract.Name;
+				if ( endpointName.EndsWith ( "Service" ) ) {
+					endpointName = endpointName.Substring ( 0, endpointName.Length - 7 );
+				}
+			} else {
+				if ( endpointName.EndsWith ( "Hub" ) ) {
+					endpointName = endpointName.Substring ( 0, endpointName.Length - 7 );
+				}
+			}
+			return endpointName;
+		}
+
+		/// <summary>
+		/// Gets the name of the method by looking for ActionName attribute or OperationContract Attribute.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
+		public String GetName ( MethodInfo method ) {
+			var httpAction = method.GetCustomAttribute<System.Web.Http.ActionNameAttribute> ( );
+			var mvcAction = method.GetCustomAttribute<System.Web.Mvc.ActionNameAttribute> ( );
+			var operation = method.GetCustomAttribute<OperationContractAttribute> ( );
+
+			var httpActionName = httpAction == null ? null : httpAction.Name;
+			var mvcActionName = mvcAction == null ? null : mvcAction.Name;
+			var operationName = operation == null ? null : operation.Name;
+			return !String.IsNullOrWhiteSpace ( httpActionName ) ? httpActionName :
+				!String.IsNullOrWhiteSpace ( mvcActionName ) ? mvcActionName :
+				!String.IsNullOrWhiteSpace ( operationName ) ? operationName :
+				method.Name;
+		}
+
+		public IEnumerable<PropertyKeyValuePair<String, Object>> GetCustomProperties ( Type type ) {
+			return type.GetCustomAttributes<CustomPropertyAttribute> ( ).Select ( c => new PropertyKeyValuePair<String, Object> {
+				Key = c.Name,
+				Value = c.Value,
+				Description = c.Description
+			} );
+		}
+
+		public IEnumerable<PropertyKeyValuePair<String, Object>> GetCustomProperties ( MethodInfo method ) {
+			var typeCP = GetCustomProperties ( method.DeclaringType );
+			var actionCP = this.GetActionProperties ( method );
+			var methCP = method.GetCustomAttributes<CustomPropertyAttribute> ( ).Select ( c => new PropertyKeyValuePair<String, Object> {
+				Key = c.Name,
+				Value = c.Value,
+				Description = c.Description
+			} );
+			var comparer = new PropertyKeyValuePairEqualityComparer<String, Object> ( );
+			return actionCP.Union ( methCP.Union ( typeCP, comparer ), comparer ).ToList ( );
+		}
+
+		public IEnumerable<PropertyKeyValuePair<String, Object>> GetCustomProperties ( ParameterInfo pi ) {
+			return pi.GetCustomAttributes<CustomPropertyAttribute> ( ).Select ( c => new PropertyKeyValuePair<String, Object> {
+				Key = c.Name,
+				Value = c.Value,
+				Description = c.Description
+			} );
+		}
+
+		public IEnumerable<Gist> GetGists ( Type type ) {
+			return type.GetCustomAttributes<GistAttribute> ( ).Select ( g => new Gist {
+				Id = g.GistId,
+				Title = g.Title,
+				Description = g.Description
+			} );
+		}
+
+		public IEnumerable<Gist> GetGists ( MethodInfo method ) {
+			return method.GetCustomAttributes<GistAttribute> ( ).Select ( g => new Gist {
+				Id = g.GistId,
+				Title = g.Title,
+				Description = g.Description
+			} );
+		}
+
+		public String GetDescription ( MemberInfo memberInfo ) {
+			var desc = memberInfo.GetCustomAttribute<DescriptionAttribute> ( );
+			return desc != null ? desc.Description : String.Empty;
+		}
+
+		public Type GetReturnType ( MethodInfo method ) {
+			var returnTypeAttr = method.GetCustomAttribute<ReturnTypeAttribute> ( );
+			var defaultReturnType = method.ReturnType;
+			return defaultReturnType.Is<ActionResult> ( ) ?
+				returnTypeAttr == null ? typeof ( object ) : returnTypeAttr.ReturnType :
+				returnTypeAttr == null ? defaultReturnType : returnTypeAttr.ReturnType;
+		}
+
+		public IEnumerable<String> GetHttpVerbs ( MethodInfo method ) {
+			var list = new List<String> ( );
+			var verbs = method.GetCustomAttribute<AcceptVerbsAttribute> ( );
+			if ( verbs != null && verbs.Verbs.Count > 0 ) {
+				list.AddRange ( verbs.Verbs );
+				return list;
+			}
+
+			var post = method.HasAttribute<HttpPostAttribute> ( );
+			var get = method.HasAttribute<HttpGetAttribute> ( );
+			var options = method.HasAttribute<HttpOptionsAttribute> ( );
+			var head = method.HasAttribute<HttpHeadAttribute> ( );
+			var put = method.HasAttribute<HttpPutAttribute> ( );
+			var delete = method.HasAttribute<HttpDeleteAttribute> ( );
+
+			if ( post ) {
+				list.Add ( WebRequestMethods.Http.Post );
+			} else if ( put ) {
+				list.Add ( WebRequestMethods.Http.Put );
+			} else if ( delete ) {
+				list.Add ( "DELETE" );
+			} else if ( options ) {
+				list.Add ( "OPTIONS" );
+			} else if ( head ) {
+				list.Add ( WebRequestMethods.Http.Head );
+			} else {
+				list.Add ( WebRequestMethods.Http.Get );
+			}
+
+			return list;
+		}
+
+		public IEnumerable<String> GetContentTypes ( MethodInfo method ) {
+			return method.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType );
+		}
+
+		public String GetSinceVersion ( Type type ) {
+			var sva = type.GetCustomAttribute<SinceVersionAttribute> ( );
+			return sva == null ? null : sva.Version.ToString ( );
+		}
+
+		public String GetSinceVersion ( MethodInfo method ) {
+			var sva = method.GetCustomAttribute<SinceVersionAttribute> ( );
+			var tsva = method.DeclaringType.GetCustomAttribute<SinceVersionAttribute> ( );
+
+			return sva != null ? sva.Version.ToString ( ) :
+				tsva != null ? tsva.Version.ToString ( ) :
+				null;
+		}
+
+		public bool RequireHttps ( MethodInfo method ) {
+			return method.HasAttribute<RequireHttpsAttribute> ( ) || method.DeclaringType.HasAttribute<RequireHttpsAttribute> ( );
+		}
+
+		public List<ParamInfo> GetParams ( MethodInfo mi ) {
+			var paramList = new List<ParamInfo> ( );
+
+			mi.GetParameters ( ).Where ( p => !p.IsOut ).ForEach ( pi => {
+				paramList.AddRange ( GetParamInfo ( String.Empty, pi ) );
+			} );
+
+			return paramList;
+		}
+
+		public bool RequireAuthorization ( MethodInfo method ) {
+			var ra = this.GetCustomAttribute<RequiresAuthenticationAttribute> ( method );
+			var aa = this.GetCustomAttribute<AuthorizeAttribute> ( method );
+			return ra != null || aa != null;
+		}
+
+
+		/// <summary>
+		/// Finds the area from namespace.
+		/// </summary>
+		/// <param name="namespace">The namespace.</param>
+		/// <returns></returns>
+		public String FindAreaFromNamespace ( string @namespace ) {
+			// hubs added for SignalR
+			var m = @namespace.Match ( "\\.(?:Controllers|Areas|Hubs|Services)\\.([^\\.]+)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace );
+			return m.Success ? m.Groups[1].Value : String.Empty;
+		}
+
+		private IEnumerable<PropertyKeyValuePair<String, Object>> GetActionProperties ( MethodInfo method ) {
+			var dep = this.GetCustomAttribute<DeprecatedAttribute> ( method );
+			var obsolete = this.GetCustomAttribute<ObsoleteAttribute> ( method );
+			var reqHttps = this.RequireHttps ( method );
+			var reqAuth = this.RequireAuthorization ( method );
+			return new List<PropertyKeyValuePair<String, Object>> {
+				new PropertyKeyValuePair<String,object> {
+					Key = "Deprecated",
+					// get the value from either the method, or the type.
+					Value = dep != null,
+					// get the message from either the method, or the type
+					Description = dep != null ? dep.Message : String.Empty
+				},
+				new PropertyKeyValuePair<String,object> {
+					Key = "Obsolete",
+					// get the value from either the method, or the type.
+					Value = obsolete != null,
+					// get the message from either the method, or the type
+					Description = obsolete != null ? obsolete.Message : String.Empty
+				}, new PropertyKeyValuePair<String,object> {
+					Key = "Require SSL",
+					// get the value from either the method, or the type.
+					Value = reqHttps,
+					// get the message from either the method, or the type
+					Description =reqHttps ? "Forces an unsecured HTTP request to be re-sent over HTTPS." : String.Empty
+				},
+				new PropertyKeyValuePair<String,object> {
+					Key = "Require Authorization",
+					// get the value from either the method, or the type.
+					Value = reqAuth,
+					// get the message from either the method, or the type
+					Description = reqAuth ? "Request must be authenticated before access to content is permitted." : String.Empty
+				}
+			};
+		}
+
+		/// <summary>
+		/// Gets the parameter info.
+		/// </summary>
+		/// <param name="baseName">Name of the base.</param>
+		/// <param name="pi">The property info.</param>
+		/// <returns></returns>
+		private List<ParamInfo> GetParamInfo ( String baseName, ParameterInfo pi ) {
+			var list = new List<ParamInfo> ( );
+			var da = pi.GetCustomAttribute<DescriptionAttribute> ( );
+			var req = pi.GetCustomAttribute<RequiredAttribute> ( );
+			var opt = pi.GetCustomAttribute<OptionalAttribute> ( );
+			var customProps = pi.GetCustomAttributes<CustomPropertyAttribute> ( );
+
+			// if the parameter is not a "system" type then we try to break it down.
+			if ( pi.ParameterType.Namespace.StartsWith ( "System" ) ) {
+				var typeName = pi.ParameterType.IsNullable ( ) ? Nullable.GetUnderlyingType ( pi.ParameterType ).Name :
+					pi.ParameterType.Is<IEnumerable> ( ) && pi.ParameterType.IsGenericType ? "{0}[]".With ( pi.ParameterType.GenericTypeArguments[0].Name ) :
+					pi.ParameterType.Name;
+
+				list.Add ( new ParamInfo {
+					Name = pi.Name.ToCamelCase ( ),
+					Type = typeName,
+					QualifiedType = pi.ParameterType.QualifiedName ( ),
+					Description = da == null ? String.Empty : da.Description,
+					Optional = ( pi.IsOptional && req == null ) || opt != null,
+					Default = pi.DefaultValue,
+					Properties = this.GetCustomProperties ( pi ).ToList ( )
+				} );
+			} else {
+				// this gets the properties of the parameter that are not ignored
+				pi.ParameterType.GetProperties ( BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public ).Where ( p => p.GetCustomAttribute<IgnoreAttribute> ( ) == null ).ForEach ( p => {
+					list.AddRange ( GetPropertyInfo ( "{0}{2}{1}".With ( baseName, pi.Name.ToCamelCase ( ), String.IsNullOrWhiteSpace ( baseName ) ? "" : "." ), p ) );
+				} );
+			}
+			return list;
+		}
+
+
+		/// <summary>
+		/// Gets the property info.
+		/// </summary>
+		/// <param name="baseName">Name of the base.</param>
+		/// <param name="pi">The property info.</param>
+		/// <returns></returns>
+		public List<ParamInfo> GetPropertyInfo ( String baseName, PropertyInfo pi ) {
+			var list = new List<ParamInfo> ( );
+			var da = pi.GetCustomAttribute<DescriptionAttribute> ( );
+			var req = pi.GetCustomAttribute<RequiredAttribute> ( );
+			var opt = pi.GetCustomAttribute<OptionalAttribute> ( );
+
+			if ( pi.PropertyType.Namespace.StartsWith ( "System" ) ) {
+				var typeName = pi.PropertyType.IsNullable ( ) ? Nullable.GetUnderlyingType ( pi.PropertyType ).Name :
+					pi.PropertyType.Is<IEnumerable> ( ) && pi.PropertyType.IsGenericType ? "{0}[]".With ( pi.PropertyType.GenericTypeArguments[0].Name ) :
+					pi.PropertyType.Name;
+
+				list.Add ( new ParamInfo {
+					Name = "{0}{2}{1}".With ( baseName, pi.Name.ToCamelCase ( ), String.IsNullOrWhiteSpace ( baseName ) ? "" : "." ),
+					Type = typeName,
+					QualifiedType = pi.PropertyType.QualifiedName ( ),
+					Description = da == null ? String.Empty : da.Description,
+					Optional = req == null || opt != null,
+					Default = null
+				} );
+			} else {
+				pi.PropertyType.GetProperties ( BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public ).ForEach ( p => {
+					list.AddRange ( GetPropertyInfo ( "{0}.{1}".With ( baseName, pi.Name.ToCamelCase ( ) ), p ) );
+				} );
+			}
+			return list;
+		}
+
+	}
+}

@@ -9,12 +9,13 @@
 	var area = ViewContext.RouteData.Values["area"];
 }
 
-<div class="endpoint-info media mll" id="@Model.QualifiedName.Replace(".","_")">
+<div class="endpoint-info mll" id="@Model.QualifiedName.Replace(".","_")">
+	<div class="page-header">
 	<h3 class="media-heading">@Model.Name <small class="nowrap">
 		<code data-bootstrap-tooltip="" title="@Model.QualifiedReturnType">
 			@Model.ReturnType
 		</code></small>
-	</h3>
+	</h3></div>
 	<div class="media-body">
 		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
 			<div class="alert alert-error">@obsolete.Description</div>
