@@ -25,7 +25,7 @@
 </section>
 
 <section class="">
-	<div class="modal-header mbl">
+	<div class="page-header mbl">
 		<h1>Nuget</h1>
 	</div>
 	<p>To install EndpointMvc, run the following command in the <a href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console" class="track">Package Manager Console</a>.</p>
@@ -36,7 +36,7 @@
 
 <div id="how-it-works"></div>
 <section class="mtl">
-	<div class="modal-header mbl">
+	<div class="page-header mbl">
 		<h1>How it works</h1>
 		<p>EndpointMvc uses attributes that you already apply to your MVC controller actions. It also uses a couple custom attributes to add more meta data to be used for the documentation. 
 			It then uses Reflection to gather the information needed to build the documentation. So all you have to do is write your code, EndpointMvc will build the documentation.
@@ -46,7 +46,7 @@
 
 <div id="register-routes"></div>
 <section class="mtl">
-	<div class="modal-header mbl">
+	<div class="page-header mbl">
 		<h1 class="">Register Routes</h1>
 	</div>
 	<p>EndpointMvc needs to register its routes to handle the calls</p>
@@ -66,7 +66,7 @@
 
 <div id="output"></div>
 <section class="mtl">
-	<div class="modal-header mbl">
+	<div class="page-header mbl">
 		<h1>Output</h1>
 		<p>EndpointMvc has 3 output formats:</p>
 	</div>
@@ -93,7 +93,7 @@
 </section>
 
 <section class="mtl">
-	<div class="modal-header mbl">
+	<div class="page-header mbl">
 		<h1>Attributes</h1>
 		<p>Attribute information to add rich meta data to your controller actions.</p>
 	</div>
@@ -105,8 +105,8 @@
 			</li>
 			<li><h4>IgnoreAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
 				<div>Ignores a class, method, parameter, or property when building output.</div>
-				<div class="alert mts">
-					<strong>Note: </strong> Overloaded methods are not currently supported by EndpointMvc. You <strong>MUST</strong> flag other overloads with the <code>IgnoreAttribute</code>.
+				<div class="alert alert-info mts">
+					<strong>Note: </strong> Overloaded methods are supported, but they <strong>MUST</strong> have different HTTP verb signatures.
 				</div>
 				<div class="gist-container">@Html.Partial("Gist", "1cef103a7595330324d7")</div>
 			</li>

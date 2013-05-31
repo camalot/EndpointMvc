@@ -193,6 +193,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdSenseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ISampleService.cs" />
   </ItemGroup>
@@ -283,11 +284,8 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Endpoints\Html.cshtml" />
@@ -299,6 +297,14 @@
     <Content Include="Views\Endpoints\_EndpointNavigation.cshtml" />
     <Content Include="Views\Endpoints\_CustomProperties.cshtml" />
     <Content Include="Views\Endpoints\Define.cshtml" />
+    <Content Include="Views\Endpoints\DisplayTemplates\Gist.cshtml" />
+    <Content Include="Views\Shared\AdSense.cshtml" />
+    <Content Include="Views\Shared\Analytics.cshtml" />
+    <Content Include="Views\Shared\Gist.cshtml" />
+    <Content Include="Views\Shared\Paypal.cshtml" />
+    <Content Include="Views\Shared\_Navbar.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -306,7 +312,6 @@
     <Folder Include="Areas\V2\Models\" />
     <Folder Include="Areas\V2\Views\Shared\" />
     <Folder Include="Filters\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
