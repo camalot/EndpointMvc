@@ -126,7 +126,7 @@ namespace EndpointMvc.Controllers {
 					var name = reflector.GetName ( method );
 					var returnType = reflector.GetReturnType ( method );
 
-					var scheme = reflector.RequireHttps(method) ? "https" : Request.Url.Scheme;
+					var scheme = reflector.DoesRequireHttps(method) ? "https" : Request.Url.Scheme;
 					var actionUrl = GenerateActionUrl ( epService.Name.ToLower ( ), name.ToLower ( ), new { area = areaName.ToLower ( ) }, scheme );
 					var methods = reflector.GetHttpVerbs(method);
 					var qualifiedKey = "{0}.{1}.{2}_{3}".With ( areaName, epService.Name, name, String.Join ( "_", methods ) );

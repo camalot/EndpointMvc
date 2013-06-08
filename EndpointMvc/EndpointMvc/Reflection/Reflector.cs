@@ -17,25 +17,55 @@ using EndpointMvc.Extensions;
 using EndpointMvc.Models;
 
 namespace EndpointMvc.Reflection {
+	/// <summary>
+	/// Gets the information for building the documentation using reflection
+	/// </summary>
 	internal sealed class Reflector {
+		/// <summary>
+		/// Gets the types from the specified assemblies.
+		/// </summary>
+		/// <param name="assemblies">The assemblies.</param>
+		/// <returns></returns>
 		public IEnumerable<Type> GetTypes ( IEnumerable<Assembly> assemblies ) {
 			return GetTypes ( assemblies, f => {
 				return ( f.IsPublic && ( f.HasAttribute<EndpointAttribute> ( ) || f.HasAttribute<ServiceContractAttribute> ( ) ) && !f.Namespace.StartsWith ( "System." ) );
 			} );
 		}
 
+		/// <summary>
+		/// Gets the types from the specified assemblies.
+		/// </summary>
+		/// <param name="assemblies">The assemblies.</param>
+		/// <param name="predicate">The predicate.</param>
+		/// <returns></returns>
 		public IEnumerable<Type> GetTypes ( IEnumerable<Assembly> assemblies, Func<Type, bool> predicate ) {
 			return assemblies.SelectMany ( a => a.GetTypes ( ).Where ( predicate ) );
 		}
 
+		/// <summary>
+		/// Gets the types from the specified app domain.
+		/// </summary>
+		/// <param name="domain">The domain.</param>
+		/// <param name="predicate">The predicate.</param>
+		/// <returns></returns>
 		public IEnumerable<Type> GetTypes ( AppDomain domain, Func<Type, bool> predicate ) {
 			return GetTypes ( domain.GetAssemblies ( ).Where ( a => !a.IsDynamic ), predicate );
 		}
 
+		/// <summary>
+		/// Gets the types from the specified app domain.
+		/// </summary>
+		/// <param name="domain">The domain.</param>
+		/// <returns></returns>
 		public IEnumerable<Type> GetTypes ( AppDomain domain ) {
 			return GetTypes ( domain.GetAssemblies ( ).Where ( a => !a.IsDynamic ) );
 		}
 
+		/// <summary>
+		/// Gets the methods for the specified type.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
 		public IEnumerable<MethodInfo> GetMethods ( Type type ) {
 			var isServiceContract = type.HasAttribute<ServiceContractAttribute> ( );
 			return type.GetMethods ( ).Where ( m =>
@@ -50,6 +80,11 @@ namespace EndpointMvc.Reflection {
 				!m.HasAttribute<IgnoreAttribute> ( ) );
 		}
 
+		/// <summary>
+		/// Gets the methods for the specified type.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
 		public IEnumerable<MethodInfo> GetMethods<T> ( ) {
 			return GetMethods ( typeof ( T ) );
 		}
@@ -80,6 +115,11 @@ namespace EndpointMvc.Reflection {
 			return mattr ?? tattr;
 		}
 
+		/// <summary>
+		/// Gets the name of the type.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
 		public String GetName ( Type type ) {
 			var endpoint = type.GetCustomAttribute<EndpointAttribute> ( );
 			var serviceContract = type.GetCustomAttribute<ServiceContractAttribute> ( );
@@ -121,6 +161,11 @@ namespace EndpointMvc.Reflection {
 				method.Name;
 		}
 
+		/// <summary>
+		/// Gets the custom properties.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
 		public IEnumerable<PropertyKeyValuePair<String, Object>> GetCustomProperties ( Type type ) {
 			return type.GetCustomAttributes<CustomPropertyAttribute> ( ).Select ( c => new PropertyKeyValuePair<String, Object> {
 				Key = c.Name,
@@ -129,6 +174,11 @@ namespace EndpointMvc.Reflection {
 			} );
 		}
 
+		/// <summary>
+		/// Gets the custom properties.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
 		public IEnumerable<PropertyKeyValuePair<String, Object>> GetCustomProperties ( MethodInfo method ) {
 			var typeCP = GetCustomProperties ( method.DeclaringType );
 			var actionCP = this.GetActionProperties ( method );
@@ -141,6 +191,11 @@ namespace EndpointMvc.Reflection {
 			return actionCP.Union ( methCP.Union ( typeCP, comparer ), comparer ).ToList ( );
 		}
 
+		/// <summary>
+		/// Gets the custom properties.
+		/// </summary>
+		/// <param name="pi">The pi.</param>
+		/// <returns></returns>
 		public IEnumerable<PropertyKeyValuePair<String, Object>> GetCustomProperties ( ParameterInfo pi ) {
 			return pi.GetCustomAttributes<CustomPropertyAttribute> ( ).Select ( c => new PropertyKeyValuePair<String, Object> {
 				Key = c.Name,
@@ -149,6 +204,11 @@ namespace EndpointMvc.Reflection {
 			} );
 		}
 
+		/// <summary>
+		/// Gets the gists for the type.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
 		public IEnumerable<Gist> GetGists ( Type type ) {
 			return type.GetCustomAttributes<GistAttribute> ( ).Select ( g => new Gist {
 				Id = g.GistId,
@@ -157,6 +217,11 @@ namespace EndpointMvc.Reflection {
 			} );
 		}
 
+		/// <summary>
+		/// Gets the gists for the specified method.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
 		public IEnumerable<Gist> GetGists ( MethodInfo method ) {
 			return method.GetCustomAttributes<GistAttribute> ( ).Select ( g => new Gist {
 				Id = g.GistId,
@@ -165,11 +230,21 @@ namespace EndpointMvc.Reflection {
 			} );
 		}
 
+		/// <summary>
+		/// Gets the description for the member info.
+		/// </summary>
+		/// <param name="memberInfo">The member info.</param>
+		/// <returns></returns>
 		public String GetDescription ( MemberInfo memberInfo ) {
 			var desc = memberInfo.GetCustomAttribute<DescriptionAttribute> ( );
 			return desc != null ? desc.Description : String.Empty;
 		}
 
+		/// <summary>
+		/// Gets the type of the return.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
 		public Type GetReturnType ( MethodInfo method ) {
 			var returnTypeAttr = method.GetCustomAttribute<ReturnTypeAttribute> ( );
 			var defaultReturnType = method.ReturnType;
@@ -178,6 +253,11 @@ namespace EndpointMvc.Reflection {
 				returnTypeAttr == null ? defaultReturnType : returnTypeAttr.ReturnType;
 		}
 
+		/// <summary>
+		/// Gets the HTTP verbs.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
 		public IEnumerable<String> GetHttpVerbs ( MethodInfo method ) {
 			var list = new List<String> ( );
 			var verbs = method.GetCustomAttribute<AcceptVerbsAttribute> ( );
@@ -210,15 +290,30 @@ namespace EndpointMvc.Reflection {
 			return list;
 		}
 
+		/// <summary>
+		/// Gets the content types.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
 		public IEnumerable<String> GetContentTypes ( MethodInfo method ) {
 			return method.GetCustomAttributes<ContentTypeAttribute> ( ).Select ( m => m.ContentType );
 		}
 
+		/// <summary>
+		/// Gets the since version.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
 		public String GetSinceVersion ( Type type ) {
 			var sva = type.GetCustomAttribute<SinceVersionAttribute> ( );
 			return sva == null ? null : sva.Version.ToString ( );
 		}
 
+		/// <summary>
+		/// Gets the since version.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
 		public String GetSinceVersion ( MethodInfo method ) {
 			var sva = method.GetCustomAttribute<SinceVersionAttribute> ( );
 			var tsva = method.DeclaringType.GetCustomAttribute<SinceVersionAttribute> ( );
@@ -228,10 +323,20 @@ namespace EndpointMvc.Reflection {
 				null;
 		}
 
-		public bool RequireHttps ( MethodInfo method ) {
+		/// <summary>
+		/// Does the specified method require HTTPS.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
+		public bool DoesRequireHttps ( MethodInfo method ) {
 			return method.HasAttribute<RequireHttpsAttribute> ( ) || method.DeclaringType.HasAttribute<RequireHttpsAttribute> ( );
 		}
 
+		/// <summary>
+		/// Gets the params.
+		/// </summary>
+		/// <param name="mi">The mi.</param>
+		/// <returns></returns>
 		public List<ParamInfo> GetParams ( MethodInfo mi ) {
 			var paramList = new List<ParamInfo> ( );
 
@@ -242,7 +347,12 @@ namespace EndpointMvc.Reflection {
 			return paramList;
 		}
 
-		public bool RequireAuthorization ( MethodInfo method ) {
+		/// <summary>
+		/// Does the specified method require authorization.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
+		public bool DoesRequireAuthorization ( MethodInfo method ) {
 			var ra = this.GetCustomAttribute<RequiresAuthenticationAttribute> ( method );
 			var aa = this.GetCustomAttribute<AuthorizeAttribute> ( method );
 			return ra != null || aa != null;
@@ -260,12 +370,19 @@ namespace EndpointMvc.Reflection {
 			return m.Success ? m.Groups[1].Value : String.Empty;
 		}
 
+		/// <summary>
+		/// Gets the action properties.
+		/// </summary>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
 		private IEnumerable<PropertyKeyValuePair<String, Object>> GetActionProperties ( MethodInfo method ) {
 			var dep = this.GetCustomAttribute<DeprecatedAttribute> ( method );
 			var obsolete = this.GetCustomAttribute<ObsoleteAttribute> ( method );
-			var reqHttps = this.RequireHttps ( method );
-			var reqAuth = this.RequireAuthorization ( method );
-			return new List<PropertyKeyValuePair<String, Object>> {
+			var sinceVer = this.GetCustomAttribute<SinceVersionAttribute> ( method );
+			var reqHttps = this.DoesRequireHttps ( method );
+			var reqAuth = this.DoesRequireAuthorization ( method );
+			
+			var items = new List<PropertyKeyValuePair<String, Object>> {
 				new PropertyKeyValuePair<String,object> {
 					Key = "Deprecated",
 					// get the value from either the method, or the type.
@@ -293,7 +410,16 @@ namespace EndpointMvc.Reflection {
 					// get the message from either the method, or the type
 					Description = reqAuth ? "Request must be authenticated before access to content is permitted." : String.Empty
 				}
+				
 			};
+
+			if ( sinceVer != null ) {
+				items.Add(new PropertyKeyValuePair<String,Object> {
+					Key = "Since Version",
+					Value = sinceVer.Version
+				});
+			}
+			return items;
 		}
 
 		/// <summary>

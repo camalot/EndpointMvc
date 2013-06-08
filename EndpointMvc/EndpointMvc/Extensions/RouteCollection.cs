@@ -6,12 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using EndpointMvc.Routing;
 
 namespace EndpointMvc.Extensions {
 	public static partial class EndpointMvcExtensions {
 		/// <summary>
-		/// Registers the endpoint MVC routes.
+		/// Registers the EnpointMVC routes.
 		/// </summary>
 		/// <param name="rc">The route collect.</param>
 		/// <returns></returns>
@@ -20,6 +19,11 @@ namespace EndpointMvc.Extensions {
 			return rc;
 		}
 
+		/// <summary>
+		/// Registers the EnpointMVC routes for all areas.
+		/// </summary>
+		/// <param name="rc">The rc.</param>
+		/// <returns></returns>
 		public static RouteCollection RegisterEnpointMvcForAllAreas ( this RouteCollection rc ) {
 			GetRegisteredAreas ( ).ForEach ( a => {
 				AreaRegistrationContext context = new AreaRegistrationContext ( a.AreaName, rc, null );
@@ -28,38 +32,7 @@ namespace EndpointMvc.Extensions {
 			return rc;
 		}
 
-		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults ) {
-			return routes.MapRouteWithTrailingSlash ( name, url, defaults, null );
-		}
-
-		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults, object constraints ) {
-			return routes.MapRouteWithTrailingSlash(name,url,defaults,constraints, null);
-		}
-
-		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults, String[] namespaces ) {
-			return routes.MapRouteWithTrailingSlash ( name, url, defaults, new { }, namespaces );
-		}
-
-
-		public static Route MapRouteWithTrailingSlash ( this RouteCollection routes, string name, string url, object defaults, object constraints, String[] namespaces ) {
-			routes.Require ( );
-			var route = new TrailingSlashRoute ( url.Require(), new MvcRouteHandler ( ) ) {
-				Defaults = new RouteValueDictionary ( defaults ),
-				Constraints = new RouteValueDictionary ( constraints ),
-			};
-
-			if ( ( namespaces != null ) && ( namespaces.Length > 0 ) ) {
-				route.DataTokens = new RouteValueDictionary ( );
-				route.DataTokens["Namespaces"] = namespaces;
-			}
-
-			if ( String.IsNullOrEmpty ( name ) )
-				routes.Add ( route );
-			else
-				routes.Add ( name, route );
-			return route;
-		}
-
+		
 		/// <summary>
 		/// Registers the endpoint MVC routes for area.
 		/// </summary>
