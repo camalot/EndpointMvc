@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +11,12 @@ namespace EndpointMvc.Extensions {
 
 		public static bool IsPrimitive ( this Type type ) {
 			return type.IsPrimitive || type.Is<String>() || type == typeof(Decimal) || type == typeof(DateTime) || type == typeof(TimeSpan) || type.Is<Object>();
+		}
+
+		public static String ToArrayName ( this Type type ) {
+			return type.Is<IEnumerable> ( ) && type.IsGenericType ?
+				"{0}[]".With ( type.GenericTypeArguments[0].Name ) :
+				type.Name;
 		}
 
 		/// <summary>

@@ -248,9 +248,10 @@ namespace EndpointMvc.Reflection {
 		public Type GetReturnType ( MethodInfo method ) {
 			var returnTypeAttr = method.GetCustomAttribute<ReturnTypeAttribute> ( );
 			var defaultReturnType = method.ReturnType;
-			return defaultReturnType.Is<ActionResult> ( ) ?
+			var returnValue = defaultReturnType.Is<ActionResult> ( ) ?
 				returnTypeAttr == null ? typeof ( object ) : returnTypeAttr.ReturnType :
 				returnTypeAttr == null ? defaultReturnType : returnTypeAttr.ReturnType;
+			return returnValue;
 		}
 
 		/// <summary>
