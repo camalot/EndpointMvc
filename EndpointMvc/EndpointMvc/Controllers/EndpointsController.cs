@@ -133,7 +133,7 @@ namespace EndpointMvc.Controllers {
 					var epi = new EndpointInfo ( ) {
 						QualifiedName = "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 						Name = name,
-						ReturnType = returnType.Name,
+						ReturnType = returnType.ToArrayName(),
 						QualifiedReturnType = returnType.QualifiedName ( ),
 						ContentTypes = reflector.GetContentTypes(method).ToList(),
 						Description = reflector.GetDescription(method),

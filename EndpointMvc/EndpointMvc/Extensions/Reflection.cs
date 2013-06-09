@@ -9,10 +9,22 @@ using System.Threading.Tasks;
 namespace EndpointMvc.Extensions {
 	public static partial class EndpointMvcExtensions {
 
+		/// <summary>
+		/// Determines whether the specified type is primitive.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns>
+		///   <c>true</c> if the specified type is primitive; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool IsPrimitive ( this Type type ) {
 			return type.IsPrimitive || type.Is<String>() || type == typeof(Decimal) || type == typeof(DateTime) || type == typeof(TimeSpan) || type.Is<Object>();
 		}
 
+		/// <summary>
+		/// Gets the name of the type that will show it as an array if it is an IEnumerable, and generic
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
 		public static String ToArrayName ( this Type type ) {
 			return type.Is<IEnumerable> ( ) && type.IsGenericType ?
 				"{0}[]".With ( type.GenericTypeArguments[0].Name ) :
