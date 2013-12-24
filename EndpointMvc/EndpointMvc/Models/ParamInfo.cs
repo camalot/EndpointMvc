@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace EndpointMvc.Models {
 	/// <summary>
@@ -15,6 +16,11 @@ namespace EndpointMvc.Models {
 		public ParamInfo ( ) {
 			Properties = new List<PropertyKeyValuePair<string, object>> ( );
 		}
+
+		[XmlIgnore]
+		[JsonIgnore]
+		public bool IsSystemType { get; set; }
+
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
@@ -38,6 +44,10 @@ namespace EndpointMvc.Models {
 		[XmlAttribute]
 		[Display ( Name = "QualifiedType", Prompt = "QualifiedType" )]
 		public String QualifiedType { get; set; }
+
+		[XmlIgnore]
+		[JsonIgnore]
+		public String QualifiedUnderlyingType { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="ParamInfo"/> is optional.

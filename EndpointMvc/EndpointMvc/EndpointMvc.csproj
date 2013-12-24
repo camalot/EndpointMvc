@@ -99,6 +99,7 @@
     <Compile Include="Attributes\SinceVersionAttribute.cs" />
     <Compile Include="Attributes\DeprecatedAttribute.cs" />
     <Compile Include="Config\RouteConfig.cs" />
+    <Compile Include="Controllers\DefineController.cs" />
     <Compile Include="Controllers\EndpointsController.cs" />
     <Compile Include="Exceptions\MissingRequiredValueException.cs" />
     <Compile Include="Extensions\Controller.cs" />

@@ -257,6 +257,14 @@
     <Content Include="Views\Endpoints\_CustomProperties.cshtml" />
     <Content Include="Views\Endpoints\_EndpointNavigation.cshtml" />
     <Content Include="Views\Endpoints\Define.cshtml" />
+    <Content Include="Views\Home\_NugetPartial.cshtml" />
+    <Content Include="Views\Home\_HowItWorksPartial.cshtml" />
+    <Content Include="Views\Home\_RegisterRoutesPartial.cshtml" />
+    <Content Include="Views\Home\_OutputPartial.cshtml" />
+    <Content Include="Views\Home\_AttributesPartial.cshtml" />
+    <Content Include="Views\Home\_AdPartial.cshtml" />
+    <Content Include="Views\Home\_LicensePartial.cshtml" />
+    <Content Include="Views\Home\_MetroNavPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

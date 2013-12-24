@@ -1,0 +1,21 @@
+﻿
+<a name="register-routes"></a>
+<div class="panel panel-default man pan">
+	<div class="panel-heading"><h1 class="zero lowercase"><i class="fa fa-road mrm"></i>Register Routes</h1></div>
+	<div class="panel-body">
+		<p>EndpointMvc needs to register its routes to handle the calls</p>
+		<div class="gist-container mbs">
+			<div class="alert alert-info mbs">You can register the routes via the Extension methods.</div>
+			@(Html.Action ( "Gist", new { id = "d0b621b2413ddc06bb2d" } ))
+		</div>
+		<div class="gist-container mbs">
+			<div class="alert alert-info mbs">You can register the routes via EndpointMvc RouteConfig class.</div>
+			@(Html.Action ( "Gist", new { id = "424f2e910b74e4febbf4" } ))
+		</div>
+		<div class="gist-container mbs">
+			<div class="alert alert-info mbs">If you want to be able to call EndpointMvc on specific areas, then you need to register before any area is registered.</div>
+			@(Html.Action ( "Gist", new { id = "60af1afc4726e166613d" } ))
+		</div>
+	</div>
+</div>
+

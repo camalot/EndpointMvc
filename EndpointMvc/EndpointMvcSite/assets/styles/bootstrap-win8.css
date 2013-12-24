@@ -359,26 +359,28 @@ pre {
 
 
 /* TEXT */
+.text-muted:hover,
 .text-muted {
 	color: #999;
 }
-
+.text-primary:hover,
 .text-primary {
 	color: #007fff;
 }
-
+.text-warning:hover,
 .text-warning {
 	color: #ff7518;
 }
-
+.text-danger:hover,
 .text-danger {
 	color: #ff0039;
 }
 
+.text-success:hover,
 .text-success {
 	color: #3fb618;
 }
-
+.text-info:hover,
 .text-info {
 	color: #9954bb;
 }

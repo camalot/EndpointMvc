@@ -23,3 +23,19 @@
 .epm-nav li > a {
 	padding: 5px;
 }
+
+
+.metro-nav {
+	margin: 0 0 20px 0;
+	padding: 0;
+}
+
+.metro-nav > ul.nav > li {
+	font-size: 2em;
+	margin:0 0 2px 0;
+	padding: 0;
+}
+
+.metro-nav > ul.nav > li > .alert {
+	margin: 0 3px 0 0;
+}

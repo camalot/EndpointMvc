@@ -23,6 +23,7 @@ namespace EndpointMvc.Attributes {
 		/// <value>
 		/// The version.
 		/// </value>
+
 		public Version Version { get; set; }
 
 	}

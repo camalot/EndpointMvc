@@ -25,7 +25,7 @@ namespace EndpointMvc.Serialization {
 		/// <param name="type">The type.</param>
 		/// <returns></returns>
 		public static XmlSerializer Create ( Type type ) {
-			return new XmlSerializer ( type, new Type[] { typeof(System.DBNull) } );
+			return new XmlSerializer ( type, new Type[] { typeof(System.DBNull), typeof(Version) } );
 		}
 	}
 }

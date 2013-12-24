@@ -1,8 +1,13 @@
-﻿@model EndpointMvc.Models.DefineData
+﻿@using EndpointMvc.Models;
 
+@model DefineData
 @{
     ViewBag.Title = Model.Name;
 }
 
+<div class="mll pan">
+	<div class="page-header">
+		<h2 class="zero"><i class="fa fa-code-fork mrm"></i>@Model.Name</h2>
+	</div>
 
-@Html.DisplayFor( m => m.Properties)
+</div>

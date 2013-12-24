@@ -11,11 +11,16 @@
 
 <div class="endpoint-info mll" id="@Model.QualifiedName.Replace(".","_")">
 	<div class="page-header">
-	<h3 class="media-heading zero"><i class="fa fa-code mrm"></i>@Model.Name <small class="nowrap">
-		<code data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="@Model.QualifiedReturnType">
-			@Model.ReturnType
-		</code></small>
-	</h3></div>
+		<h3 class="media-heading zero">
+			<i class="fa fa-code mrm"></i>@Model.Name <small class="nowrap">
+				<code data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="@Model.QualifiedUnderlyingReturnType">
+					@Model.ReturnType
+				</code>
+				@if ( !Model.IsSystemType ) { 
+					<a href="@(Url.Action ( "html", new { controller = "Define", id = Model.QualifiedUnderlyingReturnType } ))"><i class="fa fa-info-circle mlm"></i></a>
+				}
+			</small>
+		</h3></div>
 	<div class="media-body">
 		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
 			<div class="alert alert-error">@obsolete.Description</div>

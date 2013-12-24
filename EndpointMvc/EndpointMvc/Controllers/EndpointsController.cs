@@ -16,39 +16,27 @@ using System.Net;
 using System.Text.RegularExpressions;
 using EndpointMvc.Reflection;
 using System.ServiceModel;
+using EndpointMvc.Results;
 
 namespace EndpointMvc.Controllers {
 	public class EndpointsController : Controller {
-		public ActionResult Json ( /*String id*/ ) {
-			//if ( String.IsNullOrWhiteSpace ( id ) ) {
+		public EndpointResult Json (  ) {
 			var data = BuildEndpointData ( );
-			return this.EndpointJson<Dictionary<String, EndpointArea>> ( data );
-			/*} else {
-				return this.EndpointJson<DefineData> ( GetDefineParamInfo ( id ) );
-			}*/
+			return this.EndpointJson ( data );
 		}
 
-		public ActionResult Xml ( /*String id*/ ) {
-			//if ( String.IsNullOrWhiteSpace ( id ) ) {
+		public EndpointResult Xml ( ) {
 			var data = BuildEndpointData ( );
-			return this.EndpointXml<EndpointData> ( new EndpointData {
+			return this.EndpointXml ( new EndpointData {
 				Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
 			} );
-			/*} else {
-				return this.EndpointXml<DefineData> ( GetDefineParamInfo ( id ) );
-			}*/
 		}
 
-		public ActionResult Html ( /*String id*/ ) {
-			//if ( String.IsNullOrWhiteSpace ( id ) ) {
+		public ActionResult Html ( ) {
 			var data = BuildEndpointData ( );
 			return View ( new EndpointData {
 				Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
 			} );
-			/*} else {
-				var @params = GetDefineParamInfo ( id );
-				return View ( "Define", @params );
-			}*/
 		}
 
 		private DefineData GetDefineParamInfo ( String typeName ) {
@@ -131,10 +119,12 @@ namespace EndpointMvc.Controllers {
 					var methods = reflector.GetHttpVerbs(method);
 					var qualifiedKey = "{0}.{1}.{2}_{3}".With ( areaName, epService.Name, name, String.Join ( "_", methods ) );
 					var epi = new EndpointInfo ( ) {
+						IsSystemType = returnType.GetUnderlyingType ( ).IsSystemType ( ),
 						QualifiedName = "{0}.{1}.{2}".With ( areaName, epService.Name, name ),
 						Name = name,
 						ReturnType = returnType.ToArrayName(),
 						QualifiedReturnType = returnType.QualifiedName ( ),
+						QualifiedUnderlyingReturnType = returnType.GetUnderlyingType ( ).QualifiedName ( ).Replace("[]",""),
 						ContentTypes = reflector.GetContentTypes(method).ToList(),
 						Description = reflector.GetDescription(method),
 						HttpMethods = reflector.GetHttpVerbs(method).ToList(),

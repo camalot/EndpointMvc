@@ -16,6 +16,11 @@ namespace EndpointMvc.Models {
 			Properties = new List<PropertyKeyValuePair<string, object>> ( );
 			Gists = new List<Gist> ( );
 		}
+
+		[XmlIgnore]
+		[JsonIgnore]
+		public bool IsSystemType { get; set; }
+
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
@@ -103,6 +108,9 @@ namespace EndpointMvc.Models {
 		[Display ( Name = "QualifiedReturnType", Prompt = "QualifiedReturnType" )]
 		public String QualifiedReturnType { get; set; }
 
+		[XmlIgnore]
+		[JsonIgnore]
+		public String QualifiedUnderlyingReturnType { get; set; }
 
 		[XmlArray("ContentTypes")]
 		[XmlArrayItem("ContentType")]

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace EndpointMvc.Results {
+	public abstract class EndpointResult : ActionResult { }
+
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	abstract class EndpointResult<T> : ActionResult {
+	public abstract class EndpointResult<T> : EndpointResult {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EndpointResult{T}"/> class.
 		/// </summary>

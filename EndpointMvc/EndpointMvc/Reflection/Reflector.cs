@@ -61,6 +61,10 @@ namespace EndpointMvc.Reflection {
 			return GetTypes ( domain.GetAssemblies ( ).Where ( a => !a.IsDynamic ) );
 		}
 
+		public Type GetTypeFromName ( String name ) {
+			return Type.GetType ( name, true, true );
+		}
+
 		/// <summary>
 		/// Gets the methods for the specified type.
 		/// </summary>
@@ -263,7 +267,7 @@ namespace EndpointMvc.Reflection {
 		/// <returns></returns>
 		public Type GetReturnType ( MethodInfo method ) {
 			var returnTypeAttr = method.GetCustomAttribute<ReturnTypeAttribute> ( );
-			var defaultReturnType = method.ReturnType;
+			var defaultReturnType = method.ReturnType.GetUnderlyingType();
 			var returnValue = defaultReturnType.Is<ActionResult> ( ) ?
 				returnTypeAttr == null ? typeof ( object ) : returnTypeAttr.ReturnType :
 				returnTypeAttr == null ? defaultReturnType : returnTypeAttr.ReturnType;
@@ -433,7 +437,7 @@ namespace EndpointMvc.Reflection {
 			if ( sinceVer != null ) {
 				items.Add(new PropertyKeyValuePair<String,Object> {
 					Key = "Since Version",
-					Value = sinceVer.Version
+					Value = sinceVer.Version.ToString()
 				});
 			}
 			return items;
@@ -459,9 +463,11 @@ namespace EndpointMvc.Reflection {
 					//pi.ParameterType.Name;
 
 				list.Add ( new ParamInfo {
+					IsSystemType = pi.ParameterType.GetUnderlyingType ( ).IsSystemType ( ),
 					Name = pi.Name.ToCamelCase ( ),
 					Type = typeName,
 					QualifiedType = pi.ParameterType.QualifiedName ( ),
+					QualifiedUnderlyingType = pi.ParameterType.GetUnderlyingType().QualifiedName().Replace("[]",""),
 					Description = da == null ? String.Empty : da.Description,
 					Optional = ( pi.IsOptional && req == null ) || opt != null,
 					Default = pi.DefaultValue,
@@ -512,9 +518,11 @@ namespace EndpointMvc.Reflection {
 					pi.PropertyType.Name;
 
 				list.Add ( new ParamInfo {
+					IsSystemType = pi.PropertyType.GetUnderlyingType().IsSystemType ( ),
 					Name = "{0}{2}{1}".With ( baseName, pi.Name.ToCamelCase ( ), String.IsNullOrWhiteSpace ( baseName ) ? "" : "." ),
 					Type = typeName,
 					QualifiedType = pi.PropertyType.QualifiedName ( ),
+					QualifiedUnderlyingType = pi.PropertyType.GetUnderlyingType ( ).QualifiedName ( ).Replace ( "[]", "" ),
 					Description = da == null ? String.Empty : da.Description,
 					Optional = req == null || opt != null,
 					Default = null

@@ -8,8 +8,15 @@
 
 }
 <div class="media-body mll mbm">
-	<h4 class="media-heading"><i class="fa fa-puzzle-piece mrm"></i>@Model.Name <small class="nowrap">
-		<code data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@Model.QualifiedType">@Model.Type</code></small></h4>
+	<h4 class="media-heading">
+		<i class="fa fa-puzzle-piece mrm"></i>@Model.Name <small class="nowrap">
+			<code data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@Model.QualifiedUnderlyingType">@Model.Type</code>
+			@if ( !Model.IsSystemType ) {
+				<a href="@(Url.Action ( "html", new { controller = "Define", id = Model.QualifiedUnderlyingType } ))"><i class="fa fa-info-circle mlm"></i></a>
+			}
+
+		</small>
+	</h4>
 	@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
 		<blockquote class="pam mvm text-muted">@Model.Description</blockquote>
 	}

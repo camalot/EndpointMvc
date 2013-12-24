@@ -20,6 +20,10 @@ namespace EndpointMvc.Extensions {
 			return type.IsPrimitive || type.Is<String> ( ) || type == typeof ( Decimal ) || type == typeof ( DateTime ) || type == typeof ( TimeSpan ) || type.Is<Object> ( );
 		}
 
+		public static bool IsSystemType ( this Type type ) {
+			return type.FullName.Equals("System") || type.FullName.StartsWith("System.");
+		}
+
 		/// <param name="type">The type.</param>
 		/// <returns>
 		///   <c>true</c> if the specified type is nullable; otherwise, <c>false</c>.
@@ -30,6 +34,17 @@ namespace EndpointMvc.Extensions {
 
 		public static bool IsAwaitableTask ( this Type type ) {
 			return ( type.IsGenericType && type.GetGenericTypeDefinition ( ).Is<Task> ( ) );
+		}
+
+		public static Type GetUnderlyingType ( this Type type ) {
+			var lowType = type;
+			if ( type.IsAwaitableTask ( ) ) {
+				lowType = type.GenericTypeArguments[0];
+			}
+
+			return lowType.IsGenericType && lowType.GenericTypeArguments.Length == 1 ?
+				lowType.GenericTypeArguments[0] :
+				lowType;
 		}
 
 		/// <summary>

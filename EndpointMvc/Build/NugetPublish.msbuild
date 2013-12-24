@@ -12,7 +12,7 @@
 		<OutputPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\debug</OutputPath>
 		<ReleasesPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\nuget</ReleasesPath>
 		<NugetPath>$(MSBuildProjectDirectory)\..\.nuget</NugetPath>
-		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvcSample\Views\Endpoints</ViewsPath>
+		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvcSite\Views\Endpoints</ViewsPath>
 	</PropertyGroup>
 	
 	<ItemGroup>
