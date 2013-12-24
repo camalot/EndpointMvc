@@ -1,0 +1,41 @@
+﻿<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="pull-right mtm">
+			@(Html.Partial ( "Paypal" ))
+		</div>
+		<div class="pull-right mtm mrl">
+			<a class="pull-right navbar-brand uppercase bold" href="@(Url.Action("",""))">EndpointMVC</a>
+		</div>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" data-toggle="dropdown"><i class="mrs fa fa-book text-white"></i><span class="mrs">Documentation</span><b class="caret caret-white"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="@Url.Action("","")"><i class="mrs fa fa-home"></i><span>Home</span></a></li>
+						<li class="divider"></li>
+						<li><a href="@Url.Action("","")#nuget" class="track"><i class="mrs fa fa-download"></i><span>Nuget</span></a></li>
+						<li><a href="@Url.Action("","")#how-it-works" class="track"><i class="mrs fa fa-check"></i><span>How it works</span></a></li>
+						<li><a href="@Url.Action("","")#register-routes" class="track"><i class="mrs fa fa-road"></i><span>Register Routes</span></a></li>
+						<li><a href="@Url.Action("","")#output" class="track"><i class="mrs fa fa-pencil"></i><span>Output</span></a></li>
+						<li><a href="@Url.Action("","")#attributes" class="track"><i class="mrs fa fa-tags"></i><span>Attributes</span></a></li>
+						<li class="divider"></li>
+						<li><a href="@Url.Action("","")#license" class="track"><i class="mrs fa fa-certificate"></i><span>License</span></a></li>
+					</ul>
+				</li>
+				<li><a href="@Url.Action("", "endpoints")"><i class="mrs fa fa-leaf text-white"></i><span>Demo</span></a></li>
+				<li class="divider-vertical"></li>
+				<li><a href="https://github.com/camalot/endpointmvc/" class="track"><i class="mrs fa fa-file text-white"></i><span>Source Code</span></a></li>
+				<li><a href="https://nuget.org/packages/endpointmvc/" class="track"><i class="mrs fa fa-download text-white"></i><span>Nuget Package</span></a></li>
+				<li class="divider-vertical"></li>
+				<li><a href="@Url.Action("","")#license" class="track"><i class="mrs fa fa-certificate text-white"></i><span>License</span></a></li>
+			</ul>
+		</div>
+	</div>
+</nav>

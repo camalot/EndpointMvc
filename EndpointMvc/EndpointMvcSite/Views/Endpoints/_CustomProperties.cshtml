@@ -1,0 +1,18 @@
+﻿@using EndpointMvc.Models;
+@using EndpointMvc.Extensions;
+
+@model List<PropertyKeyValuePair<String,Object>>
+@helper Popover ( PropertyKeyValuePair<String, Object> item ) {
+	if ( !String.IsNullOrWhiteSpace(item.Description) ) {
+		<i data-title="@item.Key" data-trigger="hover" data-content="@item.Description" data-toggle="popover" data-placement="right" class="pls cursor-help fa fa-info-circle op25"></i>
+	}
+}
+@if ( Model != null && Model.Count > 0 ) {
+	foreach ( var item in Model.Where( i => i != null && !String.IsNullOrWhiteSpace(i.Key)) ) {
+		var val = (item.Value == null ? String.Empty : item.Value);
+		<tr>
+			<th class="text-muted col-md-6">@item.Key @(Popover(item))</th>
+			<td class="col-md-6 text-muted">@Html.DisplayFor(m => val)</td>
+		</tr> 
+	}
+}

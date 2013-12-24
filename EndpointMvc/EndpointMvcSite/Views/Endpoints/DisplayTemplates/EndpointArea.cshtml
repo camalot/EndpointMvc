@@ -1,0 +1,12 @@
+﻿@model EndpointMvc.Models.EndpointArea
+
+<div class="" id="@Model.QualifiedName.Replace(".","_")">
+	<div class="page-header">
+		<h1 class="zero"><i class="fa fa-folder mrm"></i>@(String.IsNullOrWhiteSpace(Model.Name) ? "[Default]" : Model.Name )</h1>
+	</div>
+	<div>
+		@foreach ( var item in Model.ServicesList ) {
+			@Html.DisplayFor(m => item)
+		}
+	</div>
+</div>

@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5" DefaultTargets="Publish">
 
 	<PropertyGroup>
-		<ProjectName Condition="'$(ProjectName)' == ''">EndpointMvcSample</ProjectName>
+		<ProjectName Condition="'$(ProjectName)' == ''">EndpointMvcSite</ProjectName>
 
 		<SourcePath>$(MSBuildProjectDirectory)\..\$(ProjectName)</SourcePath>
 		<DestinationPath>S:\deploy\$(ProjectName)</DestinationPath>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
 		<ProjectsToBuild Include="$(SourcePath)\**\*.csproj" />
-		<PublishFiles Include="$(SourcePath)\**\*" Exclude="$(SourceOfflineFile);$(SourcePath)\**\*.csproj*;$(SourceOfflineFile);$(SourcePath)\**\.svn\**;$(SourcePath)\**\obj\**;$(SourcePath)\**\packages.config;$(SourcePath)\**\*.user;$(SourcePath)\**\*.tt;$(SourcePath)\**\*.edmx;$(SourcePath)\**\*.cs;$(SourcePath)\**\*.diagram" />
+		<PublishFiles Include="$(SourcePath)\**\*" Exclude="$(SourcePath)\**\*.csproj*;$(SourcePath)\**\.svn\**;$(SourcePath)\**\obj\**;$(SourcePath)\**\packages.config;$(SourcePath)\**\*.user;$(SourcePath)\**\*.tt;$(SourcePath)\**\*.edmx;$(SourcePath)\**\*.cs;$(SourcePath)\**\*.diagram" />
 		<DeleteFiles Include="$(DestinationPath)\**\*" />
 	</ItemGroup>
 	

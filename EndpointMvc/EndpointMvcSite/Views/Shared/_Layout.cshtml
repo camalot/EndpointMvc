@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>@(ViewBag.Title)</title>
+	<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width" />
+	@(Styles.Render ( "~/css/site" ))
+</head>
+<body>
+	<header>
+		@(Html.Partial ( "_Navbar" ))
+	</header>
+	<div class="container">
+		@(RenderSection ( "featured", required: false ))
+		@(RenderBody ( ))
+	</div>
+	<div class="clear-fix"></div>
+	<footer class="navbar-fixed-bottom navbar navbar-default">
+		<div class="container">
+			<div class="center mts">
+				<p>Copyright &copy; Ryan Conrad @DateTime.Now.Year. All Rights Reserved.</p>
+			</div>
+		</div>
+	</footer>
+
+	@(Scripts.Render ( "~/js/jquery" ))
+	@(Scripts.Render ( "~/js/bootstrap" ))
+	@(RenderSection ( "scripts", required: false ))
+	@(Html.Partial ( "Analytics" ))
+</body>
+</html>

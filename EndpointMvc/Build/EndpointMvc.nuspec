@@ -17,6 +17,8 @@
 		<tags>webapi aspnet mvc api rest json xml web services endpoint</tags>
 		<dependencies>
 			<dependency id="Newtonsoft.Json" version="5.0.5" />
+			<dependency id="bootstrap" version="3.0.3" />
+			<dependency id="fontawesome" version="3.0.3" />
 		</dependencies>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net40" />

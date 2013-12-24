@@ -1,0 +1,27 @@
+﻿@using EndpointMvc.Extensions;
+@using EndpointMvc.Models;
+
+@model ParamInfo
+@{
+	var defaultValue = Model.Default == null ? "null" : Model.Default;
+	var area = ViewContext.RouteData.Values["area"];
+
+}
+<div class="media-body mll mbm">
+	<h4 class="media-heading"><i class="fa fa-puzzle-piece mrm"></i>@Model.Name <small class="nowrap">
+		<code data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@Model.QualifiedType">@Model.Type</code></small></h4>
+	@if(!String.IsNullOrWhiteSpace(Model.Description) ) {
+		<blockquote class="pam mvm text-muted">@Model.Description</blockquote>
+	}
+	<table class="table table-bordered table-condensed">
+		<tr>
+			<th class="text-muted col-md-6">@Html.LiteralFor(m => m.Optional)</th>
+			<td class="text-muted col-md-6">@(Html.DisplayFor ( m => m.Optional ))</td>
+		</tr>
+		<tr>
+			<th class="text-muted col-md-6">Default Value</th>
+			<td class="text-muted col-md-6">@(Html.DisplayFor ( m => defaultValue ))</td>
+		</tr>
+		@Html.Partial("_CustomProperties",Model.Properties)
+	</table>
+</div>
