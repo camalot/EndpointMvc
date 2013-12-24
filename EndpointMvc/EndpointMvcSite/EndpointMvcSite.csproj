@@ -42,6 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -107,10 +110,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <Private>True</Private>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -131,6 +130,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\V1\Controllers\MarketController.cs" />
+    <Compile Include="Areas\V1\Controllers\StockController.cs" />
+    <Compile Include="Areas\V1\Models\MarketModel.cs" />
     <Compile Include="Areas\V1\V1AreaRegistration.cs" />
     <Compile Include="Areas\V1\Controllers\UserController.cs" />
     <Compile Include="Areas\V1\Models\UserModel.cs" />
@@ -141,6 +143,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdSenseModel.cs" />
+    <Compile Include="Areas\V1\Models\MarketTypes.cs" />
+    <Compile Include="Areas\V1\Models\StockSymbolModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +261,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\V1\Views\Shared\" />
+    <Folder Include="Areas\V1\Views\Stock\" />
     <Folder Include="Areas\V2\Models\" />
     <Folder Include="Areas\V2\Views\Shared\" />
     <Folder Include="Areas\V2\Views\User\" />

@@ -197,11 +197,27 @@ namespace EndpointMvc.Reflection {
 		/// <param name="pi">The pi.</param>
 		/// <returns></returns>
 		public IEnumerable<PropertyKeyValuePair<String, Object>> GetCustomProperties ( ParameterInfo pi ) {
-			return pi.GetCustomAttributes<CustomPropertyAttribute> ( ).Select ( c => new PropertyKeyValuePair<String, Object> {
+			var added = pi.GetCustomAttributes<CustomPropertyAttribute> ( ).Select ( c => new PropertyKeyValuePair<String, Object> {
 				Key = c.Name,
 				Value = c.Value,
 				Description = c.Description
-			} );
+			} ).ToList();
+			
+			if ( pi.ParameterType.IsEnum ) {
+				var nv = new List<KeyValuePair<string, object>> ( );
+				var values = Enum.GetValues ( pi.ParameterType );
+				foreach ( var val in values ) {
+					var name = Enum.GetName ( pi.ParameterType, val );
+					nv.Add ( new KeyValuePair<string, object> ( name, (int)val ) );
+				}
+				var names = String.Join ( "," + Environment.NewLine, nv.Select ( s => "{0}={1}".With ( s.Key, s.Value ) ) );
+				added.Add ( new PropertyKeyValuePair<string, object> {
+					Key = "Possible Values",
+					Value = String.Join ( ",", names ),
+					Description = ""
+				} );
+			}
+			return added;
 		}
 
 		/// <summary>
@@ -437,10 +453,10 @@ namespace EndpointMvc.Reflection {
 			var customProps = pi.GetCustomAttributes<CustomPropertyAttribute> ( );
 
 			// if the parameter is not a "system" type then we try to break it down.
-			if ( pi.ParameterType.Namespace.StartsWith ( "System" ) ) {
-				var typeName = pi.ParameterType.IsNullable ( ) ? Nullable.GetUnderlyingType ( pi.ParameterType ).Name :
-					pi.ParameterType.Is<IEnumerable> ( ) && pi.ParameterType.IsGenericType ? "{0}[]".With ( pi.ParameterType.GenericTypeArguments[0].Name ) :
-					pi.ParameterType.Name;
+			if ( pi.ParameterType.Namespace.StartsWith ( "System" ) || pi.ParameterType.IsEnum ) {
+				var typeName = GetParameterTypeName(pi.ParameterType);//.IsNullable ( ) ? Nullable.GetUnderlyingType ( pi.ParameterType ).Name :
+					//pi.ParameterType.Is<IEnumerable> ( ) && pi.ParameterType.IsGenericType ? "{0}[]".With ( pi.ParameterType.GenericTypeArguments[0].Name ) :
+					//pi.ParameterType.Name;
 
 				list.Add ( new ParamInfo {
 					Name = pi.Name.ToCamelCase ( ),
@@ -458,6 +474,23 @@ namespace EndpointMvc.Reflection {
 				} );
 			}
 			return list;
+		}
+
+		private String GetParameterTypeName ( Type type ) {
+			if ( type.IsNullable ( ) ) {
+				// if nullable, we get the actual type
+				return GetParameterTypeName ( Nullable.GetUnderlyingType ( type ) );
+			}
+
+			if ( type.Is<IEnumerable> ( ) && type.IsGenericType ) {
+				return type.ToArrayName ( );
+			}
+
+			if ( type.IsEnum ) {
+				return "String|Int32";
+			}
+
+			return type.Name;
 		}
 
 

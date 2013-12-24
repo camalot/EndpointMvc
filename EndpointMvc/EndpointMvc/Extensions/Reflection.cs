@@ -17,23 +17,9 @@ namespace EndpointMvc.Extensions {
 		///   <c>true</c> if the specified type is primitive; otherwise, <c>false</c>.
 		/// </returns>
 		public static bool IsPrimitive ( this Type type ) {
-			return type.IsPrimitive || type.Is<String>() || type == typeof(Decimal) || type == typeof(DateTime) || type == typeof(TimeSpan) || type.Is<Object>();
+			return type.IsPrimitive || type.Is<String> ( ) || type == typeof ( Decimal ) || type == typeof ( DateTime ) || type == typeof ( TimeSpan ) || type.Is<Object> ( );
 		}
 
-		/// <summary>
-		/// Gets the name of the type that will show it as an array if it is an IEnumerable, and generic
-		/// </summary>
-		/// <param name="type">The type.</param>
-		/// <returns></returns>
-		public static String ToArrayName ( this Type type ) {
-			return type.Is<IEnumerable> ( ) && type.IsGenericType ?
-				"{0}[]".With ( type.GenericTypeArguments[0].Name ) :
-				type.Name;
-		}
-
-		/// <summary>
-		/// Determines whether the specified type is nullable.
-		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <returns>
 		///   <c>true</c> if the specified type is nullable; otherwise, <c>false</c>.
@@ -42,86 +28,125 @@ namespace EndpointMvc.Extensions {
 			return ( type.IsGenericType && type.GetGenericTypeDefinition ( ).Equals ( typeof ( Nullable<> ) ) );
 		}
 
+		public static bool IsAwaitableTask ( this Type type ) {
+			return ( type.IsGenericType && type.GetGenericTypeDefinition ( ).Is<Task> ( ) );
+		}
+
 		/// <summary>
-		/// Determines whether the specified type has the specified attribute.
+		/// Gets the name of the type that will show it as an array if it is an IEnumerable, and generic
 		/// </summary>
-		/// <typeparam name="T">The atrribute</typeparam>
 		/// <param name="type">The type.</param>
-		/// <returns>
-		///   <c>true</c> if the specified type has attribute; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool HasAttribute<T> ( this Type type ) where T : Attribute {
-			return type.GetCustomAttribute<T> ( ) != null;
-		}
-
-		/// <summary>
-		/// Determines whether the specified member has the specified attribute.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="member">The member.</param>
-		/// <returns>
-		///   <c>true</c> if the specified member has attribute; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool HasAttribute<T> ( this MemberInfo member ) where T : Attribute {
-			return member.GetCustomAttribute<T> ( ) != null;
-		}
-
-		/// <summary>
-		/// Determines whether the specified member has the specified attribute.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="field">The field.</param>
-		/// <returns>
-		///   <c>true</c> if the specified field has attribute; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool HasAttribute<T> ( this FieldInfo field ) where T : Attribute {
-			return field.GetCustomAttribute<T> ( ) != null;
-		}
-
-		/// <summary>
-		/// Determines whether the specified property has the specified attribute.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="property">The property.</param>
-		/// <returns>
-		///   <c>true</c> if the specified property has attribute; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool HasAttribute<T> ( this PropertyInfo property ) where T : Attribute {
-			return property.GetCustomAttribute<T> ( ) != null;
-		}
-
-		/// <summary>
-		/// Determines whether the specified parameter has the specified attribute.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="param">The parameter.</param>
-		/// <returns>
-		///   <c>true</c> if the specified parameter has attribute; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool HasAttribute<T> ( this ParameterInfo param ) where T : Attribute {
-			return param.GetCustomAttribute<T> ( ) != null;
-		}
-
-		/// <summary>
-		/// Determines whether the specified module has the specified attribute.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="module">The module.</param>
-		/// <returns>
-		///   <c>true</c> if the specified module has attribute; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool HasAttribute<T> ( this Module module ) where T : Attribute {
-			return module.GetCustomAttribute<T> ( ) != null;
-		}
-
-		/// <summary>
-		/// Gets types that have the specified attribute
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="assemblies">The assemblies.</param>
 		/// <returns></returns>
-		public static IEnumerable<Type> WithAttribute<T> ( this IEnumerable<Assembly> assemblies ) where T : Attribute {
-			return assemblies.SelectMany ( a => a.GetTypes ( ).Where ( t => t.GetCustomAttribute<T> ( ) != null ) );
+		public static String ToArrayName ( this Type type ) {
+			var lowType = type;
+			if ( type.IsAwaitableTask ( ) ) {
+				lowType = type.GenericTypeArguments[0];
+			}
+
+			return lowType.Is<IEnumerable> ( ) && lowType.IsGenericType ?
+				"{0}[]".With ( lowType.GenericTypeArguments[0].Name ) :
+				lowType.Name;
+		}
+
+		/// <summary>
+		/// Gets the custom attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
+		public static T GetCustomAttribute<T> ( this Type type ) where T : Attribute {
+			var attr = type.GetCustomAttributes<T> ( ).FirstOrDefault ( );
+			return attr;
+		}
+
+		/// <summary>
+		/// Gets the custom attribute value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="Expected">The type of the expected.</typeparam>
+		/// <param name="member">The member.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		public static Expected GetCustomAttributeValue<T, Expected> ( this MemberInfo member, Func<T, Expected> expression ) where T : Attribute {
+			var attribute = member.GetCustomAttribute<T> ( );
+			if ( attribute == null )
+				return default ( Expected );
+			return expression ( attribute );
+		}
+
+		/// <summary>
+		/// Gets the custom attribute value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="Expected">The type of the expected.</typeparam>
+		/// <param name="field">The field.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		public static Expected GetCustomAttributeValue<T, Expected> ( this FieldInfo field, Func<T, Expected> expression ) where T : Attribute {
+			var attribute = field.GetCustomAttribute<T> ( );
+			if ( attribute == null )
+				return default ( Expected );
+			return expression ( attribute );
+		}
+
+		/// <summary>
+		/// Gets the custom attribute value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="Expected">The type of the expected.</typeparam>
+		/// <param name="property">The property.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		public static Expected GetCustomAttributeValue<T, Expected> ( this PropertyInfo property, Func<T, Expected> expression ) where T : Attribute {
+			var attribute = property.GetCustomAttribute<T> ( );
+			if ( attribute == null )
+				return default ( Expected );
+			return expression ( attribute );
+		}
+
+		/// <summary>
+		/// Gets the custom attribute value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="Expected">The type of the expected.</typeparam>
+		/// <param name="method">The method.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		public static Expected GetCustomAttributeValue<T, Expected> ( this MethodInfo method, Func<T, Expected> expression ) where T : Attribute {
+			var attribute = method.GetCustomAttribute<T> ( );
+			if ( attribute == null )
+				return default ( Expected );
+			return expression ( attribute );
+		}
+
+		/// <summary>
+		/// Gets the custom attribute value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="Expected">The type of the expected.</typeparam>
+		/// <param name="module">The module.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		public static Expected GetCustomAttributeValue<T, Expected> ( this Module module, Func<T, Expected> expression ) where T : Attribute {
+			var attribute = module.GetCustomAttribute<T> ( );
+			if ( attribute == null )
+				return default ( Expected );
+			return expression ( attribute );
+		}
+
+		/// <summary>
+		/// Gets the custom attribute value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="Expected">The type of the expected.</typeparam>
+		/// <param name="param">The parameter.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		public static Expected GetCustomAttributeValue<T, Expected> ( this ParameterInfo param, Func<T, Expected> expression ) where T : Attribute {
+			var attribute = param.GetCustomAttribute<T> ( );
+			if ( attribute == null )
+				return default ( Expected );
+			return expression ( attribute );
 		}
 
 		/// <summary>
@@ -131,7 +156,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="members">The members.</param>
 		/// <returns></returns>
 		public static IEnumerable<MemberInfo> WithAttribute<T> ( this IEnumerable<MemberInfo> members ) where T : Attribute {
-			return members.Where ( m => m.GetCustomAttribute<T> ( ) != default ( T ) );
+			return members.Where ( m => !( m.GetCustomAttribute<T> ( ).Equals ( default ( T ) ) ) );
 		}
 
 		/// <summary>
@@ -141,7 +166,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="fields">The fields.</param>
 		/// <returns></returns>
 		public static IEnumerable<FieldInfo> WithAttribute<T> ( this IEnumerable<FieldInfo> fields ) where T : Attribute {
-			return fields.Where ( m => m.GetCustomAttribute<T> ( ) != default ( T ) );
+			return fields.Where ( m => !( m.GetCustomAttribute<T> ( ).Equals ( default ( T ) ) ) );
 		}
 
 		/// <summary>
@@ -151,7 +176,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="modules">The modules.</param>
 		/// <returns></returns>
 		public static IEnumerable<Module> WithAttribute<T> ( this IEnumerable<Module> modules ) where T : Attribute {
-			return modules.Where ( m => m.GetCustomAttribute<T> ( ) != default ( T ) );
+			return modules.Where ( m => !( m.GetCustomAttribute<T> ( ).Equals ( default ( T ) ) ) );
 		}
 
 		/// <summary>
@@ -161,7 +186,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="methods">The methods.</param>
 		/// <returns></returns>
 		public static IEnumerable<MethodInfo> WithAttribute<T> ( this IEnumerable<MethodInfo> methods ) where T : Attribute {
-			return methods.Where ( m => m.GetCustomAttribute<T> ( ) != default ( T ) );
+			return methods.Where ( m => !( m.GetCustomAttribute<T> ( ).Equals ( default ( T ) ) ) );
 		}
 
 		/// <summary>
@@ -171,7 +196,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="parameters">The parameters.</param>
 		/// <returns></returns>
 		public static IEnumerable<ParameterInfo> WithAttribute<T> ( this IEnumerable<ParameterInfo> parameters ) where T : Attribute {
-			return parameters.Where ( m => m.GetCustomAttribute<T> ( ) != default ( T ) );
+			return parameters.Where ( m => !( m.GetCustomAttribute<T> ( ).Equals ( default ( T ) ) ) );
 		}
 
 		/// <summary>
@@ -181,7 +206,7 @@ namespace EndpointMvc.Extensions {
 		/// <param name="properties">The properties.</param>
 		/// <returns></returns>
 		public static IEnumerable<PropertyInfo> WithAttribute<T> ( this IEnumerable<PropertyInfo> properties ) where T : Attribute {
-			return properties.Where ( m => m.GetCustomAttribute<T> ( ) != default ( T ) );
+			return properties.Where ( m => !( m.GetCustomAttribute<T> ( ).Equals ( default ( T ) ) ) );
 		}
 
 		/// <summary>
@@ -191,7 +216,29 @@ namespace EndpointMvc.Extensions {
 		/// <param name="types">The types.</param>
 		/// <returns></returns>
 		public static IEnumerable<Type> WithAttribute<T> ( this IEnumerable<Type> types ) where T : Attribute {
-			return types.Where ( m => m.GetCustomAttribute<T> ( ) != default ( T ) );
+			return types.Where ( m => !( m.GetCustomAttribute<T> ( ).Equals ( default ( T ) ) ) );
+		}
+
+		/// <summary>
+		/// Withes the attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="assembly">The assembly.</param>
+		/// <returns></returns>
+		public static IEnumerable<Type> WithAttribute<T> ( this Assembly assembly ) where T : Attribute {
+			return assembly.GetTypes ( ).WithAttribute<T> ( );
+		}
+
+		/// <summary>
+		/// Withes the attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="domain">The domain.</param>
+		/// <returns></returns>
+		public static IEnumerable<Type> WithAttribute<T> ( this AppDomain domain ) where T : Attribute {
+			var types = new List<Type> ( );
+			domain.GetAssemblies ( ).ForEach ( a => types.AddRange ( a.WithAttribute<T> ( ) ) );
+			return types;
 		}
 
 		/// <summary>
@@ -235,53 +282,147 @@ namespace EndpointMvc.Extensions {
 		/// <returns></returns>
 		public static IEnumerable<Type> GetTypesThatAre<TType> ( this AppDomain domain ) where TType : class {
 			var types = new List<Type> ( );
-			domain.GetAssemblies ( ).ForEach ( a => {
-				types.AddRange ( a.GetTypesThatAre<TType> ( ) );
-			} );
+			domain.GetAssemblies ( ).ForEach ( a => types.AddRange ( a.GetTypesThatAre<TType> ( ) ) );
 			return types;
 		}
 
 		/// <summary>
-		/// Determines whether the object is a type of <c>T</c>.
+		/// Determines whether the specified member has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="member">The member.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this MemberInfo member ) where T : Attribute {
+			return member.GetCustomAttribute<T> ( ) != default ( T );
+		}
+
+		/// <summary>
+		/// Determines whether the specified property has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="property">The property.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this PropertyInfo property ) where T : Attribute {
+			return property.GetCustomAttribute<T> ( ) != default ( T );
+		}
+
+		/// <summary>
+		/// Determines whether the specified type has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this Type type ) where T : Attribute {
+			return type.GetCustomAttribute<T> ( ) != default ( T );
+		}
+
+		/// <summary>
+		/// Determines whether the specified field has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="field">The field.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this FieldInfo field ) where T : Attribute {
+			return field.GetCustomAttribute<T> ( ) != default ( T );
+		}
+
+		/// <summary>
+		/// Determines whether the specified method has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="method">The method.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this MethodInfo method ) where T : Attribute {
+			return method.GetCustomAttribute<T> ( ) != default ( T );
+		}
+
+
+		/// <summary>
+		/// Determines whether the specified members has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="members">The members.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this IEnumerable<MemberInfo> members ) where T : Attribute {
+			return !( members.Any ( m => m.GetCustomAttribute<T> ( ) == default ( T ) ) );
+		}
+
+		/// <summary>
+		/// Determines whether the specified properties has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="properties">The properties.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this IEnumerable<PropertyInfo> properties ) where T : Attribute {
+			return !( properties.Any ( m => m.GetCustomAttribute<T> ( ) == default ( T ) ) );
+		}
+
+		/// <summary>
+		/// Determines whether the specified types has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="types">The types.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this IEnumerable<Type> types ) where T : Attribute {
+			return !( types.Any ( m => m.GetCustomAttribute<T> ( ) == default ( T ) ) );
+		}
+
+		/// <summary>
+		/// Determines whether the specified fields has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="fields">The fields.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this IEnumerable<FieldInfo> fields ) where T : Attribute {
+			return !( fields.Any ( m => m.GetCustomAttribute<T> ( ) == default ( T ) ) );
+		}
+
+		/// <summary>
+		/// Determines whether the specified methods has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="methods">The methods.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this IEnumerable<MethodInfo> methods ) where T : Attribute {
+			return !( methods.Any ( m => m.GetCustomAttribute<T> ( ) == default ( T ) ) );
+		}
+
+
+		/// <summary>
+		/// Determines whether [is] [the specified attribute].
 		/// </summary>
 		/// <typeparam name="TType">The type of the type.</typeparam>
-		/// <param name="t">The t.</param>
-		/// <returns>
-		///   <c>true</c> if the object is a type of <c>T</c>; otherwise, <c>false</c>.
-		/// </returns>
+		/// <param name="t">The attribute.</param>
+		/// <returns></returns>
 		public static bool Is<TType> ( this TType t ) where TType : class {
 			return t.GetType ( ).Is<TType> ( );
 		}
 
 		/// <summary>
-		/// Determines whether the object is a type of <c>T</c>.
+		/// Determines whether [is] [the specified attribute].
 		/// </summary>
 		/// <typeparam name="TType">The type of the type.</typeparam>
-		/// <param name="t">The t.</param>
-		/// <returns>
-		///   <c>true</c> if the object is a type of <c>T</c>; otherwise, <c>false</c>.
-		/// </returns>
+		/// <param name="t">The attribute.</param>
+		/// <returns></returns>
 		public static bool Is<TType> ( this object t ) {
 			return t is TType;
 		}
 
 		/// <summary>
-		/// Determines whether the object is a type of <c>T</c>.
+		/// Determines whether [is] [the specified attribute].
 		/// </summary>
 		/// <typeparam name="TType">The type of the type.</typeparam>
-		/// <param name="t">The t.</param>
-		/// <returns>
-		///   <c>true</c> if the object is a type of <c>T</c>; otherwise, <c>false</c>.
-		/// </returns>
+		/// <param name="t">The attribute.</param>
+		/// <returns></returns>
 		public static bool Is<TType> ( this Type t ) where TType : class {
 			return typeof ( TType ).IsAssignableFrom ( t );
 		}
 
 
 		/// <summary>
-		/// Gets the fully qualified name of the type
+		/// Qualifieds the name.
 		/// </summary>
-		/// <param name="t">The type.</param>
+		/// <param name="t">The attribute.</param>
 		/// <returns></returns>
 		public static String QualifiedName ( this Type t ) {
 			return "{0}, {1}".With ( t.FullName, t.Assembly.GetName ( ).Name );

@@ -19,10 +19,10 @@ namespace EndpointMvcSite.Areas.V1.Controllers {
 		[Description ( "Gets registered users" )]
 		[CustomProperty ( "Daily Limit", Value = 0 )]
 		[Gist ( "d4d2110ca4769876fb69" )]
-		[ReturnType ( typeof ( UserModel[] ) )]
+		[ReturnType ( typeof ( IEnumerable<UserModel> ) )]
 		public ActionResult List ( ) {
 			// all your code here to return your users api
-			return new EmptyResult ( );
+			return null;
 		}
 
 		[RequiresAuthentication]
