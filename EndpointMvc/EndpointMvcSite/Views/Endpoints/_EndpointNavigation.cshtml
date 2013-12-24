@@ -1,21 +1,21 @@
 ﻿@model EndpointMvc.Models.EndpointData
 
-<div class="epm-nav affix affix-top">
+<div class="epm-nav">
 	<ul class="nav">
 		@foreach ( var item in Model.Areas ) {
 			<li class="">
-				<a href="#@(item.QualifiedName.Replace(".","_"))"><i class="fa fa-folder mrs mls"></i>@(String.IsNullOrWhiteSpace(item.Name) ? "[Default]" : item.Name)</a>
+				<a href="#@(item.QualifiedName.Replace(".","_"))"><i class="fa fa-folder mrs mls"></i>@(String.IsNullOrWhiteSpace ( item.Name ) ? "[Default]" : item.Name)</a>
 				<ul class="nav nested">
 					@foreach ( var secitem in item.ServicesList ) {
 						<li>
-						<a href="#@(secitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code-fork mrs plm mlm"></i>@secitem.Name</a>
-						<ul class="nav nested">
-							@foreach ( var epitem in secitem.EndpointList ) {
-								<li><a href="#@(epitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code mrs pll mll"></i>@epitem.Name</a></li>
-							}
-						</ul>
-					</li>
-				}
+							<a href="#@(secitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code-fork mrs plm mlm"></i>@secitem.Name</a>
+							<ul class="nav nested">
+								@foreach ( var epitem in secitem.EndpointList ) {
+									<li><a href="#@(epitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code mrs pll mll"></i>@epitem.Name</a></li>
+								}
+							</ul>
+						</li>
+					}
 				</ul>
 			</li>
 			<li class="divider"></li>

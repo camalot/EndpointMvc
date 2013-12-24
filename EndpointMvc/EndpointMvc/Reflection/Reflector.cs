@@ -214,7 +214,7 @@ namespace EndpointMvc.Reflection {
 					var name = Enum.GetName ( pi.ParameterType, val );
 					nv.Add ( new KeyValuePair<string, object> ( name, (int)val ) );
 				}
-				var names = String.Join ( "," + Environment.NewLine, nv.Select ( s => "{0}={1}".With ( s.Key, s.Value ) ) );
+				var names = String.Join ( ", ", nv.Select ( s => "{0}={1}".With ( s.Key, s.Value ) ) );
 				added.Add ( new PropertyKeyValuePair<string, object> {
 					Key = "Possible Values",
 					Value = String.Join ( ",", names ),
