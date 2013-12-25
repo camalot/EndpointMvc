@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Optimization;
+using EndpointMvc.Extensions;
 
 namespace EndpointMvcSite {
 	public class BundleConfig {
@@ -17,6 +18,8 @@ namespace EndpointMvcSite {
 								"~/assets/scripts/bootstrap.js",
 								"~/assets/scripts/respond.js" ) );
 
+			bundles.AddEndpointMvcScripts ( "~/assets/scripts/" );
+
 			bundles.Add ( new StyleBundle ( "~/css/site" )
 				.Include (  
 									 "~/assets/styles/spacing.css",
@@ -32,6 +35,8 @@ namespace EndpointMvcSite {
 									 "~/assets/styles/site.css"
 				) 
 			);
+
+			bundles.AddEndpointMvcStyles ( "~/assets/styles/" );
 		}
 	}
 }

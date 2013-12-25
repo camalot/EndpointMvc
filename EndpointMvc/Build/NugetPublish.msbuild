@@ -13,8 +13,10 @@
 		<ReleasesPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\nuget</ReleasesPath>
 		<NugetPath>$(MSBuildProjectDirectory)\..\.nuget</NugetPath>
 		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvcSite\Views\Endpoints</ViewsPath>
+		<StylesIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.css;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.min.css;</StylesIncludeSearch>
+		<ScriptsIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js.map;</ScriptsIncludeSearch>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<ProjectAssemblies Include="$(OutputPath)\$(Project).dll" />
 	</ItemGroup>
@@ -30,21 +32,21 @@
 		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push setApiKey $(NuGetKey)" Condition=" '$(NuGetKey)' != '' "/>
 		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(NugetPackage) $(NuGetKey)"  Condition=" '$(NuGetKey)' != '' "/>
 
-		
+
 		<MakeDir Directories="$(ReleasesPath)" Condition="!Exists('$(ReleasesPath)')" />
 		<Copy SourceFiles="$(NugetPath)\$(ProjectFriendlyName).$(ProjectVersion).nupkg" DestinationFolder="$(ReleasesPath)" />
 		<Delete Files="$(NugetPath)\$(NugetPackage)" />
-		
+
 	</Target>
-	
+
 	<Target Name="RetrieveIdentities">
-    <GetAssemblyIdentity
+		<GetAssemblyIdentity
         AssemblyFiles="@(ProjectAssemblies)">
-        <Output
-            TaskParameter="Assemblies"
-            ItemName="ProjectIdentities"/>
-    </GetAssemblyIdentity>
-</Target>
+			<Output
+					TaskParameter="Assemblies"
+					ItemName="ProjectIdentities"/>
+		</GetAssemblyIdentity>
+	</Target>
 
 	<Target Name="NuGetPackage" DependsOnTargets="RetrieveIdentities">
 		<CreateProperty Value="%(ProjectIdentities.Version)">
@@ -55,15 +57,17 @@
 			<Output TaskParameter="Value" PropertyName="PackagePath" />
 		</CreateProperty>
 
-		<CreateProperty Value="$(PackagePath)\lib\net40">
+		<CreateProperty Value="$(PackagePath)\lib\net45">
 			<Output TaskParameter="Value" PropertyName="Net4LibPath" />
 		</CreateProperty>
 
 		<MakeDir Directories="$(Net4LibPath)" Condition="!Exists('$(Net4LibPath)')" />
 		<MakeDir Directories="$(PackagePath)\content\Views\Endpoints" Condition="!Exists('$(PackagePath)\content\Views\Endpoints')" />
-		
+		<MakeDir Directories="$(PackagePath)\content\Content" Condition="!Exists('$(PackagePath)\content\Content')" />
+		<MakeDir Directories="$(PackagePath)\content\Scripts" Condition="!Exists('$(PackagePath)\content\Scripts')" />
+
 		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NuSpecFile)" DestinationFiles="$(PackagePath)\$(ProjectFriendlyName).nuspec" />
-		
+
 		<CreateItem Include="@(ProjectAssemblies)" Exclude="$(OutputPath)*.zip;$(OutputPath)*.vshost.*;">
 			<Output ItemName="CopyFiles" TaskParameter="Include"/>
 		</CreateItem>
@@ -71,10 +75,20 @@
 		<CreateItem Include="$(ViewsPath)\**\*.*">
 			<Output ItemName="CopyMvcViews" TaskParameter="Include"/>
 		</CreateItem>
-		
+
+		<CreateItem Include="$(StylesIncludeSearch)">
+			<Output ItemName="CopyMvcStyles" TaskParameter="Include"/>
+		</CreateItem>
+
+		<CreateItem Include="$(ScriptsIncludeSearch)">
+			<Output ItemName="CopyMvcScripts" TaskParameter="Include"/>
+		</CreateItem>
+
 		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(Net4LibPath)" />
 		<Copy SourceFiles="@(CopyMvcViews)" DestinationFolder="$(PackagePath)\content\Views\Endpoints\%(RecursiveDir)" />
-		
+		<Copy SourceFiles="@(CopyMvcScripts)" DestinationFolder="$(PackagePath)\content\Scripts\%(RecursiveDir)" />
+		<Copy SourceFiles="@(CopyMvcStyles)" DestinationFolder="$(PackagePath)\content\Content\%(RecursiveDir)" />
+
 		<XmlUpdate
 			XPath="/package/metadata/version"
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
@@ -87,7 +101,7 @@
 			XPath="/package/metadata/releaseNotes"
 			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
 			Value="$(ReleaseDescription)"/>
-		
+
 		<Exec WorkingDirectory="$(NugetPath)" Command="nuget pack &quot;$(PackagePath)\$(ProjectFriendlyName).nuspec&quot;" />
 		<RemoveDir Directories="$(PackagePath)" Condition="Exists('$(PackagePath)')" ContinueOnError="true" />
 	</Target>

@@ -5,16 +5,21 @@
 	<div class="panel-body">
 		<p>EndpointMvc needs to register its routes to handle the calls</p>
 		<div class="gist-container mbs">
-			<div class="alert alert-info mbs">You can register the routes via the Extension methods.</div>
+			<blockquote class="primary">You can register the routes via the Extension methods.</blockquote>
 			@(Html.Action ( "Gist", new { id = "d0b621b2413ddc06bb2d" } ))
 		</div>
 		<div class="gist-container mbs">
-			<div class="alert alert-info mbs">You can register the routes via EndpointMvc RouteConfig class.</div>
+			<blockquote class="primary">You can register the routes via EndpointMvc RouteConfig class.</blockquote>
 			@(Html.Action ( "Gist", new { id = "424f2e910b74e4febbf4" } ))
 		</div>
 		<div class="gist-container mbs">
-			<div class="alert alert-info mbs">If you want to be able to call EndpointMvc on specific areas, then you need to register before any area is registered.</div>
+			<blockquote class="primary">If you want to be able to call EndpointMvc on specific areas, then you need to register before any area is registered.</blockquote>
 			@(Html.Action ( "Gist", new { id = "60af1afc4726e166613d" } ))
+		</div>
+
+		<div class="gist-container mbs">
+			<blockquote class="primary">There are some specific css files and javascript files that are needed to make everything work correctly. Here is how you register those.</blockquote>
+			@(Html.Action ( "Gist", new { id = "c91e385587e1d1c5c23c" } ))
 		</div>
 	</div>
 </div>

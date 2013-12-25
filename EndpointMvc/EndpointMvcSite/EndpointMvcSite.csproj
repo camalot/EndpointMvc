@@ -148,6 +148,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\endpointmvc-114.png" />
+    <Content Include="assets\images\endpointmvc-120.png" />
+    <Content Include="assets\images\endpointmvc-144.png" />
+    <Content Include="assets\images\endpointmvc-152.png" />
+    <Content Include="assets\images\endpointmvc-16.png" />
+    <Content Include="assets\images\endpointmvc-256.png" />
+    <Content Include="assets\images\endpointmvc-32.png" />
+    <Content Include="assets\images\endpointmvc-57.png" />
+    <Content Include="assets\images\endpointmvc-72.png" />
+    <Content Include="assets\scripts\endpointmvc.js" />
+    <Content Include="assets\scripts\endpointmvc.min.js">
+      <DependentUpon>endpointmvc.js</DependentUpon>
+    </Content>
     <Content Include="assets\styles\bootstrap-win8.css" />
     <Content Include="assets\styles\bootstrap-overrides.css" />
     <Content Include="assets\styles\bootstrap-overrides.min.css">
@@ -220,6 +233,9 @@
     </Content>
     <Content Include="Areas\V1\Views\web.config" />
     <Content Include="Areas\V2\Views\web.config" />
+    <Content Include="assets\scripts\endpointmvc.min.js.map">
+      <DependentUpon>endpointmvc.js</DependentUpon>
+    </Content>
     <None Include="assets\scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="assets\scripts\jquery-2.0.3.js" />
     <Content Include="assets\scripts\jquery-2.0.3.min.js">
