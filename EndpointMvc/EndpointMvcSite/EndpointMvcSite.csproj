@@ -213,7 +213,6 @@
     <Content Include="assets\styles\typography.min.css">
       <DependentUpon>typography.css</DependentUpon>
     </Content>
-    <Content Include="favicon.ico" />
     <Content Include="assets\fonts\fontawesome-webfont.svg" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

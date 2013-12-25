@@ -1,17 +1,36 @@
-﻿
+﻿.emp-content {
+	background-color: #fff;
+}
 .epm-nav-host {
 	position: fixed;
 	top: 0px;
-	left: 0px;
+	width: 50px;
 	z-index: 1035;
+}
+
+.left .epm-nav-host {
+	left: 0px;
 	-moz-transition: left linear 300ms;
 	-o-transition: left linear 300ms;
 	-webkit-transition: left linear 300ms;
 	transition: left linear 300ms;
+
 }
 
-.expanded .epm-nav-host {
+.right .epm-nav-host {
+	right: 0;
+	-moz-transition: right linear 300ms;
+	-o-transition: right linear 300ms;
+	-webkit-transition: right linear 300ms;
+	transition: right linear 300ms;
+
+}
+
+.left .expanded .epm-nav-host{
 	left: 200px;
+}
+.expanded .epm-nav-host.right {
+	right: 200px;
 }
 
 .epm-nav-toggle {
@@ -45,20 +64,34 @@
 	width: 250px;
 	max-width: 250px;
 	position: fixed;
-	left: -255px;
 	top: 50px;
 	bottom: 0;
 	overflow-y: auto;
 	overflow-x: auto;
 	white-space: nowrap;
+}
+
+.epm-nav.left  {
+	left: -255px;
 	-moz-transition: left linear 300ms;
 	-o-transition: left linear 300ms;
 	-webkit-transition: left linear 300ms;
 	transition: left linear 300ms;
 }
 
-	.epm-nav.expanded {
+.epm-nav.right {
+	right: -255px;
+	-moz-transition: right linear 300ms;
+	-o-transition: right linear 300ms;
+	-webkit-transition: right linear 300ms;
+	transition: right linear 300ms;
+}
+
+	.epm-nav.expanded.left {
 		left: 0;
+	}
+	.epm-nav.expanded.right {
+		right: 0;
 	}
 
 	.epm-nav li.divider {
@@ -81,26 +114,50 @@
 		color: #fff;
 	}
 
-	.epm-nav li.active > a {
+	 .epm-nav.right li.active > a {
+		border-left: 2px solid #fff;
+	}
+
+	.epm-nav-primary.epm-nav.right li.active > a {
+		border-left-color: #0072e6;
+	}
+
+	.epm-nav-success.epm-nav.right li.active > a {
+		border-left-color: #379f15;
+	}
+
+	.epm-nav-warning.epm-nav.right li.active > a {
+		border-left-color: #fe6600;
+	}
+
+	.epm-nav-danger.epm-nav.right li.active > a {
+		border-left-color: #e60033;
+	}
+
+	.epm-nav-info.epm-nav.right li.active > a {
+		border-left-color: #8d46b0;
+	}
+
+	.epm-nav.left li.active > a {
 		border-right: 2px solid #fff;
 	}
 
-	.epm-nav-primary.epm-nav li.active > a {
+	.epm-nav-primary.epm-nav.left li.active > a {
 		border-right-color: #0072e6;
 	}
 
-	.epm-nav-success.epm-nav li.active > a {
+	.epm-nav-success.epm-nav.left li.active > a {
 		border-right-color: #379f15;
 	}
 
-	.epm-nav-warning.epm-nav li.active > a {
+	.epm-nav-warning.epm-nav.left li.active > a {
 		border-right-color: #fe6600;
 	}
 
-	.epm-nav-danger.epm-nav li.active > a {
+	.epm-nav-danger.epm-nav.left li.active > a {
 		border-right-color: #e60033;
 	}
 
-	.epm-nav-info.epm-nav li.active > a {
+	.epm-nav-info.epm-nav.left li.active > a {
 		border-right-color: #8d46b0;
 	}
