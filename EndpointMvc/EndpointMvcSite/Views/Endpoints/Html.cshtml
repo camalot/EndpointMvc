@@ -2,6 +2,7 @@
 @{
 	ViewBag.Title = "Endpoints";
 }
+@(Html.Partial ( "_EndpointNavigation", Model ))
 
 <div class="container">
 	<div class="row">
@@ -16,10 +17,7 @@
 			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 		</div>
 		<div class="row man pan">
-			<div class="col-md-3 man pan">
-				@(Html.Partial ( "_EndpointNavigation", Model ))
-			</div>
-			<div class="col-md-9 man pan">
+			<div class="col-md-12 man pan">
 				@(Html.DisplayFor ( m => m ))
 			</div>
 		</div>
@@ -46,8 +44,12 @@
 	</div>
 </div>
 
+@section Styles {
+	@(Styles.Render ( "~/assets/styles/endpointmvc.css" ))
+}
+
 @section Scripts {
-	<script>
+	<script type="text/javascript">
 		(function ($) {
 			"use strict";
 			$(function () {
@@ -59,6 +61,18 @@
 					self.data("popover-setup", true);
 					self.popover();
 				});
+				console.log($(".epm-nav-toggle"));
+				$(".epm-nav-toggle").on("click", function () {
+					console.log("click");
+					var self = $(this);
+					var target = $(self.data("epm-target"));
+					var toggle = self.data("epm-toggle");
+					console.log(target);
+					console.log(toggle);
+					target.toggleClass(toggle);
+				});
+
+				$("body").scrollspy({ target: ".epm-nav .nav", offset: 100 });
 			});
 		})(window.jQuery);
 	</script>

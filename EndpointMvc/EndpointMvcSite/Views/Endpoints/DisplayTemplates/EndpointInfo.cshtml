@@ -9,7 +9,7 @@
 	var area = ViewContext.RouteData.Values["area"];
 }
 
-<div class="endpoint-info mll" id="@Model.QualifiedName.Replace(".","_")">
+<div class="endpoint-info mll" id="@Model.QualifiedName.Replace(".","_")_@String.Join("_",Model.HttpMethods)">
 	<div class="page-header">
 		<h3 class="media-heading zero">
 			<i class="fa fa-code mrm"></i>@Model.Name <small class="nowrap">

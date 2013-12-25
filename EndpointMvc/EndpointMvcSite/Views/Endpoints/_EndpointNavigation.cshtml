@@ -1,6 +1,13 @@
 ﻿@model EndpointMvc.Models.EndpointData
+<div class="epm-nav expanded epm-nav-success">
+	<div class="epm-nav-host">
+		<div class="navbar-toggle epm-nav-toggle" title="Navigation" data-epm-target=".epm-nav" data-epm-toggle="expanded">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</div>
+	</div>
 
-<div class="epm-nav">
 	<ul class="nav">
 		@foreach ( var item in Model.Areas ) {
 			<li class="">
@@ -11,7 +18,7 @@
 							<a href="#@(secitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code-fork mrs plm mlm"></i>@secitem.Name</a>
 							<ul class="nav nested">
 								@foreach ( var epitem in secitem.EndpointList ) {
-									<li><a href="#@(epitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code mrs pll mll"></i>@epitem.Name</a></li>
+									<li><a href="#@(epitem.QualifiedName.Replace(".","_"))_@(String.Join ( "_", epitem.HttpMethods ))"><i class="fa fa-code mrs pll mll"></i>@epitem.Name</a></li>
 								}
 							</ul>
 						</li>

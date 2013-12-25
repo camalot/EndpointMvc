@@ -165,6 +165,13 @@
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="assets\styles\colors.css" />
+    <Content Include="assets\styles\colors.min.css">
+      <DependentUpon>colors.css</DependentUpon>
+    </Content>
+    <Content Include="assets\styles\endpointmvc.css" />
+    <Content Include="assets\styles\endpointmvc.min.css">
+      <DependentUpon>endpointmvc.css</DependentUpon>
+    </Content>
     <Content Include="assets\styles\font-awesome.css" />
     <Content Include="assets\styles\font-awesome.min.css">
       <DependentUpon>font-awesome.css</DependentUpon>

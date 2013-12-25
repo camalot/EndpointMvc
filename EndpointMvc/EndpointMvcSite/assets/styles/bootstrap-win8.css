@@ -758,6 +758,18 @@ blockquote.info {
 	color: #fff;
 }
 /** Navbar **/
+
+
+.navbar-default .navbar-toggle:hover, 
+.navbar-default .navbar-toggle:focus {
+	background-color: #444;
+}
+
+.navbar-default .navbar-toggle {
+	border-color: #444;
+	border-radius: 0;
+}
+
 .navbar-nav > li {
 	border-top-width: 6px;
 	border-top-color: transparent;
