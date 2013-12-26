@@ -4,6 +4,15 @@
 	cursor: default;
 }
 
+.logo {
+	background-image: url(../images/logo.svg);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 114px;
+	width: 114px;
+	margin-right: 20px;
+}
+
 .transparent {
 	background-color: transparent;
 	border: 0;

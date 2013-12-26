@@ -128,6 +128,7 @@
     <Compile Include="Models\EndpointData.cs" />
     <Compile Include="Models\EndpointInfo.cs" />
     <Compile Include="Models\EndpointService.cs" />
+    <Compile Include="Models\EnumInfo.cs" />
     <Compile Include="Models\Gist.cs" />
     <Compile Include="Models\ParamInfo.cs" />
     <Compile Include="Models\PropertyKeyValuePair.cs" />

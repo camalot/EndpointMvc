@@ -19,19 +19,22 @@ namespace EndpointMvc.Config {
 		/// </summary>
 		/// <param name="routes">The routes.</param>
 		public static void RegisterRoutes ( RouteCollection routes ) {
+			RegisterViewSearchLocations ( );
+
 			routes.MapRoute (
-				name: DEFAULT_NAME.With("Default"),
+				name: DEFAULT_NAME.With ( "Define" ),
+				url: "define/{id}/{action}",
+				defaults: new { controller = "Define" },
+				namespaces: new String[] { DEFAULT_NAMESPACE }
+			);
+
+			routes.MapRoute (
+				name: DEFAULT_NAME.With ( "Default" ),
 				url: "endpoints/{action}/{id}",
 				defaults: new { controller = DEFAULT_CONTROLLER, action = DEFAULT_ACTION, id = UrlParameter.Optional },
 				namespaces: new String[] { DEFAULT_NAMESPACE }
 			);
 
-			routes.MapRoute (
-				name: DEFAULT_NAME.With ( "Define" ),
-				url: "endpoints/define/{id}/{action}",
-				defaults: new { controller = "Define" },
-				namespaces: new String[] { DEFAULT_NAMESPACE }
-			);
 		}
 
 		/// <summary>
@@ -53,6 +56,32 @@ namespace EndpointMvc.Config {
 				defaults: new { controller = DEFAULT_CONTROLLER, action = DEFAULT_ACTION, area = context.AreaName, id = UrlParameter.Optional },
 				namespaces: new String[] { DEFAULT_NAMESPACE }
 			);
+		}
+
+
+		private static void RegisterViewSearchLocations ( ) {
+			var viewEngines = ViewEngines.Engines.Where ( e => e.Is<RazorViewEngine> ( ) ).Cast<RazorViewEngine>();
+			if ( viewEngines != null && viewEngines.Count() > 0  ) {
+				foreach ( var viewEngine in viewEngines ) {
+					viewEngine.PartialViewLocationFormats = viewEngine.PartialViewLocationFormats.Concat ( new[] {
+						"~/Views/Endpoints/{0}.cshtml",
+						"~/Views/Endpoints/EditorTemplates/{0}.cshtml",
+						"~/Views/Endpoints/DisplayTemplates/{0}.cshtml",
+						"~/Views/Endpoints/Shared/{0}.cshtml",
+						"~/Views/Endpoints/{0}.vbhtml",
+						"~/Views/Endpoints/EditorTemplates/{0}.vbhtml",
+						"~/Views/Endpoints/DisplayTemplates/{0}.vbhtml",
+						"~/Views/Endpoints/Shared/{0}.vbhtml",
+					} ).ToArray ( );
+
+					viewEngine.ViewLocationFormats = viewEngine.ViewLocationFormats.Concat ( new[] {
+						"~/Views/Endpoints/{0}.cshtml",
+						"~/Views/Endpoints/Shared/{0}.cshtml",
+						"~/Views/Endpoints/{0}.vbhtml",
+						"~/Views/Endpoints/Shared/{0}.vbhtml",
+					} ).ToArray ( );
+				}
+			}
 		}
 	}
 }

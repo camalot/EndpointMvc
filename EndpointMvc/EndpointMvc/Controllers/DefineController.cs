@@ -7,27 +7,53 @@ using System.Web.Mvc;
 using EndpointMvc.Models;
 using EndpointMvc.Reflection;
 using EndpointMvc.Extensions;
+using System.Reflection;
+using EndpointMvc.Attributes;
 
 namespace EndpointMvc.Controllers {
-	public class DefineController : Controller {
+	public class DefineController : Controller{
+
 		public Results.EndpointResult Json ( String id ) {
 			throw new NotImplementedException ( );
 		}
 
-		public Results.EndpointResult Xml ( String id ) {
+		public Results.EndpointResult XMl ( String id ) {
 			throw new NotImplementedException ( );
 		}
 
 		public ActionResult Html ( String id ) {
-			var reflector = new Reflector();
-			var type = reflector.GetTypeFromName ( id );
-			var model = new DefineData {
-				Name = type.Name,
-				QualifiedName = type.QualifiedName()
-			};
+			var model = GetDefineParamInfo ( id.Require ( ) );
 
 			// the view lives in endpoints
-			return View ("../Endpoints/Define", model );
+			return View ( "Define", model );
 		}
+
+
+		private DefineData GetDefineParamInfo ( String typeName ) {
+			var reflector = new Reflector ( );
+
+			var parts = typeName.Require ( ).Split ( ',' ).Require ( );
+			var asm = AppDomain.CurrentDomain.GetAssemblies ( ).FirstOrDefault ( a => a.GetName ( ).Name.Equals ( parts[1].Trim ( ).Replace ( "/", "" ), StringComparison.InvariantCultureIgnoreCase ) );
+			if ( asm != null ) {
+				var type = asm.GetType ( parts[0].Trim ( ), false, true );
+				var data = new DefineData {
+					Name = type.Name,
+					QualifiedName = type.QualifiedName ( ),
+				};
+
+				if ( type.Is<Enum> ( ) ) {
+					data.Fields.AddRange ( reflector.GetEnumInfo ( type ) );
+				} else {
+					var props = type.GetProperties ( BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public ).Where ( p => !p.HasAttribute<IgnoreAttribute> ( ) );
+					foreach ( var prop in props ) {
+						data.Properties.AddRange ( reflector.GetPropertyInfo ( "", prop ) );
+					}
+				}
+				return data;
+			}
+			return null;
+		}
+
+
 	}
 }

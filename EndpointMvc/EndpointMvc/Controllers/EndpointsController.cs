@@ -39,25 +39,6 @@ namespace EndpointMvc.Controllers {
 			} );
 		}
 
-		private DefineData GetDefineParamInfo ( String typeName ) {
-			var reflector = new Reflector ( );
-
-			var parts = typeName.Require ( ).Split ( ',' ).Require ( );
-			var asm = AppDomain.CurrentDomain.GetAssemblies ( ).FirstOrDefault ( a => a.GetName ( ).Name.Equals ( parts[1].Trim ( ).Replace ( "/", "" ), StringComparison.InvariantCultureIgnoreCase ) );
-			if ( asm != null ) {
-				var type = asm.GetType ( parts[0].Trim ( ), false, true );
-				var data = new DefineData {
-					Name = type.Name,
-					QualifiedName = type.QualifiedName ( ),
-				};
-				var props = type.GetProperties ( BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public ).Where ( p => p.GetCustomAttribute<IgnoreAttribute> ( ) == null );
-				foreach ( var prop in props ) {
-					data.Properties.AddRange ( reflector.GetPropertyInfo ( "", prop ) );
-				}
-				return data;
-			}
-			return null;
-		}
 
 		/// <summary>
 		/// Builds the endpoints data.

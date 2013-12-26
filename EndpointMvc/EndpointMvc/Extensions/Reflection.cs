@@ -78,6 +78,21 @@ namespace EndpointMvc.Extensions {
 		/// Gets the custom attribute value.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="Expected">The type of the xpected.</typeparam>
+		/// <param name="type">The type.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		public static Expected GetCustomAttributeValue<T, Expected> ( this Type type, Func<T, Expected> expression ) where T : Attribute {
+			var attribute = type.GetCustomAttribute<T> ( );
+			if ( attribute == null )
+				return default ( Expected );
+			return expression ( attribute );
+		}
+
+		/// <summary>
+		/// Gets the custom attribute value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
 		/// <typeparam name="Expected">The type of the expected.</typeparam>
 		/// <param name="member">The member.</param>
 		/// <param name="expression">The expression.</param>

@@ -499,6 +499,24 @@ namespace EndpointMvc.Reflection {
 			return type.Name;
 		}
 
+		public List<EnumInfo> GetEnumInfo ( Type @enum ) {
+			var list = new List<EnumInfo> ( );
+			var desc = @enum.GetCustomAttributeValue<DescriptionAttribute, String> ( x => x.Description ).Or(String.Empty);
+
+			var values = Enum.GetValues ( @enum );
+			foreach ( var val in values ) {
+				var name = Enum.GetName ( @enum, val );
+				var ei = new EnumInfo {
+					Name = name,
+					Value = (int)val,
+					Description = desc,
+					Type = typeof ( int ).Name,
+					QualifiedType = typeof ( int ).QualifiedName ( ),
+				};
+				list.Add ( ei );
+			}
+			return list;
+		}
 
 		/// <summary>
 		/// Gets the property info.
