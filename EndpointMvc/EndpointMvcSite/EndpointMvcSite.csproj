@@ -139,6 +139,7 @@
     <Compile Include="Areas\V2\Controllers\UserController.cs" />
     <Compile Include="Areas\V2\V2AreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -307,6 +308,7 @@
     <Folder Include="Areas\V2\Models\" />
     <Folder Include="Areas\V2\Views\Shared\" />
     <Folder Include="Areas\V2\Views\User\" />
+    <Folder Include="Views\Version\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

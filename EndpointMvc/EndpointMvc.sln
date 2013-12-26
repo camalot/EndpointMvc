@@ -21,8 +21,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5EC1CBB1-0A9F-42B0-BA26-D540D1DF404C}"
 	ProjectSection(SolutionItems) = preProject
 		Build\EndpointMvc.nuspec = Build\EndpointMvc.nuspec
+		Build\Init.ps1 = Build\Init.ps1
+		Build\Install.ps1 = Build\Install.ps1
 		Build\nuget.bat = Build\nuget.bat
 		Build\NugetPublish.msbuild = Build\NugetPublish.msbuild
+		Build\Uninstall.ps1 = Build\Uninstall.ps1
 		Build\WebPublish.msbuild = Build\WebPublish.msbuild
 	EndProjectSection
 EndProject

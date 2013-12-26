@@ -15,6 +15,7 @@
 		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvcSite\Views\Endpoints</ViewsPath>
 		<StylesIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.css;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.min.css;</StylesIncludeSearch>
 		<ScriptsIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js.map;</ScriptsIncludeSearch>
+		<PSIncludeSearch>$(MSBuildProjectDirectory)\install.ps1;</PSIncludeSearch>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -65,6 +66,7 @@
 		<MakeDir Directories="$(PackagePath)\content\Views\Endpoints" Condition="!Exists('$(PackagePath)\content\Views\Endpoints')" />
 		<MakeDir Directories="$(PackagePath)\content\Content" Condition="!Exists('$(PackagePath)\content\Content')" />
 		<MakeDir Directories="$(PackagePath)\content\Scripts" Condition="!Exists('$(PackagePath)\content\Scripts')" />
+		<MakeDir Directories="$(PackagePath)\tools" Condition="!Exists('$(PackagePath)\tools')" />
 
 		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NuSpecFile)" DestinationFiles="$(PackagePath)\$(ProjectFriendlyName).nuspec" />
 
@@ -84,10 +86,15 @@
 			<Output ItemName="CopyMvcScripts" TaskParameter="Include"/>
 		</CreateItem>
 
+		<CreateItem Include="$(PSIncludeSearch)">
+			<Output ItemName="CopyNugetPS" TaskParameter="Include"/>
+		</CreateItem>
+
 		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(Net4LibPath)" />
 		<Copy SourceFiles="@(CopyMvcViews)" DestinationFolder="$(PackagePath)\content\Views\Endpoints\%(RecursiveDir)" />
 		<Copy SourceFiles="@(CopyMvcScripts)" DestinationFolder="$(PackagePath)\content\Scripts\%(RecursiveDir)" />
 		<Copy SourceFiles="@(CopyMvcStyles)" DestinationFolder="$(PackagePath)\content\Content\%(RecursiveDir)" />
+		<Copy SourceFiles="@(CopyNugetPS)" DestinationFolder="$(PackagePath)\tools\%(RecursiveDir)" />
 
 		<XmlUpdate
 			XPath="/package/metadata/version"
