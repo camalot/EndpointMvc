@@ -161,6 +161,10 @@
     <Content Include="assets\scripts\endpointmvc.min.js">
       <DependentUpon>endpointmvc.js</DependentUpon>
     </Content>
+    <Content Include="assets\scripts\mousetrap.js" />
+    <Content Include="assets\scripts\mousetrap.min.js">
+      <DependentUpon>mousetrap.js</DependentUpon>
+    </Content>
     <Content Include="assets\styles\bootstrap-win8.css" />
     <Content Include="assets\styles\bootstrap-overrides.css" />
     <Content Include="assets\styles\bootstrap-overrides.min.css">
@@ -287,6 +291,9 @@
     <Content Include="Views\Home\_AdPartial.cshtml" />
     <Content Include="Views\Home\_LicensePartial.cshtml" />
     <Content Include="Views\Home\_MetroNavPartial.cshtml" />
+    <Content Include="assets\scripts\mousetrap.min.js.map">
+      <DependentUpon>mousetrap.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

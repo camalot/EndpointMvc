@@ -1,7 +1,7 @@
 ﻿@model EndpointMvc.Models.EndpointData
-<div class="right epm-nav expanded epm-nav-success">
+<div class="right epm-nav expanded epm-nav-primary">
 	<div class="epm-nav-host">
-		<div class="navbar-toggle epm-nav-toggle" title="Navigation" data-epm-target=".epm-nav" data-epm-toggle="expanded">
+		<div class="navbar-toggle epm-nav-toggle" title="Close" data-epm-target=".epm-nav" data-epm-toggle="expanded">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -9,6 +9,12 @@
 	</div>
 
 	<ul class="nav">
+		<li class="no-filter nav-search man mbs pan">
+				<div class="form-group man pan">
+					<input type="search" placeholder="Search" class="search-field man" />
+					<button type="button" class="clear hidden" title="Clear">&times;</button>
+				</div>
+		</li>
 		@foreach ( var item in Model.Areas ) {
 			<li class="">
 				<a href="#@(item.QualifiedName.Replace(".","_"))"><i class="fa fa-folder mrs mls"></i>@(String.IsNullOrWhiteSpace ( item.Name ) ? "[Default]" : item.Name)</a>
@@ -28,6 +34,6 @@
 			<li class="divider"></li>
 		}
 
-		<li class="bold"><a href="http://endpointmvc.bit13.com/"><i class="fa fa-external-link-square mrs"></i>Powered by EndpointMVC</a></li>
+		<li class="bold no-filter"><a href="http://endpointmvc.bit13.com/"><i class="fa fa-external-link-square mrs"></i>Powered by EndpointMVC</a></li>
 	</ul>
 </div>

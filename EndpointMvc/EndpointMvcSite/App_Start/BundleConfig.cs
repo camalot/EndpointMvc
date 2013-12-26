@@ -18,16 +18,20 @@ namespace EndpointMvcSite {
 								"~/assets/scripts/bootstrap.js",
 								"~/assets/scripts/respond.js" ) );
 
+			bundles.Add ( new ScriptBundle ( "~/js/mousetrap" ).Include (
+						"~/assets/scripts/mousetrap.js" ) );
+
+
 			bundles.AddEndpointMvcScripts ( "~/assets/scripts/" );
 
 			bundles.Add ( new StyleBundle ( "~/css/site" )
 				.Include (  
+									 "~/assets/styles/bootstrap.css", 
 									 "~/assets/styles/spacing.css",
 									 "~/assets/styles/typography.css",
 									 "~/assets/styles/colors.css",
 									 "~/assets/styles/gist.css",
 									 "~/assets/styles/google.adsense.css",
-									 "~/assets/styles/bootstrap.css", 
 									 "~/assets/styles/font-awesome.css",
 									 "~/assets/styles/nuget.css",
 									 "~/assets/styles/bootstrap-overrides.css",
