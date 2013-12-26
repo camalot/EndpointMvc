@@ -5,57 +5,57 @@
 	ViewBag.Title = Model.Name;
 }
 <div class="container epm-content">
-	<div class="row">
-		<div class="row center col-md-12 mvl">
-			@* You can remove this but I would appreciate if you left it in *@
-			<script type="text/javascript">
-				google_ad_client = "ca-pub-9157593394596390";
-				google_ad_slot = "3200374236";
-				google_ad_width = 728;
-				google_ad_height = 90;
-			</script>
-			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-		</div>
+	<div class="row center col-md-12 mvl">
+		@* You can remove this but I would appreciate if you left it in *@
+		<script type="text/javascript">
+			google_ad_client = "ca-pub-9157593394596390";
+			google_ad_slot = "3200374236";
+			google_ad_width = 728;
+			google_ad_height = 90;
+		</script>
+		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+	</div>
 
-		<div class="row man pan">
-			<div class="col-md-12 man pan">
-				<div class="page-header">
-					<h2 class="zero">
-						<a href="@(Url.Action("",new { controller = "endpoints" }))" title="Back to endpoints"><i class="fa-arrow-left fa mrm"></i></a>
-						<i class="fa fa-code-fork mrm"></i>@Model.Name
-					</h2>
-				</div>
-
-
-				@if ( Model.Properties.Count > 0 ) {
-					<div class="col-md-12 man pan">
-						<div class="media man pan">
-							<h4 class="media-heading text-muted">Properties</h4>
-									@(Html.DisplayFor ( m => m.Properties ))
-						</div>
-					</div>
-				}
-				
-				@if ( Model.Fields.Count > 0 ) {
-					<div class="col-md-12 man pan">
-						<div class="media man pan">
-							<h4 class="media-heading text-muted">Fields</h4>
-							@(Html.DisplayFor ( m => m.Fields ))
-						</div>
-					</div>
-				}
+	<div class="row man pan">
+		<div class="col-md-12 man pan">
+			<div class="page-header">
+				<h2 class="zero">
+					<a href="@(Url.Action("",new { controller = "endpoints" }))" title="Back to endpoints"><i class="fa-arrow-left fa mrm"></i></a>
+					<i class="fa fa-code-fork mrm"></i>@Model.Name
+				</h2>
 			</div>
-		</div>
 
-		<div class="row center col-md-12 mvl">
-			@* You can remove this but I would appreciate if you left it in *@
-			<script type="text/javascript">
-				google_ad_client = "ca-pub-9157593394596390";
-				google_ad_slot = "3200374236";
-				google_ad_width = 728;
-				google_ad_height = 90;
-			</script>
-			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+
+			@if ( Model.Properties.Count > 0 ) {
+				<div class="col-md-12 man pan">
+					<div class="media man pan">
+						<h4 class="media-heading text-muted">Properties</h4>
+						@(Html.DisplayFor ( m => m.Properties ))
+					</div>
+				</div>
+			}
+
+			@if ( Model.Fields.Count > 0 ) {
+				<div class="col-md-12 man pan">
+					<div class="media man pan">
+						<h4 class="media-heading text-muted">Fields</h4>
+						@(Html.DisplayFor ( m => m.Fields ))
+					</div>
+				</div>
+			}
 		</div>
 	</div>
+
+	<div class="row center col-md-12 mvl">
+		@* You can remove this but I would appreciate if you left it in *@
+		<script type="text/javascript">
+			google_ad_client = "ca-pub-9157593394596390";
+			google_ad_slot = "3200374236";
+			google_ad_width = 728;
+			google_ad_height = 90;
+		</script>
+		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+	</div>
+
+	@(Html.Partial ( "_PoweredByPartial" ))
 </div>

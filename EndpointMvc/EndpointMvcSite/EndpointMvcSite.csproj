@@ -296,6 +296,7 @@
       <DependentUpon>mousetrap.js</DependentUpon>
     </Content>
     <Content Include="Views\Endpoints\DisplayTemplates\EnumInfo.cshtml" />
+    <Content Include="Views\Endpoints\Shared\_PoweredByPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
