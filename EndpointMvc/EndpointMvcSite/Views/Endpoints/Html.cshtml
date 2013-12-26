@@ -3,37 +3,6 @@
 	ViewBag.Title = "Endpoints";
 }
 
-<div class="container epm-content">
-	<div class="row text-center col-md-12 mvl">
-		@* You can remove this but I would appreciate if you left it in *@
-		<script type="text/javascript">
-			google_ad_client = "ca-pub-9157593394596390";
-			google_ad_slot = "3200374236";
-			google_ad_width = 728;
-			google_ad_height = 90;
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	</div>
-	<div class="row man pan">
-		<div class="col-md-12 man pan">
-			@(Html.DisplayFor ( m => m ))
-		</div>
-	</div>
-
-	<div class="row text-center col-md-12 mvl">
-		@* You can remove this but I would appreciate if you left it in *@
-		<script type="text/javascript">
-			google_ad_client = "ca-pub-9157593394596390";
-			google_ad_slot = "3200374236";
-			google_ad_width = 728;
-			google_ad_height = 90;
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	</div>
-
-	@(Html.Partial ( "_PoweredByPartial" ))
-</div>
-
 @section Styles {
 	@(Styles.Render ( "~/bundles/endpointmvc/css" ))
 }
@@ -42,3 +11,22 @@
 	@(Scripts.Render ( "~/bundles/endpointmvc/js" ))
 	@(Html.Partial ( "_EndpointNavigation", Model ))
 }
+
+<div class="container epm-content phl mvl">
+	@* You can remove this but I would appreciate if you left it in *@
+	@(Html.Partial ( "_AdsensePartial" ))
+	@****************************************************************@
+
+	<div class="row man pan">
+		<div class="col-md-12 man pan">
+			@(Html.DisplayFor ( m => m ))
+		</div>
+	</div>
+
+	@* You can remove this but I would appreciate if you left it in *@
+	@(Html.Partial ( "_AdsensePartial" ))
+	@****************************************************************@
+	@* This must remain in the view *@
+	@(Html.Partial ( "_PoweredByPartial" ))
+</div>
+

@@ -297,6 +297,8 @@
     </Content>
     <Content Include="Views\Endpoints\DisplayTemplates\EnumInfo.cshtml" />
     <Content Include="Views\Endpoints\Shared\_PoweredByPartial.cshtml" />
+    <Content Include="Views\Home\_HtmlInfoPartial.cshtml" />
+    <Content Include="Views\Endpoints\Shared\_AdsensePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,15 @@
 ﻿@model EndpointMvc.Models.EndpointData
+
+@* class: left | right : position the navigation on the left or right *@
+@* class: expanded | collapsed : expanded = open; collapsed = closed *@
+@* class: active colors:
+	- epm-nav-default
+	- epm-nav-primary
+	- epm-nav-warning
+	- epm-nav-danger
+	- epm-nav-info
+	- epm-nav-success
+*@
 <div class="right epm-nav expanded epm-nav-primary">
 	<div class="epm-nav-host">
 		<div class="navbar-toggle epm-nav-toggle" title="Close" data-epm-target=".epm-nav" data-epm-toggle="expanded">
@@ -33,7 +44,7 @@
 			</li>
 			<li class="divider"></li>
 		}
-
-		<li class="bold no-filter"><a href="http://endpointmvc.bit13.com/"><i class="fa fa-external-link-square mrs"></i>Powered by EndpointMVC</a></li>
+		@* This must be left in the navigation *@
+		<li class="bold no-filter"><a href="http://endpointmvc.bit13.com/"><i class="fa fa-external-link-square mrs"></i>Powered by EndpointMvc</a></li>
 	</ul>
 </div>

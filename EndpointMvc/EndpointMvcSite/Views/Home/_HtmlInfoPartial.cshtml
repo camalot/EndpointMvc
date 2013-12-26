@@ -1,0 +1,37 @@
+﻿<div id="html"></div>
+<div class="panel panel-default pan">
+	<div class="panel-heading mbl"><h1 class="zero lowercase"><i class="fa fa-html5 mrm"></i>Html</h1></div>
+	<div class="panel-body">
+		<div>Views are defined for rendering documentation as HTML. These views live in <code>~/Views/Endpoints/</code></div>
+		<div>
+			<ul>
+				<li>
+					<code>Html.cshtml</code>
+					<div>
+						<div>This view is the main rendering page for the documentation.</div>
+						<div class="alert alert-warning">
+							This view expects the <code>_Layout.cshtml</code> to render 2 specific sections; <code>scripts</code> &amp; <code>styles</code>. These are the areas in which 
+							the scripts and styles are registered. Also, the navigation is rendered in the <code>scripts</code> section.
+						</div>
+					</div>
+				</li>
+				<li>
+					<code>Define.cshtml</code>
+					<div>
+						<div>This view is used for rendering information about a specific type.</div>
+						<div class="alert alert-warning">
+							This view expects the <code>_Layout.cshtml</code> to render 2 specific sections; <code>scripts</code> &amp; <code>styles</code>. These are the areas in which
+							the scripts and styles are registered. Also, the navigation is rendered in the <code>scripts</code> section.
+						</div>
+					</div>
+				</li>
+				<li>
+					<code>Shared/_EndpointNavigation.cshtml</code>
+					<div>This is the navigation bar view.</div>
+					@(Html.Action ( "Gist", new { id = "387ef595a2a88e17e3f2" }) )
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
