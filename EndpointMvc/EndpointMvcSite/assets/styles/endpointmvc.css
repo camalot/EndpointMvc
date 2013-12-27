@@ -7,13 +7,13 @@
 
 .epm-nav-host {
 	position: fixed;
-	top: 0px;
+	top: 42px;
 	width: 50px;
 	z-index: 1035;
 }
 
 .left .epm-nav-host {
-	left: -5px;
+	left: 6px;
 	-moz-transition: left linear 300ms;
 	-o-transition: left linear 300ms;
 	-webkit-transition: left linear 300ms;
@@ -21,7 +21,7 @@
 }
 
 .right .epm-nav-host {
-	right: -10px;
+	right: -15px;
 	-moz-transition: right linear 300ms;
 	-o-transition: right linear 300ms;
 	-webkit-transition: right linear 300ms;
@@ -29,11 +29,11 @@
 }
 
 .left.expanded .epm-nav-host {
-	left: 210px;
+	left: 256px;
 }
 
 .expanded.right .epm-nav-host {
-	right: 210px;
+	right: 234px;
 }
 
 .epm-nav-toggle {
@@ -43,7 +43,7 @@
 	background-color: #222;
 	border-radius: 0;
 	cursor: pointer;
-	padding: 10px 0 10px 0;
+	padding: 10px;
 }
 
 	.epm-nav-toggle .icon-bar {
