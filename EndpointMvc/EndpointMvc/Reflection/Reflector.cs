@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.ServiceModel;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -451,25 +450,23 @@ namespace EndpointMvc.Reflection {
 		/// <returns></returns>
 		private List<ParamInfo> GetParamInfo ( String baseName, ParameterInfo pi ) {
 			var list = new List<ParamInfo> ( );
-			var da = pi.GetCustomAttribute<DescriptionAttribute> ( );
-			var req = pi.GetCustomAttribute<RequiredAttribute> ( );
-			var opt = pi.GetCustomAttribute<OptionalAttribute> ( );
+			var desc = pi.GetCustomAttributeValue<DescriptionAttribute, String> ( x => x.Description).Or(string.Empty);
+			var req = pi.HasAttribute<RequiredAttribute> ( );
+			var opt = pi.HasAttribute<OptionalAttribute> ( );
+			var isNullable = pi.ParameterType.IsNullable();
 			var customProps = pi.GetCustomAttributes<CustomPropertyAttribute> ( );
 
 			// if the parameter is not a "system" type then we try to break it down.
 			if ( pi.ParameterType.Namespace.StartsWith ( "System" ) || pi.ParameterType.IsEnum ) {
-				var typeName = GetParameterTypeName(pi.ParameterType);//.IsNullable ( ) ? Nullable.GetUnderlyingType ( pi.ParameterType ).Name :
-					//pi.ParameterType.Is<IEnumerable> ( ) && pi.ParameterType.IsGenericType ? "{0}[]".With ( pi.ParameterType.GenericTypeArguments[0].Name ) :
-					//pi.ParameterType.Name;
-
+				var typeName = GetParameterTypeName(pi.ParameterType);
 				list.Add ( new ParamInfo {
 					IsSystemType = pi.ParameterType.GetUnderlyingType ( ).IsSystemType ( ),
 					Name = pi.Name.ToCamelCase ( ),
 					Type = typeName,
 					QualifiedType = pi.ParameterType.QualifiedName ( ),
 					QualifiedUnderlyingType = pi.ParameterType.GetUnderlyingType().QualifiedName().Replace("[]",""),
-					Description = da == null ? String.Empty : da.Description,
-					Optional = ( pi.IsOptional && req == null ) || opt != null,
+					Description = desc,
+					Optional = ( pi.IsOptional && !req ) || (isNullable && !req ) || opt,
 					Default = pi.DefaultValue,
 					Properties = this.GetCustomProperties ( pi ).ToList ( )
 				} );

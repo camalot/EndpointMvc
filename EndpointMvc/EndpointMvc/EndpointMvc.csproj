@@ -103,6 +103,7 @@
     <Compile Include="Attributes\EndpointAttribute.cs" />
     <Compile Include="Attributes\GistAttribute.cs" />
     <Compile Include="Attributes\IgnoreAttribute.cs" />
+    <Compile Include="Attributes\OptionalAttribute.cs" />
     <Compile Include="Attributes\RequiresAuthenticationAttribute.cs" />
     <Compile Include="Attributes\ReturnTypeAttribute.cs" />
     <Compile Include="Attributes\SinceVersionAttribute.cs" />

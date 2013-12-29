@@ -347,6 +347,16 @@ namespace EndpointMvc.Extensions {
 		}
 
 		/// <summary>
+		/// Determines whether the specified parameter has attribute.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="pi">The parameter.</param>
+		/// <returns></returns>
+		public static bool HasAttribute<T> ( this ParameterInfo pi ) where T : Attribute {
+			return pi.GetCustomAttribute<T> ( ) != default ( T );
+		}
+
+		/// <summary>
 		/// Determines whether the specified field has attribute.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>

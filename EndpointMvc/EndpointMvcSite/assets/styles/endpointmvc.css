@@ -7,7 +7,7 @@
 
 .epm-nav-host {
 	position: fixed;
-	top: 42px;
+	top: 41px;
 	width: 50px;
 	z-index: 1035;
 }
@@ -41,10 +41,20 @@
 	margin-left: 5px;
 	border: none;
 	background-color: #222;
+	border-bottom: solid 1px #000;
 	border-radius: 0;
 	cursor: pointer;
 	padding: 10px;
 }
+
+.left .epm-nav-toggle {
+	border-right: solid 1px #000;
+}
+
+.right .epm-nav-toggle {
+	border-left: solid 1px #000;
+}
+
 
 	.epm-nav-toggle .icon-bar {
 		background-color: #666;
@@ -73,7 +83,7 @@
 	width: 250px;
 	max-width: 250px;
 	position: fixed;
-	top: 50px;
+	top: 49px;
 	bottom: 0;
 	overflow-y: auto;
 	overflow-x: auto;
