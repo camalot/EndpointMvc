@@ -131,6 +131,7 @@
     <Compile Include="Models\EndpointService.cs" />
     <Compile Include="Models\EnumInfo.cs" />
     <Compile Include="Models\Gist.cs" />
+    <Compile Include="Models\NavigationPositions.cs" />
     <Compile Include="Models\ParamInfo.cs" />
     <Compile Include="Models\PropertyKeyValuePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
