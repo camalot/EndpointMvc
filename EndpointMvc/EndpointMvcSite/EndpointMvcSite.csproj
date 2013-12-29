@@ -163,6 +163,7 @@
     <Content Include="assets\scripts\endpointmvc.min.js">
       <DependentUpon>endpointmvc.js</DependentUpon>
     </Content>
+    <Content Include="assets\scripts\github-data.js" />
     <Content Include="assets\scripts\mousetrap.js" />
     <Content Include="assets\scripts\mousetrap.min.js">
       <DependentUpon>mousetrap.js</DependentUpon>

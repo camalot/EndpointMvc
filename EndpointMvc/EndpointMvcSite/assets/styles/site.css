@@ -13,6 +13,14 @@
 	margin-right: 20px;
 }
 
+.divider-vertical {
+	width: 1px;
+	border: none;
+	border-left: solid 1px #666;
+	height: 42px;
+	margin: 3px;
+}
+
 .transparent {
 	background-color: transparent;
 	border: 0;

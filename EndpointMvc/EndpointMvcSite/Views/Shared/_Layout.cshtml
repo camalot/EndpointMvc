@@ -18,7 +18,7 @@
 	<link href="~/assets/images/endpointmvc-32.png" sizes="32x32" rel="icon" type="image/png" />
 	<meta name="viewport" content="width=device-width" />
 	@(Styles.Render ( "~/css/site" ))
-	@(RenderSection("styles", required: false))
+	@(RenderSection ( "styles", required: false ))
 </head>
 <body>
 	<header>
@@ -40,6 +40,7 @@
 	@(Scripts.Render ( "~/js/jquery" ))
 	@(Scripts.Render ( "~/js/bootstrap" ))
 	@(Scripts.Render ( "~/js/mousetrap" ))
+	@(Scripts.Render ( "~/js/site" ))
 	@(RenderSection ( "scripts", required: false ))
 	@(Html.Partial ( "Analytics" ))
 </body>

@@ -33,6 +33,10 @@ pre {
 	max-width: none;
 }
 
+.badge {
+	border-radius: 0;
+}
+
 .pagination > li:last-child > a, 
 .pagination > li:last-child > span,
 .pagination > li:first-child > a, 

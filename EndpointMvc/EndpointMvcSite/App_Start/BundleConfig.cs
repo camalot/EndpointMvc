@@ -21,6 +21,9 @@ namespace EndpointMvcSite {
 			bundles.Add ( new ScriptBundle ( "~/js/mousetrap" ).Include (
 						"~/assets/scripts/mousetrap.js" ) );
 
+			bundles.Add ( new ScriptBundle ( "~/js/site" ).Include (
+					"~/assets/scripts/github-data.js"
+				) );
 
 			bundles.AddEndpointMvcScripts ( "~/assets/scripts/" );
 
