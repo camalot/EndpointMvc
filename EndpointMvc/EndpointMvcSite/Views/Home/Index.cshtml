@@ -1,7 +1,18 @@
 ﻿@{
 	ViewBag.Title = "EndpointMvc";
 }
+
+@section Styles {
+	@(Styles.Render ( "~/bundles/endpointmvc/css" ))
+}
+
+@section Scripts {
+	@(Scripts.Render ( "~/bundles/endpointmvc/js" ))
+	@(Html.Partial ( "_SideNavPartial" ))
+}
+
 @section featured {
+	<div id="home"></div>
 	<section class="featured jumbotron jumbotron-primary mbl">
 		<div class="container">
 			<hgroup class="title">

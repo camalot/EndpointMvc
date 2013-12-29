@@ -1,0 +1,33 @@
+﻿@using EndpointMvc.Models;
+@{
+	var navPosition = NavigationPositions.Right;
+}
+
+<div class="@(navPosition.ToString().ToLower()) epm-nav expanded epm-nav-primary">
+	<div class="epm-nav-host">
+		<div class="navbar-toggle epm-nav-toggle" title="Close" data-epm-target=".epm-nav" data-epm-toggle="expanded">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</div>
+	</div>
+	<ul class="nav">
+		<li class="no-filter nav-search man mbs pan">
+			<div class="form-group man pan">
+				<input type="search" placeholder="Search" class="search-field man" />
+				<button type="button" class="clear hidden" title="Clear">&times;</button>
+			</div>
+		</li>
+		<li class=""><a href="#home"><i class="mrs fa fa-home"></i><span>Home</span></a></li>
+		<li class="divider"></li>
+		<li><a href="#nuget" class="track"><i class="mrs fa fa-download"></i><span>Nuget</span></a></li>
+		<li><a href="#how-it-works" class="track"><i class="mrs fa fa-check"></i><span>How it works</span></a></li>
+		<li><a href="#register-routes" class="track"><i class="mrs fa fa-road"></i><span>Register Routes</span></a></li>
+		<li><a href="#output" class="track"><i class="mrs fa fa-pencil"></i><span>Output</span></a></li>
+		<li><a href="#html" class="track"><i class="mrs fa fa-html5"></i><span>Html</span></a></li>
+		<li><a href="#attributes" class="track"><i class="mrs fa fa-tags"></i><span>Attributes</span></a></li>
+		<li class="divider"></li>
+		<li><a href="@Url.Action("","")#license" class="track"><i class="mrs fa fa-certificate"></i><span>License</span></a></li>
+	</ul>
+</div>
+
