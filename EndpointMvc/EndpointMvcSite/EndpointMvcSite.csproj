@@ -293,7 +293,6 @@
     <Content Include="Views\Home\_AttributesPartial.cshtml" />
     <Content Include="Views\Home\_AdPartial.cshtml" />
     <Content Include="Views\Home\_LicensePartial.cshtml" />
-    <Content Include="Views\Home\_MetroNavPartial.cshtml" />
     <Content Include="assets\scripts\mousetrap.min.js.map">
       <DependentUpon>mousetrap.js</DependentUpon>
     </Content>

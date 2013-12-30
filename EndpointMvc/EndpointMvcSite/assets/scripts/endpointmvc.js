@@ -49,7 +49,7 @@
 			$(this).addClass("hidden");
 		});
 
-		$("body").scrollspy({ target: ".epm-nav .nav" });
+		$("body").scrollspy({ target: ".epm-nav .nav", offset: 100 });
 
 		// if you have mousetrap (http://craig.is/killing/mice) loaded, endpointMVC will bind some events
 		if (mouseTrap) {

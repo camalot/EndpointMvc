@@ -1,99 +1,99 @@
-﻿<div id="attributes"></div>
-@(Html.Partial("_AdPartial"))
+﻿<div id="attributes">
+	@(Html.Partial ( "_AdPartial" ))
 
-<div class="panel panel-default pan">
-	<div class="panel-heading mbl"><h1 class="zero lowercase"><i class="fa fa-tags mrm"></i>Attributes</h1></div>
-	<div class="panel-body">
-		<div>Attribute information to add rich meta data to your controller actions.</div>
-		<ul class="unstyled">
-			<li>
-				<h4>EndpointAttribute <small>- <code>( Class )</code></small></h4>
-				<div>This indicates that a class is an endpoint. All public actions in the controller will then be defined as endpoint actions, unless they are flagged with the <code>IgnoreAttribute</code> or the <code>NonActionAttribute</code>.</div>
-				<div class="gist-container mts">@(Html.Action ( "Gist", new { id = "79fe05ecd0bd3e6f0de1" } ))</div>
-			</li>
-			<li>
-				<h4>IgnoreAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
-				<div>Ignores a class, method, parameter, or property when building output.</div>
-				<div class="alert alert-info mts">
-					<strong>Note: </strong> Overloaded methods are supported, but they <strong>MUST</strong> have different HTTP verb signatures.
-				</div>
-				<div class="gist-container">@(Html.Action ( "Gist", new { id = "1cef103a7595330324d7" } ))</div>
-			</li>
-			<li>
-				<h4>DeprecatedAttribute <small>- <code>( Class | Method )</code></small></h4>
-				<div>Marks a class or method as deprecated and includes the specified reason.</div>
-				<div class="gist-container">@(Html.Action ( "Gist", new { id = "ce350605dcab94a60324" } ))</div>
-			</li>
-			<li>
-				<h4>RequiresAuthenticationAttribute <small>- <code>( Class | Method )</code></small></h4>
-				<div>See <code><a href="#authorizeattribute">AuthorizeAttribute</a></code>.</div>
-				<div class="alert mts"><strong>Note: </strong> This attribute is not a filter and does not do any checks to see if the user is authenticated. You should use another attribute/filter to perform those checks.</div>
-			</li>
-			<li>
-				<h4>CustomPropertyAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
-				<div>Adds custom meta data to the class, method, parameter, or property. You can add multiple attributes to individual elements.</div>
-				<div class="alert mts">
-					<strong>Note: </strong> Custom properties that are added to a class are merged with properties added to a method. If a method has one with the same key, the
-					method property overrides the class level property.
-				</div>
-				<div class="gist-container">@(Html.Action ( "Gist", new { id = "c488c9f20789fa7dea55" } ))</div>
-			</li>
-			<li>
-				<h4>SinceVersionAttribute <small>- <code>( Class | Method )</code></small></h4>
-				<div>Indicates that the specified class or method has been available since the specified version.</div>
-			</li>
-			<li>
-				<h4>ReturnTypeAttribute <small>- <code>( Method )</code></small></h4>
-				<div>Mainly for methods that return <code>ActionResult</code>. This allows you to specify the actual type that is returned.</div>
-				<div class="alert mts"><strong>Note: </strong>If the return type is not <code>ActionResult</code>, that return type will be used. If you add this, it will override that type.</div>
-				<div class="alert"><strong>Note: </strong>If the attribute is not added to an <code>ActionResult</code>, the return type of that method will be described as an <code>Object</code>.</div>
-				<div class="gist-container">@(Html.Action ( "Gist", new { id = "a50b9ff1cd13dd00e77c" } ))</div>
-			</li>
-			<li>
-				<h4>ContentTypeAttribute <small>- <code>( Method )</code></small></h4>
-				<div>Allows you to described the content type that is returned. You can add multiple attributes to a method.</div>
-				<div class="gist-container">@(Html.Action ( "Gist", new { id = "45c9ddd7b19772100b6b" } ))</div>
-			</li>
-			<li>
-				<h4>GistAttribute <small>- <code>( Class | Method )</code></small></h4>
-				<div>Allows code examples to be added to the documentation. This uses <a href="https://gist.github.com" target="_blank">Gists</a> by <a href="https://github.com" target="_blank">GitHub</a>.</div>
-				<div class="alert mts"><strong>Note: </strong> Multiple Gist Attributes can be added to an element.</div>
-				<div class="gist-container">@(Html.Action ( "Gist", new { id = "83d973d7d1fa8f35d55f" } ))</div>
-			</li>
-			<li id="authorizeattribute">
-				<h4>AuthorizeAttribute <small>- <code>( Class | Method )</code></small></h4>
-				<div>Indicates that a class or method requires the request to be authenticated before accessing the endpoint.</div>
-			</li>
-			<li>
-				<h4>ObsoleteAttribute <small>- <code>( Class | Method )</code></small></h4>
-				<div>Marks a class or method as obsolete and includes the specified reason.</div>
-				<div class="gist-container">@(Html.Action ( "Gist", new { id = "92d4537412ec6b7c5b26" } ))</div>
-			</li>
-			<li>
-				<h4>DescriptionAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
-				<div>Describes the class, method, property, or parameter.</div>
-			</li>
-			<li>
-				<h4>RequiredAttribute <small>- <code>( Parameter )</code></small></h4>
-				<div>Indicates that the parameter must have a value passed to the request.</div>
-				<div class="alert mts">If the parameter is a non-nullable type, that does not have a default value set, this it will automatically be marked as required.</div>
-			</li>
-			<li>
-				<h4>OptionalAttribute <small>- <code>( Parameter )</code></small></h4>
-				<div>Can be used instead of the required attribute.</div>
-				<div class="alert mts">If the parameter is a non-nullable type, that does not have a default value set, this it will automatically be marked as required.</div>
-			</li>
-			<li>
-				<h4>AcceptsVerbsAttribute <small>- <code>( Method )</code></small></h4>
-				<div>This is used on the action methods to tell MVC what HTTP methods are accepted.</div>
-				<div class="alert mts">You can use the HTTP Method specific attributes as well, like <code>HttpGetAttribute</code>, <code>HttpPostAttribute</code>, etc.</div>
-			</li>
-			<li>
-				<h4>RequireHttpsAttribute <small>- <code>( Class | Method )</code></small></h4>
-				<div>Indicates if the request requires SSL.</div>
-			</li>
-		</ul>
+	<div class="panel panel-default pan">
+		<div class="panel-heading mbl"><h1 class="zero lowercase"><i class="fa fa-tags mrm"></i>Attributes</h1></div>
+		<div class="panel-body">
+			<div>Attribute information to add rich meta data to your controller actions.</div>
+			<ul class="unstyled">
+				<li>
+					<h4>EndpointAttribute <small>- <code>( Class )</code></small></h4>
+					<div>This indicates that a class is an endpoint. All public actions in the controller will then be defined as endpoint actions, unless they are flagged with the <code>IgnoreAttribute</code> or the <code>NonActionAttribute</code>.</div>
+					<div class="gist-container mts">@(Html.Action ( "Gist", new { id = "79fe05ecd0bd3e6f0de1" } ))</div>
+				</li>
+				<li>
+					<h4>IgnoreAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
+					<div>Ignores a class, method, parameter, or property when building output.</div>
+					<div class="alert alert-info mts">
+						<strong>Note: </strong> Overloaded methods are supported, but they <strong>MUST</strong> have different HTTP verb signatures.
+					</div>
+					<div class="gist-container">@(Html.Action ( "Gist", new { id = "1cef103a7595330324d7" } ))</div>
+				</li>
+				<li>
+					<h4>DeprecatedAttribute <small>- <code>( Class | Method )</code></small></h4>
+					<div>Marks a class or method as deprecated and includes the specified reason.</div>
+					<div class="gist-container">@(Html.Action ( "Gist", new { id = "ce350605dcab94a60324" } ))</div>
+				</li>
+				<li>
+					<h4>RequiresAuthenticationAttribute <small>- <code>( Class | Method )</code></small></h4>
+					<div>See <code><a href="#authorizeattribute">AuthorizeAttribute</a></code>.</div>
+					<div class="alert mts"><strong>Note: </strong> This attribute is not a filter and does not do any checks to see if the user is authenticated. You should use another attribute/filter to perform those checks.</div>
+				</li>
+				<li>
+					<h4>CustomPropertyAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
+					<div>Adds custom meta data to the class, method, parameter, or property. You can add multiple attributes to individual elements.</div>
+					<div class="alert mts">
+						<strong>Note: </strong> Custom properties that are added to a class are merged with properties added to a method. If a method has one with the same key, the
+						method property overrides the class level property.
+					</div>
+					<div class="gist-container">@(Html.Action ( "Gist", new { id = "c488c9f20789fa7dea55" } ))</div>
+				</li>
+				<li>
+					<h4>SinceVersionAttribute <small>- <code>( Class | Method )</code></small></h4>
+					<div>Indicates that the specified class or method has been available since the specified version.</div>
+				</li>
+				<li>
+					<h4>ReturnTypeAttribute <small>- <code>( Method )</code></small></h4>
+					<div>Mainly for methods that return <code>ActionResult</code>. This allows you to specify the actual type that is returned.</div>
+					<div class="alert mts"><strong>Note: </strong>If the return type is not <code>ActionResult</code>, that return type will be used. If you add this, it will override that type.</div>
+					<div class="alert"><strong>Note: </strong>If the attribute is not added to an <code>ActionResult</code>, the return type of that method will be described as an <code>Object</code>.</div>
+					<div class="gist-container">@(Html.Action ( "Gist", new { id = "a50b9ff1cd13dd00e77c" } ))</div>
+				</li>
+				<li>
+					<h4>ContentTypeAttribute <small>- <code>( Method )</code></small></h4>
+					<div>Allows you to described the content type that is returned. You can add multiple attributes to a method.</div>
+					<div class="gist-container">@(Html.Action ( "Gist", new { id = "45c9ddd7b19772100b6b" } ))</div>
+				</li>
+				<li>
+					<h4>GistAttribute <small>- <code>( Class | Method )</code></small></h4>
+					<div>Allows code examples to be added to the documentation. This uses <a href="https://gist.github.com" target="_blank">Gists</a> by <a href="https://github.com" target="_blank">GitHub</a>.</div>
+					<div class="alert mts"><strong>Note: </strong> Multiple Gist Attributes can be added to an element.</div>
+					<div class="gist-container">@(Html.Action ( "Gist", new { id = "83d973d7d1fa8f35d55f" } ))</div>
+				</li>
+				<li id="authorizeattribute">
+					<h4>AuthorizeAttribute <small>- <code>( Class | Method )</code></small></h4>
+					<div>Indicates that a class or method requires the request to be authenticated before accessing the endpoint.</div>
+				</li>
+				<li>
+					<h4>ObsoleteAttribute <small>- <code>( Class | Method )</code></small></h4>
+					<div>Marks a class or method as obsolete and includes the specified reason.</div>
+					<div class="gist-container">@(Html.Action ( "Gist", new { id = "92d4537412ec6b7c5b26" } ))</div>
+				</li>
+				<li>
+					<h4>DescriptionAttribute <small>- <code>( Class | Method | Parameter | Property )</code></small></h4>
+					<div>Describes the class, method, property, or parameter.</div>
+				</li>
+				<li>
+					<h4>RequiredAttribute <small>- <code>( Parameter )</code></small></h4>
+					<div>Indicates that the parameter must have a value passed to the request.</div>
+					<div class="alert mts">If the parameter is a non-nullable type, that does not have a default value set, this it will automatically be marked as required.</div>
+				</li>
+				<li>
+					<h4>OptionalAttribute <small>- <code>( Parameter )</code></small></h4>
+					<div>Can be used instead of the required attribute.</div>
+					<div class="alert mts">If the parameter is a non-nullable type, that does not have a default value set, this it will automatically be marked as required.</div>
+				</li>
+				<li>
+					<h4>AcceptsVerbsAttribute <small>- <code>( Method )</code></small></h4>
+					<div>This is used on the action methods to tell MVC what HTTP methods are accepted.</div>
+					<div class="alert mts">You can use the HTTP Method specific attributes as well, like <code>HttpGetAttribute</code>, <code>HttpPostAttribute</code>, etc.</div>
+				</li>
+				<li>
+					<h4>RequireHttpsAttribute <small>- <code>( Class | Method )</code></small></h4>
+					<div>Indicates if the request requires SSL.</div>
+				</li>
+			</ul>
+		</div>
 	</div>
 </div>
-
 
