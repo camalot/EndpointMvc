@@ -50,6 +50,24 @@
 		});
 
 		$("body").scrollspy({ target: ".epm-nav .nav", offset: 100 });
+		// smooth scrolling if the jquery scrollTo plugin exists.
+		$(".epm-nav .nav li a[data-epm-scroll]").each(function() {
+			var self = $(this);
+			if (self.data("epm-scroll-setup")) { return; }
+			self.data("epm-scroll-setup", true);
+			var trigger = self.data("epm-scroll") || "click";
+			self.on(trigger, function (event) {
+				if ($.scrollTo) {
+					var $s = $(this);
+					var topOffset = parseInt($s.data("epm-scroll-offset"), 0);
+					var target = $(this.hash);
+					$.scrollTo(target, { duration: 1000, offset:topOffset });
+					event.preventDefault;
+				}
+			});
+		})
+
+
 
 		// if you have mousetrap (http://craig.is/killing/mice) loaded, endpointMVC will bind some events
 		if (mouseTrap) {

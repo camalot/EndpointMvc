@@ -12,6 +12,7 @@
 *@
 @{
 	var navPosition = NavigationPositions.Right;
+	var scrollTopOffset = -70;
 }
 
 <div class="@(navPosition.ToString().ToLower()) epm-nav expanded epm-nav-primary">
@@ -31,15 +32,14 @@
 		</li>
 		@foreach ( var item in Model.Areas ) {
 			<li class="">
-				<a href="#@(item.QualifiedName.Replace(".","_"))" 
-					  ><i class="fa fa-folder mrs mls"></i>@(String.IsNullOrWhiteSpace ( item.Name ) ? "[Default]" : item.Name)</a>
+				<a data-epm-scroll="click" data-epm-scroll-offset="@(scrollTopOffset)" href="#@(item.QualifiedName.Replace(".","_"))"><i class="fa fa-folder mrs mls"></i>@(String.IsNullOrWhiteSpace ( item.Name ) ? "[Default]" : item.Name)</a>
 				<ul class="nav nested">
 					@foreach ( var secitem in item.ServicesList ) {
 						<li>
-							<a href="#@(secitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code-fork mrs plm mlm"></i>@secitem.Name</a>
+							<a data-epm-scroll="click" data-epm-scroll-offset="@(scrollTopOffset)" href="#@(secitem.QualifiedName.Replace(".","_"))"><i class="fa fa-code-fork mrs plm mlm"></i>@secitem.Name</a>
 							<ul class="nav nested">
 								@foreach ( var epitem in secitem.EndpointList ) {
-									<li><a href="#@(epitem.QualifiedName.Replace(".","_"))_@(String.Join ( "_", epitem.HttpMethods ))"><i class="fa fa-code mrs pll mll"></i>@epitem.Name</a></li>
+									<li><a data-epm-scroll="click" data-epm-scroll-offset="@(scrollTopOffset)" href="#@(epitem.QualifiedName.Replace(".","_"))_@(String.Join ( "_", epitem.HttpMethods ))"><i class="fa fa-code mrs pll mll"></i>@epitem.Name</a></li>
 								}
 							</ul>
 						</li>
