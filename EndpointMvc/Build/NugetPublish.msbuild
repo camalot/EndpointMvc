@@ -16,10 +16,16 @@
 		<StylesIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.css;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.min.css;</StylesIncludeSearch>
 		<ScriptsIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js.map;</ScriptsIncludeSearch>
 		<PSIncludeSearch>$(MSBuildProjectDirectory)\install.ps1;</PSIncludeSearch>
+
+		<LocalDeploy Condition=" '$(LocalDeploy)' == '' "></LocalDeploy>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectAssemblies Include="$(OutputPath)\$(Project).dll" />
+
+		<NugetContentFiles Include="$(OutputPath)\Nuget\content\**" />
+		<NugetToolsFiles Include="$(OutputPath)\Nuget\tools\**" />
+
 	</ItemGroup>
 
 	<Target Name="Publish" Condition=" '$(PublishMode)' == 'NuGet' " DependsOnTargets="NuGetPackage">
@@ -35,7 +41,11 @@
 
 
 		<MakeDir Directories="$(ReleasesPath)" Condition="!Exists('$(ReleasesPath)')" />
-		<Copy SourceFiles="$(NugetPath)\$(ProjectFriendlyName).$(ProjectVersion).nupkg" DestinationFolder="$(ReleasesPath)" />
+		<Copy SourceFiles="$(NugetPath)\$(NugetPackage)" DestinationFolder="$(ReleasesPath)" />
+
+		<MakeDir Directories="$(LocalDeploy)" Condition=" '$(LocalDeploy)' != '' AND !Exists('$(LocalDeploy)')" />
+		<Copy SourceFiles="$(NugetPath)\$(NugetPackage)" DestinationFolder="$(LocalDeploy)" Condition=" '$(LocalDeploy)' != '' AND Exists('$(LocalDeploy)') " />
+
 		<Delete Files="$(NugetPath)\$(NugetPackage)" />
 
 	</Target>
@@ -91,6 +101,10 @@
 		</CreateItem>
 
 		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(Net4LibPath)" />
+		
+		<Copy SourceFiles="@(NugetContentFiles)" DestinationFolder="$(PackagePath)\content\%(RecursiveDir)" />
+		<Copy SourceFiles="@(NugetToolsFiles)" DestinationFolder="$(PackagePath)\tools\%(RecursiveDir)" />
+
 		<Copy SourceFiles="@(CopyMvcViews)" DestinationFolder="$(PackagePath)\content\Views\Endpoints\%(RecursiveDir)" />
 		<Copy SourceFiles="@(CopyMvcScripts)" DestinationFolder="$(PackagePath)\content\Scripts\%(RecursiveDir)" />
 		<Copy SourceFiles="@(CopyMvcStyles)" DestinationFolder="$(PackagePath)\content\Content\%(RecursiveDir)" />
