@@ -9,15 +9,17 @@ using EndpointMvc.Reflection;
 using EndpointMvc.Extensions;
 using System.Reflection;
 using EndpointMvc.Attributes;
+using Camalot.Common.Extensions;
+using Camalot.Common.Mvc.Results;
 
 namespace EndpointMvc.Controllers {
 	public class DefineController : Controller{
 
-		public Results.EndpointResult Json ( String id ) {
+		public JsonResult Json ( String id ) {
 			throw new NotImplementedException ( );
 		}
 
-		public Results.EndpointResult XMl ( String id ) {
+		public ActionResult Xml ( String id ) {
 			throw new NotImplementedException ( );
 		}
 

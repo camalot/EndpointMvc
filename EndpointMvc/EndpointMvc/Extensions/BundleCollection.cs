@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Optimization;
+using Camalot.Common.Extensions;
 
 namespace EndpointMvc.Extensions {
 	public static partial class EndpointMvcExtensions {

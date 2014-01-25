@@ -31,7 +31,7 @@ namespace EndpointMvc.Results {
 				using ( var jw = new JsonTextWriter ( sw ) ) {
 					jw.Formatting = Formatting.None;
 					jw.Indentation = 0;
-					JsonSerializerFactory.Create().Serialize ( jw, this.Data );
+					JsonSerializationBuilder.Build().Create().Serialize ( jw, this.Data );
 				}
 			}
 		}

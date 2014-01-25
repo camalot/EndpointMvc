@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>EndpointMvc.Mvc5</id>
-    <version>1.0.0.0</version>
+    <id>EndpointMvc.Mvc4</id>
+    <version>4.0.0.0</version>
     <authors>Ryan Conrad</authors>
 		<owners>Ryan Conrad</owners>
     <licenseUrl>https://raw.github.com/camalot/EndpointMvc/master/LICENSE.md</licenseUrl>
@@ -16,10 +16,11 @@
 		<copyright>Copyright 2013</copyright>
 		<tags>webapi aspnet mvc api rest json xml web services endpoint</tags>
 		<dependencies>
-			<dependency id="Newtonsoft.Json" version="[5.0,5.9]" />
-			<dependency id="Microsoft.AspNet.Mvc" version="[5.0,5.9]"/>
+			<dependency id="Newtonsoft.Json" version="5.0" />
+			<dependency id="Microsoft.AspNet.Mvc" version="[4.0,4.9]"/>
+			<dependency id="Microsoft.AspNet.Web.Optimization" version="[1.1,]" />
 			<dependency id="Camalot.Common" version="[1.0,1.9]"/>
-			<dependency id="Camalot.Common.Mvc5" version="[5.0,5.9]"/>
+			<dependency id="Camalot.Common.Mvc" version="[4.0,4.9]"/>
 		</dependencies>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System.Web" targetFramework="net45" />
@@ -27,7 +28,7 @@
 			<frameworkAssembly assemblyName="System.Web.Http" targetFramework="net45" />
 			<frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net45" />
 			<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net45" />
-
+			
 		</frameworkAssemblies>
-	</metadata>
+  </metadata>
 </package>

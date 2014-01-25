@@ -14,6 +14,8 @@ using System.Web.Mvc;
 using EndpointMvc.Attributes;
 using EndpointMvc.Extensions;
 using EndpointMvc.Models;
+using Camalot.Common.Extensions;
+using MoreLinq;
 
 namespace EndpointMvc.Reflection {
 	/// <summary>
@@ -288,8 +290,18 @@ namespace EndpointMvc.Reflection {
 
 			var post = method.HasAttribute<HttpPostAttribute> ( );
 			var get = method.HasAttribute<HttpGetAttribute> ( );
+
+#if MVC5
 			var options = method.HasAttribute<HttpOptionsAttribute> ( );
 			var head = method.HasAttribute<HttpHeadAttribute> ( );
+#elif MVC4
+			var options = method.HasAttribute<HttpOptionsAttribute> ( );
+			var head = method.HasAttribute<HttpHeadAttribute> ( );
+#elif MVC3
+			var options = false;
+			var head = false;
+#endif
+
 			var put = method.HasAttribute<HttpPutAttribute> ( );
 			var delete = method.HasAttribute<HttpDeleteAttribute> ( );
 
@@ -451,8 +463,8 @@ namespace EndpointMvc.Reflection {
 		private List<ParamInfo> GetParamInfo ( String baseName, ParameterInfo pi ) {
 			var list = new List<ParamInfo> ( );
 			var desc = pi.GetCustomAttributeValue<DescriptionAttribute, String> ( x => x.Description).Or(string.Empty);
-			var req = pi.HasAttribute<RequiredAttribute> ( );
-			var opt = pi.HasAttribute<OptionalAttribute> ( );
+			var req = pi.GetCustomAttribute<RequiredAttribute> ( ) != null;
+			var opt = pi.GetCustomAttribute<OptionalAttribute> ( ) != null;
 			var isNullable = pi.ParameterType.IsNullable();
 			var customProps = pi.GetCustomAttributes<CustomPropertyAttribute> ( );
 

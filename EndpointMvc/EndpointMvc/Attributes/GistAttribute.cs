@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EndpointMvc.Extensions;
+using Camalot.Common.Extensions;
 
 namespace EndpointMvc.Attributes {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true )]

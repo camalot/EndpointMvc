@@ -16,18 +16,19 @@ using System.Net;
 using System.Text.RegularExpressions;
 using EndpointMvc.Reflection;
 using System.ServiceModel;
-using EndpointMvc.Results;
+using Camalot.Common.Mvc.Extensions;
+using Camalot.Common.Extensions;
 
 namespace EndpointMvc.Controllers {
 	public class EndpointsController : Controller {
-		public EndpointResult Json (  ) {
+		public JsonResult Json (  ) {
 			var data = BuildEndpointData ( );
-			return this.EndpointJson ( data );
+			return this.JSON ( data );
 		}
 
-		public EndpointResult Xml ( ) {
+		public ActionResult Xml ( ) {
 			var data = BuildEndpointData ( );
-			return this.EndpointXml ( new EndpointData {
+			return this.XML ( new EndpointData {
 				Areas = data.Select ( a => a.Value ).OrderBy ( a => a.Name ).ToList ( )
 			} );
 		}

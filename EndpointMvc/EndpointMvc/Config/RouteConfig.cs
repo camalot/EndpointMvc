@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using EndpointMvc.Extensions;
+using Camalot.Common.Extensions;
 
 namespace EndpointMvc.Config {
 	public class RouteConfig {
