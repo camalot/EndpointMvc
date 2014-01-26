@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc", "EndpointMvc\EndpointMvc.csproj", "{ED2497C1-2781-4AEC-ACBC-38FB5A01FADA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Mvc5", "EndpointMvc.Mvc5\EndpointMvc.Mvc5.csproj", "{ED2497C1-2781-4AEC-ACBC-38FB5A01FADA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2F5AB574-9EE9-4F30-A771-4B9BC440671E}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,9 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{BF4AC7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5EC1CBB1-0A9F-42B0-BA26-D540D1DF404C}"
 	ProjectSection(SolutionItems) = preProject
+		Build\Build.msbuild = Build\Build.msbuild
+		Build\EndpointMvc.Mvc3.nuspec = Build\EndpointMvc.Mvc3.nuspec
+		Build\EndpointMvc.Mvc4.nuspec = Build\EndpointMvc.Mvc4.nuspec
+		Build\EndpointMvc.Mvc5.nuspec = Build\EndpointMvc.Mvc5.nuspec
 		Build\EndpointMvc.nuspec = Build\EndpointMvc.nuspec
-		Build\EndpointMvc3.nuspec = Build\EndpointMvc3.nuspec
-		Build\EndpointMvc4.nuspec = Build\EndpointMvc4.nuspec
 		Build\nuget.bat = Build\nuget.bat
 		Build\NugetPublish.msbuild = Build\NugetPublish.msbuild
 		Build\WebPublish.msbuild = Build\WebPublish.msbuild
@@ -31,15 +33,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5EC1CBB1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Tests", "EndpointMvc.Tests\EndpointMvc.Tests.csproj", "{CE1A0A40-BEA8-4867-9EE6-5C648F5514C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvcSite", "EndpointMvcSite\EndpointMvcSite.csproj", "{FB201D93-6285-4B0C-B825-2201404835A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Mvc3", "EndpointMvc.Mvc3\EndpointMvc.Mvc3.csproj", "{DB337045-72CA-4674-A5B1-F259AB330923}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc3", "EndpointMvc3\EndpointMvc3.csproj", "{DB337045-72CA-4674-A5B1-F259AB330923}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc4", "EndpointMvc4\EndpointMvc4.csproj", "{37A8A593-04A9-484A-A680-2F59F6368959}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Mvc4", "EndpointMvc.Mvc4\EndpointMvc.Mvc4.csproj", "{37A8A593-04A9-484A-A680-2F59F6368959}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{2119131B-3B13-494A-B8E9-922E57BBBC57}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{87AEFF5E-252A-4E65-B1E8-3085F6E0774B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc", "EndpointMvc\EndpointMvc.csproj", "{CA71DC5B-8A2A-436B-90E6-30285E7F945D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Site", "EndpointMvc.Site\EndpointMvc.Site.csproj", "{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +59,6 @@ Global
 		{CE1A0A40-BEA8-4867-9EE6-5C648F5514C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE1A0A40-BEA8-4867-9EE6-5C648F5514C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE1A0A40-BEA8-4867-9EE6-5C648F5514C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB201D93-6285-4B0C-B825-2201404835A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB201D93-6285-4B0C-B825-2201404835A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB201D93-6285-4B0C-B825-2201404835A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB201D93-6285-4B0C-B825-2201404835A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB337045-72CA-4674-A5B1-F259AB330923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB337045-72CA-4674-A5B1-F259AB330923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB337045-72CA-4674-A5B1-F259AB330923}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,12 +67,20 @@ Global
 		{37A8A593-04A9-484A-A680-2F59F6368959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37A8A593-04A9-484A-A680-2F59F6368959}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37A8A593-04A9-484A-A680-2F59F6368959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA71DC5B-8A2A-436B-90E6-30285E7F945D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA71DC5B-8A2A-436B-90E6-30285E7F945D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA71DC5B-8A2A-436B-90E6-30285E7F945D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA71DC5B-8A2A-436B-90E6-30285E7F945D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FB201D93-6285-4B0C-B825-2201404835A1} = {2119131B-3B13-494A-B8E9-922E57BBBC57}
 		{CE1A0A40-BEA8-4867-9EE6-5C648F5514C4} = {87AEFF5E-252A-4E65-B1E8-3085F6E0774B}
+		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E} = {2119131B-3B13-494A-B8E9-922E57BBBC57}
 	EndGlobalSection
 EndGlobal

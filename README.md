@@ -5,7 +5,9 @@ Builds api endpoint information / documentation dynamically by reflecting over t
 
 Nuget
 ----------
->    Install-Package EndpointMvc
+>    Install-Package EndpointMvc.Mvc3
+>    Install-Package EndpointMvc.Mvc4
+>    Install-Package EndpointMvc.Mvc5
 
 Documentation
 ---------

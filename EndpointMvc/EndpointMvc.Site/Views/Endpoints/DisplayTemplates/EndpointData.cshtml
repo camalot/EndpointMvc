@@ -1,0 +1,6 @@
+﻿@model EndpointMvc.Models.EndpointData
+<div>
+	@foreach ( var item in Model.Areas ) {
+		@Html.DisplayFor(m => item)
+	}
+</div>

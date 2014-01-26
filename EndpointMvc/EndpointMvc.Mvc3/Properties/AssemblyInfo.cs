@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EndpointMvc")]
+[assembly: AssemblyTitle ( "EndpointMvc" )]
 [assembly: AssemblyDescription ( "Builds api endpoint information / documentation dynamically by reflecting over the controllers and actions" )]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyConfiguration ( "" )]
 [assembly: AssemblyCompany ( "Ryan Conrad" )]
-[assembly: AssemblyProduct("EndpointMvc")]
-[assembly: AssemblyCopyright("Copyright © Ryan Conrad 2013")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyProduct ( "EndpointMvc" )]
+[assembly: AssemblyCopyright ( "Copyright © Ryan Conrad 2013" )]
+[assembly: AssemblyTrademark ( "" )]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid ( "22bc678f-f9e4-474f-ac40-19ba123d1610" )]
+[assembly: Guid("a08f4790-55b7-45fa-8dba-cda5d39d39b0")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,6 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0")]
+[assembly: AssemblyVersion("3.0.*")]
+[assembly: AssemblyFileVersion("3.0")]

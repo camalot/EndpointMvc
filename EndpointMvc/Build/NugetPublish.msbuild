@@ -4,28 +4,25 @@
 				Condition="'$(MSBuildCommunityTasksPath)' == ''"/>
 
 	<PropertyGroup>
-		<Project>EndpointMvc</Project>
-		<ProjectFriendlyName>EndpointMvc</ProjectFriendlyName>
-		<ReleaseName>$(ProjectFriendlyName) $(Version) $(Status)</ReleaseName>
 		<PublishNuGet Condition=" '$(PublishMode)' == 'NuGet' ">PublishNuGet</PublishNuGet>
-		<NuSpecFile Condition=" '$(NuSpecFile)' == '' ">$(ProjectFriendlyName).nuspec</NuSpecFile>
+		
+		
 		<OutputPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\debug</OutputPath>
 		<ReleasesPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\nuget</ReleasesPath>
 		<NugetPath>$(MSBuildProjectDirectory)\..\.nuget</NugetPath>
+		
 		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvcSite\Views\Endpoints</ViewsPath>
-		<StylesIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.css;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\styles\endpointmvc.min.css;</StylesIncludeSearch>
-		<ScriptsIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js;$(MSBuildProjectDirectory)\..\EndpointMvcSite\assets\scripts\endpointmvc.min.js.map;</ScriptsIncludeSearch>
-		<PSIncludeSearch>$(MSBuildProjectDirectory)\install.ps1;</PSIncludeSearch>
+		<StylesIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\styles\endpointmvc.css;$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\styles\endpointmvc.min.css;</StylesIncludeSearch>
+		<ScriptsIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\scripts\endpointmvc.js;$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\scripts\endpointmvc.min.js;</ScriptsIncludeSearch>
 
 		<LocalDeploy Condition=" '$(LocalDeploy)' == '' "></LocalDeploy>
+		<!-- tells this script to not include any binaries (for just a reference package) -->
+		<NoBinaries Condition=" '$(NoBinaries)' == '' "></NoBinaries>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectAssemblies Include="$(OutputPath)\$(Project).dll" />
-
 		<NugetContentFiles Include="$(OutputPath)\Nuget\content\**" />
 		<NugetToolsFiles Include="$(OutputPath)\Nuget\tools\**" />
-
 	</ItemGroup>
 
 	<Target Name="Publish" Condition=" '$(PublishMode)' == 'NuGet' " DependsOnTargets="NuGetPackage">
@@ -35,6 +32,8 @@
 		</CreateProperty>
 
 		<Error Condition=" '$(NuSpecFile)' == '' " Code="500" Text="'NuSpecFile' property was not set."></Error>
+		<Error Condition=" '$(NugetPackage)' == '' " Code="500" Text="'NugetPackage' property was not set."></Error>
+		<Error Condition="!Exists('$(NugetPath)\$(NugetPackage)')" Code="500" Text="'$(NugetPackage)' does not exist."></Error>
 
 		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push setApiKey $(NuGetKey)" Condition=" '$(NuGetKey)' != '' "/>
 		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(NugetPackage) $(NuGetKey)"  Condition=" '$(NuGetKey)' != '' "/>
@@ -51,8 +50,20 @@
 	</Target>
 
 	<Target Name="RetrieveIdentities">
+		<CreateProperty Value="$(Project)" Condition=" '$(ProjectFriendlyName)' == '' ">
+			<Output TaskParameter="Value" PropertyName="ProjectFriendlyName" />
+		</CreateProperty>
+
+		<CreateProperty Value="$(Project)" Condition=" '$(ProjectSharedName)' == '' ">
+			<Output TaskParameter="Value" PropertyName="ProjectSharedName" />
+		</CreateProperty>
+
+		<CreateItem Include="$(OutputPath)\$(ProjectSharedName).dll">
+			<Output ItemName="ProjectAssemblies" TaskParameter="Include"/>
+		</CreateItem>
+
 		<GetAssemblyIdentity
-        AssemblyFiles="@(ProjectAssemblies)">
+				AssemblyFiles="@(ProjectAssemblies)">
 			<Output
 					TaskParameter="Assemblies"
 					ItemName="ProjectIdentities"/>
@@ -60,6 +71,12 @@
 	</Target>
 
 	<Target Name="NuGetPackage" DependsOnTargets="RetrieveIdentities">
+		<Error Condition=" '$(Project)' == '' " Code="500" Text="'Project' property was not set."></Error>
+
+		<CreateProperty Value="$(ProjectFriendlyName).nuspec" Condition=" '$(NuSpecFile)' == '' ">
+			<Output TaskParameter="Value" PropertyName="NuSpecFile" />
+		</CreateProperty>
+
 		<CreateProperty Value="%(ProjectIdentities.Version)">
 			<Output TaskParameter="Value" PropertyName="ProjectVersion" />
 		</CreateProperty>
@@ -72,13 +89,13 @@
 			<Output TaskParameter="Value" PropertyName="Net4LibPath" />
 		</CreateProperty>
 
-		<MakeDir Directories="$(Net4LibPath)" Condition="!Exists('$(Net4LibPath)')" />
+		<MakeDir Directories="$(Net4LibPath)" Condition="!Exists('$(Net4LibPath)') AND '$(NoBinaries)' == '' "  />
 		<MakeDir Directories="$(PackagePath)\content\Views\Endpoints" Condition="!Exists('$(PackagePath)\content\Views\Endpoints')" />
 		<MakeDir Directories="$(PackagePath)\content\Content" Condition="!Exists('$(PackagePath)\content\Content')" />
 		<MakeDir Directories="$(PackagePath)\content\Scripts" Condition="!Exists('$(PackagePath)\content\Scripts')" />
 		<MakeDir Directories="$(PackagePath)\tools" Condition="!Exists('$(PackagePath)\tools')" />
 
-		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NuSpecFile)" DestinationFiles="$(PackagePath)\$(ProjectFriendlyName).nuspec" />
+		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NuSpecFile)" DestinationFiles="$(PackagePath)\$(NuSpecFile)" />
 
 		<CreateItem Include="@(ProjectAssemblies)" Exclude="$(OutputPath)*.zip;$(OutputPath)*.vshost.*;">
 			<Output ItemName="CopyFiles" TaskParameter="Include"/>
@@ -96,34 +113,50 @@
 			<Output ItemName="CopyMvcScripts" TaskParameter="Include"/>
 		</CreateItem>
 
-		<CreateItem Include="$(PSIncludeSearch)">
-			<Output ItemName="CopyNugetPS" TaskParameter="Include"/>
-		</CreateItem>
-
-		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(Net4LibPath)" />
+		<Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(Net4LibPath)" Condition=" '$(NoBinaries)' == '' " />
+		
 		
 		<Copy SourceFiles="@(NugetContentFiles)" DestinationFolder="$(PackagePath)\content\%(RecursiveDir)" />
 		<Copy SourceFiles="@(NugetToolsFiles)" DestinationFolder="$(PackagePath)\tools\%(RecursiveDir)" />
 
-		<Copy SourceFiles="@(CopyMvcViews)" DestinationFolder="$(PackagePath)\content\Views\Endpoints\%(RecursiveDir)" />
-		<Copy SourceFiles="@(CopyMvcScripts)" DestinationFolder="$(PackagePath)\content\Scripts\%(RecursiveDir)" />
-		<Copy SourceFiles="@(CopyMvcStyles)" DestinationFolder="$(PackagePath)\content\Content\%(RecursiveDir)" />
-		<Copy SourceFiles="@(CopyNugetPS)" DestinationFolder="$(PackagePath)\tools\%(RecursiveDir)" />
+		<Copy SourceFiles="@(CopyMvcViews)" DestinationFolder="$(PackagePath)\content\Views\Endpoints\%(RecursiveDir)" Condition=" '$(NoBinaries)' == '' " />
+		<Copy SourceFiles="@(CopyMvcScripts)" DestinationFolder="$(PackagePath)\content\Scripts\%(RecursiveDir)" Condition=" '$(NoBinaries)' == '' " />
+		<Copy SourceFiles="@(CopyMvcStyles)" DestinationFolder="$(PackagePath)\content\Content\%(RecursiveDir)" Condition=" '$(NoBinaries)' == '' " />
 
 		<XmlUpdate
-			XPath="/package/metadata/version"
-			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
+			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+			Prefix="n"
+			XPath="/n:package/n:metadata/n:version"
+			XmlFileName="$(PackagePath)\$(NuSpecFile)"
 			Value="%(ProjectIdentities.Version)"/>
 		<XmlUpdate
-			XPath="/package/metadata/id"
-			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
+			XPath="/package/metadata/version"
+			XmlFileName="$(PackagePath)\$(NuSpecFile)"
+			Value="%(ProjectIdentities.Version)"/>
+		
+		<XmlUpdate
+			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+			Prefix="n"
+			XPath="/n:package/n:metadata/n:id"
+			XmlFileName="$(PackagePath)\$(NuSpecFile)"
 			Value="$(ProjectFriendlyName)"/>
 		<XmlUpdate
+			XPath="/package/metadata/id"
+			XmlFileName="$(PackagePath)\$(NuSpecFile)"
+			Value="$(ProjectFriendlyName)"/>
+
+		<XmlUpdate
+			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+			Prefix="n"
+			XPath="/n:package/n:metadata/n:releaseNotes"
+			XmlFileName="$(PackagePath)\$(NuSpecFile)"
+			Value="$(ReleaseDescription)"/>
+		<XmlUpdate
 			XPath="/package/metadata/releaseNotes"
-			XmlFileName="$(PackagePath)\$(ProjectFriendlyName).nuspec"
+			XmlFileName="$(PackagePath)\$(NuSpecFile)"
 			Value="$(ReleaseDescription)"/>
 
-		<Exec WorkingDirectory="$(NugetPath)" Command="nuget pack &quot;$(PackagePath)\$(ProjectFriendlyName).nuspec&quot;" />
+		<Exec WorkingDirectory="$(NugetPath)" Command="nuget pack &quot;$(PackagePath)\$(NuSpecFile)&quot;" />
 		<RemoveDir Directories="$(PackagePath)" Condition="Exists('$(PackagePath)')" ContinueOnError="true" />
 	</Target>
 </Project>
