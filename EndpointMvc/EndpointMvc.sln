@@ -1,16 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Mvc5", "EndpointMvc.Mvc5\EndpointMvc.Mvc5.csproj", "{ED2497C1-2781-4AEC-ACBC-38FB5A01FADA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2F5AB574-9EE9-4F30-A771-4B9BC440671E}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{BF4AC7F5-3ABC-447B-946A-15A2623BC203}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5EC1CBB1
 		Build\EndpointMvc.Mvc4.nuspec = Build\EndpointMvc.Mvc4.nuspec
 		Build\EndpointMvc.Mvc5.nuspec = Build\EndpointMvc.Mvc5.nuspec
 		Build\EndpointMvc.nuspec = Build\EndpointMvc.nuspec
+		Build\MSBuild.Community.Tasks.dll = Build\MSBuild.Community.Tasks.dll
+		Build\MSBuild.Community.Tasks.targets = Build\MSBuild.Community.Tasks.targets
 		Build\nuget.bat = Build\nuget.bat
 		Build\NugetPublish.msbuild = Build\NugetPublish.msbuild
 		Build\WebPublish.msbuild = Build\WebPublish.msbuild
@@ -44,6 +39,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc", "EndpointMvc\EndpointMvc.csproj", "{CA71DC5B-8A2A-436B-90E6-30285E7F945D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointMvc.Site", "EndpointMvc.Site\EndpointMvc.Site.csproj", "{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "EndpointMvc.Database", "EndpointMvc.Database\EndpointMvc.Database.sqlproj", "{7D51B39C-50EB-4269-9C86-F3514D967851}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{846EE285-7279-4C9E-8BC7-C99170426AE7}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,12 @@ Global
 		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D51B39C-50EB-4269-9C86-F3514D967851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D51B39C-50EB-4269-9C86-F3514D967851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D51B39C-50EB-4269-9C86-F3514D967851}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7D51B39C-50EB-4269-9C86-F3514D967851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D51B39C-50EB-4269-9C86-F3514D967851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D51B39C-50EB-4269-9C86-F3514D967851}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +92,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CE1A0A40-BEA8-4867-9EE6-5C648F5514C4} = {87AEFF5E-252A-4E65-B1E8-3085F6E0774B}
 		{CFD6A006-7FAB-4B20-B87B-FFB3EFA2722E} = {2119131B-3B13-494A-B8E9-922E57BBBC57}
+		{7D51B39C-50EB-4269-9C86-F3514D967851} = {2119131B-3B13-494A-B8E9-922E57BBBC57}
 	EndGlobalSection
 EndGlobal

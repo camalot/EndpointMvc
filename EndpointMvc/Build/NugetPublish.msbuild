@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="Publish">
-	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"
+	<Import Project="$(MSBuildProjectDirectory)\MSBuild.Community.Tasks.Targets"
 				Condition="'$(MSBuildCommunityTasksPath)' == ''"/>
 
 	<PropertyGroup>
@@ -11,7 +11,7 @@
 		<ReleasesPath>$(MSBuildProjectDirectory)\..\$(Project)\bin\nuget</ReleasesPath>
 		<NugetPath>$(MSBuildProjectDirectory)\..\.nuget</NugetPath>
 		
-		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvcSite\Views\Endpoints</ViewsPath>
+		<ViewsPath>$(MSBuildProjectDirectory)\..\EndpointMvc.Site\Views\Endpoints</ViewsPath>
 		<StylesIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\styles\endpointmvc.css;$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\styles\endpointmvc.min.css;</StylesIncludeSearch>
 		<ScriptsIncludeSearch>$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\scripts\endpointmvc.js;$(MSBuildProjectDirectory)\..\EndpointMvc.Site\assets\scripts\endpointmvc.min.js;</ScriptsIncludeSearch>
 
@@ -35,9 +35,7 @@
 		<Error Condition=" '$(NugetPackage)' == '' " Code="500" Text="'NugetPackage' property was not set."></Error>
 		<Error Condition="!Exists('$(NugetPath)\$(NugetPackage)')" Code="500" Text="'$(NugetPackage)' does not exist."></Error>
 
-		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push setApiKey $(NuGetKey)" Condition=" '$(NuGetKey)' != '' "/>
 		<Exec WorkingDirectory="$(NugetPath)" Command="nuget push $(NugetPackage) $(NuGetKey)"  Condition=" '$(NuGetKey)' != '' "/>
-
 
 		<MakeDir Directories="$(ReleasesPath)" Condition="!Exists('$(ReleasesPath)')" />
 		<Copy SourceFiles="$(NugetPath)\$(NugetPackage)" DestinationFolder="$(ReleasesPath)" />

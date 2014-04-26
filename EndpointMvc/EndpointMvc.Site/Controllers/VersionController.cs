@@ -6,9 +6,12 @@ using System.Web.Mvc;
 
 namespace EndpointMvc.Site.Controllers {
 	public class VersionController : Controller {
-		// GET: /Version/
+		// GET: /Version/Install/Package/?v=VERSION
 		public ActionResult Install ( string id, string v ) {
-			// todo: Tracking of install
+			return RedirectToAction ( "", new { controller = "Home" } );
+		}
+		// GET: /Version/Uninstall/Package/?v=VERSION
+		public ActionResult Uninstall ( string id, string v ) {
 			return RedirectToAction ( "", new { controller = "Home" } );
 		}
 	}
