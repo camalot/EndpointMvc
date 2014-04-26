@@ -122,8 +122,14 @@
     <Compile Include="..\EndpointMvc.Mvc5\Attributes\ReturnTypeAttribute.cs">
       <Link>Attributes\ReturnTypeAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\EndpointMvc.Mvc5\Attributes\SampleValueAttribute.cs">
+      <Link>Attributes\SampleValueAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\EndpointMvc.Mvc5\Attributes\SinceVersionAttribute.cs">
       <Link>Attributes\SinceVersionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\EndpointMvc.Mvc5\Collections\LookupList.cs">
+      <Link>Collections\LookupList.cs</Link>
     </Compile>
     <Compile Include="..\EndpointMvc.Mvc5\Config\RouteConfig.cs">
       <Link>Config\RouteConfig.cs</Link>

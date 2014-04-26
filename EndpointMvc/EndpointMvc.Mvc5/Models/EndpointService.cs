@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using EndpointMvc.Collections;
 using Newtonsoft.Json;
 
 namespace EndpointMvc.Models {
@@ -17,7 +18,7 @@ namespace EndpointMvc.Models {
 		/// Initializes a new instance of the <see cref="EndpointService"/> class.
 		/// </summary>
 		public EndpointService ( ) {
-			Endpoints = new Dictionary<String, EndpointInfo> ( );
+			Endpoints = new LookupList<String, EndpointInfo> ( );
 			Properties = new List<PropertyKeyValuePair<string, object>> ( );
 			Gists = new List<Gist> ( );
 		}
@@ -47,7 +48,7 @@ namespace EndpointMvc.Models {
 		/// The endpoints.
 		/// </value>
 		[XmlIgnore]
-		public Dictionary<String, EndpointInfo> Endpoints { get; set; }
+		public LookupList<String, EndpointInfo> Endpoints { get; set; }
 		/// <summary>
 		/// Gets the endpoint as a list.
 		/// </summary>
@@ -58,7 +59,7 @@ namespace EndpointMvc.Models {
 		[JsonIgnore]
 		public List<EndpointInfo> EndpointList {
 			get {
-				return Endpoints.Select ( e => e.Value ).OrderBy ( a => a.Name ).ToList ( );
+				return Endpoints.Select ( e => e.Value).OrderBy ( a => a.Name ).ToList ( );
 			}
 		}
 

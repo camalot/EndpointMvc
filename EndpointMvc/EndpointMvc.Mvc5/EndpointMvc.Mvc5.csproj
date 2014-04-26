@@ -114,8 +114,10 @@
     <Compile Include="Attributes\OptionalAttribute.cs" />
     <Compile Include="Attributes\RequiresAuthenticationAttribute.cs" />
     <Compile Include="Attributes\ReturnTypeAttribute.cs" />
+    <Compile Include="Attributes\SampleValueAttribute.cs" />
     <Compile Include="Attributes\SinceVersionAttribute.cs" />
     <Compile Include="Attributes\DeprecatedAttribute.cs" />
+    <Compile Include="Collections\LookupList.cs" />
     <Compile Include="Config\RouteConfig.cs" />
     <Compile Include="Controllers\DefineController.cs" />
     <Compile Include="Controllers\EndpointsController.cs" />

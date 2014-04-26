@@ -59,7 +59,7 @@ namespace EndpointMvc.Site.Areas.V1.Controllers
 		[ReturnType ( typeof ( UserModel ) )]
 		public ActionResult Delete (
 			[Required]
-			[Description ( "The user id" )]
+			[Description ( "The user" )]
 			UserModel user
 		) {
 			return Delete ( user.Username );
@@ -71,13 +71,13 @@ namespace EndpointMvc.Site.Areas.V1.Controllers
 
 		[Description ( "Find a user id by email" )]
 		[Deprecated ( "This method was replaced by Get." )]
-		public ActionResult FindUser ( String id ) {
+		public ActionResult FindUser ( [SampleValue("user_name")] String id ) {
 			return new EmptyResult ( );
 		}
 
 		[Description ( "Find a user id by email" )]
 		[Obsolete ( "This method is no longer supported." )]
-		public ActionResult FindUserId ( String email ) {
+		public ActionResult FindUserId([SampleValue("user.email@somedoain.com")] String email) {
 
 			return new EmptyResult ( );
 		}
