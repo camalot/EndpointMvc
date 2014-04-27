@@ -9,11 +9,11 @@
 		<h2 class="zero"><i class="fa fa-code-fork mrm"></i>@Model.Name</h2>
 	</div>
 	<div class="media-body" id="@Model.QualifiedName.Replace(".","_")">
-		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
-			<div class="alert alert-error">@obsolete.Description</div>
+		@if(obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description)) {
+			<div class="callout callout-error">@obsolete.Description</div>
 		}
-		@if ( deprecated != null && (bool)deprecated.Value && !String.IsNullOrWhiteSpace ( deprecated.Description ) ) {
-			<div class="alert">@deprecated.Description</div>
+		@if(deprecated != null && (bool)deprecated.Value && !String.IsNullOrWhiteSpace(deprecated.Description)) {
+			<div class="callout">@deprecated.Description</div>
 		}
 
 		@if(!String.IsNullOrWhiteSpace(Model.Description) ) {

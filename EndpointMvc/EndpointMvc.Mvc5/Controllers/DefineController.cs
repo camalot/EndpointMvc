@@ -23,6 +23,10 @@ namespace EndpointMvc.Controllers {
 			throw new NotImplementedException ( );
 		}
 
+		public ActionResult Bson(String id) {
+			throw new NotImplementedException();
+		}
+
 		public ActionResult Html ( String id ) {
 			var model = GetDefineParamInfo ( id.Require ( ) );
 

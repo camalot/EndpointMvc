@@ -16,10 +16,8 @@
 		<copyright>Copyright 2013</copyright>
 		<tags>webapi aspnet mvc api rest json xml web services endpoint</tags>
 		<dependencies>
-			<dependency id="Newtonsoft.Json" version="5.0" />
 			<dependency id="Microsoft.AspNet.Mvc" version="[3.0,3.9]"/>
 			<dependency id="Microsoft.AspNet.Web.Optimization" version="[1.1,]" />
-			<dependency id="Camalot.Common" version="[1.0,1.9]"/>
 			<dependency id="Camalot.Common.Mvc3" version="[3.0,3.9]"/>
 		</dependencies>
 		<frameworkAssemblies>

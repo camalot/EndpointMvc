@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Camalot.Common.Extensions;
 using Camalot.Common.Mvc.Extensions;
+using Camalot.Common.Mvc.Results;
 using EndpointMvc.Attributes;
 using EndpointMvc.Extensions;
 using EndpointMvc.Models;
@@ -19,6 +20,11 @@ namespace EndpointMvc.Controllers {
 		public JsonResult Json() {
 			var data = BuildEndpointData();
 			return this.JSON(data);
+		}
+
+		public BsonResult Bson() {
+			var data = BuildEndpointData();
+			return this.BSON(data);
 		}
 
 		public ActionResult Xml() {

@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EndpointMvc.Site</RootNamespace>
     <AssemblyName>EndpointMvc.Site</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -22,7 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,40 +42,76 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Camalot.Common">
-      <HintPath>..\packages\Camalot.Common.1.0.5138.34321\lib\net45\Camalot.Common.dll</HintPath>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Camalot.Common.Mvc">
-      <HintPath>..\packages\Camalot.Common.Mvc5.5.0.5138.34322\lib\net45\Camalot.Common.Mvc.dll</HintPath>
+    <Reference Include="Camalot.Common, Version=1.0.5230.15362, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Camalot.Common.1.0.5230.15362\lib\net45\Camalot.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Camalot.Common.Mvc, Version=5.0.5230.15362, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Camalot.Common.Mvc5.5.0.5230.15362\lib\net45\Camalot.Common.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MoreLinq">
       <HintPath>..\packages\morelinq.1.0.16006\lib\net35\MoreLinq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -88,44 +124,10 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <Private>True</Private>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGrease">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr3.Runtime">
-      <Private>True</Private>
-      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -162,12 +164,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\fonts\fontawesome-webfont.svg">
-      <DependentUpon>FontAwesome.otf</DependentUpon>
-    </Content>
-    <Content Include="assets\fonts\glyphicons-halflings-regular.svg">
-      <DependentUpon>glyphicons-halflings-regular.eot</DependentUpon>
-    </Content>
     <Content Include="assets\images\endpointmvc-114.png" />
     <Content Include="assets\images\endpointmvc-120.png" />
     <Content Include="assets\images\endpointmvc-144.png" />
@@ -178,7 +174,6 @@
     <Content Include="assets\images\endpointmvc-57.png" />
     <Content Include="assets\images\endpointmvc-72.png" />
     <Content Include="assets\images\logo.svg" />
-    <Content Include="assets\scripts\bootstrap.js" />
     <Content Include="assets\scripts\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </Content>
@@ -195,43 +190,73 @@
     <Content Include="assets\scripts\endpointmvc.min.js.gzip">
       <DependentUpon>endpointmvc.js</DependentUpon>
     </Content>
-    <Content Include="_offline.htm" />
-    <None Include="assets\scripts\jquery-2.0.3.intellisense.js">
-      <DependentUpon>jquery-2.0.3.js</DependentUpon>
-    </None>
-    <Content Include="assets\scripts\jquery-2.0.3.js" />
-    <Content Include="assets\scripts\jquery-2.0.3.min.js">
-      <DependentUpon>jquery-2.0.3.js</DependentUpon>
+    <Content Include="assets\scripts\jquery-2.1.0.min.js">
+      <DependentUpon>jquery-2.1.0.js</DependentUpon>
     </Content>
+    <Content Include="assets\scripts\respond.min.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
+    <Content Include="assets\styles\bootstrap-theme.min.css">
+      <DependentUpon>bootstrap-theme.css</DependentUpon>
+    </Content>
+    <Content Include="assets\styles\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="assets\styles\bootstrap-theme.css" />
+    <Content Include="assets\styles\bootstrap.css" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.svg">
+      <DependentUpon>glyphicons-halflings-regular.eot</DependentUpon>
+    </Content>
+    <Content Include="assets\fonts\glyphicons-halflings-regular.woff">
+      <DependentUpon>glyphicons-halflings-regular.eot</DependentUpon>
+    </Content>
+    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf">
+      <DependentUpon>glyphicons-halflings-regular.eot</DependentUpon>
+    </Content>
+    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\scripts\bootstrap.min.js.map">
+      <DependentUpon>bootstrap.min.js</DependentUpon>
+    </Content>
+    <None Include="assets\scripts\jquery-2.1.0.intellisense.js">
+      <DependentUpon>jquery-2.1.0.js</DependentUpon>
+    </None>
+    <Content Include="assets\scripts\bootstrap.js" />
+    <Content Include="assets\scripts\jquery-2.1.0.js" />
+    <Content Include="assets\scripts\modernizr-2.7.2.js" />
+    <Content Include="assets\scripts\respond.js" />
+    <Content Include="assets\scripts\respond.matchmedia.addListener.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
+    <Content Include="assets\styles\font-awesome.css" />
+    <Content Include="assets\styles\font-awesome.min.css">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
+    <Content Include="assets\fonts\fontawesome-webfont.svg">
+      <DependentUpon>FontAwesome.otf</DependentUpon>
+    </Content>
+    <Content Include="_offline.htm" />
     <Content Include="assets\scripts\jquery.scrollto.js" />
     <Content Include="assets\scripts\jquery.scrollto.min.js">
       <DependentUpon>jquery.scrollto.js</DependentUpon>
     </Content>
-    <Content Include="assets\scripts\modernizr-2.6.2.js" />
     <Content Include="assets\scripts\mousetrap.js" />
     <Content Include="assets\scripts\mousetrap.min.js">
       <DependentUpon>mousetrap.js</DependentUpon>
     </Content>
-    <Content Include="assets\scripts\respond.js" />
-    <Content Include="assets\scripts\respond.min.js">
-      <DependentUpon>respond.js</DependentUpon>
+    <Content Include="assets\scripts\jquery-2.1.0.min.js.map">
+      <DependentUpon>jquery-2.1.0.min.js</DependentUpon>
+    </Content>
+    <Content Include="assets\scripts\respond.min.js.map">
+      <DependentUpon>respond.min.js</DependentUpon>
     </Content>
     <None Include="assets\scripts\_references.js" />
     <Content Include="assets\styles\bootstrap-overrides.css" />
     <Content Include="assets\styles\bootstrap-overrides.min.css">
       <DependentUpon>bootstrap-overrides.css</DependentUpon>
     </Content>
-    <Content Include="assets\styles\bootstrap-theme.css" />
-    <Content Include="assets\styles\bootstrap-theme.min.css">
-      <DependentUpon>bootstrap-theme.css</DependentUpon>
-    </Content>
     <Content Include="assets\styles\bootstrap-win8.css" />
     <Content Include="assets\styles\bootstrap-win8.min.css">
       <DependentUpon>bootstrap-win8.css</DependentUpon>
-    </Content>
-    <Content Include="assets\styles\bootstrap.css" />
-    <Content Include="assets\styles\bootstrap.min.css">
-      <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="assets\styles\colors.css" />
     <Content Include="assets\styles\colors.min.css">
@@ -240,10 +265,6 @@
     <Content Include="assets\styles\endpointmvc.css" />
     <Content Include="assets\styles\endpointmvc.min.css">
       <DependentUpon>endpointmvc.css</DependentUpon>
-    </Content>
-    <Content Include="assets\styles\font-awesome.css" />
-    <Content Include="assets\styles\font-awesome.min.css">
-      <DependentUpon>font-awesome.css</DependentUpon>
     </Content>
     <Content Include="assets\styles\gist.css" />
     <Content Include="assets\styles\gist.min.css">
@@ -312,42 +333,27 @@
     <Content Include="Views\Endpoints\Shared\_CustomProperties.cshtml" />
     <Content Include="Views\Endpoints\Shared\_EndpointNavigation.cshtml" />
     <Content Include="Views\Endpoints\Shared\_PoweredByPartial.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assets\fonts\fontawesome-webfont.eot">
+    <Content Include="Views\Endpoints\Web.config" />
+    <Content Include="assets\fonts\fontawesome-webfont.woff">
       <DependentUpon>FontAwesome.otf</DependentUpon>
     </Content>
     <Content Include="assets\fonts\fontawesome-webfont.ttf">
       <DependentUpon>FontAwesome.otf</DependentUpon>
     </Content>
-    <Content Include="assets\fonts\fontawesome-webfont.woff">
+    <Content Include="assets\fonts\fontawesome-webfont.eot">
       <DependentUpon>FontAwesome.otf</DependentUpon>
     </Content>
     <Content Include="assets\fonts\FontAwesome.otf" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf">
-      <DependentUpon>glyphicons-halflings-regular.eot</DependentUpon>
-    </Content>
-    <Content Include="assets\fonts\glyphicons-halflings-regular.woff">
-      <DependentUpon>glyphicons-halflings-regular.eot</DependentUpon>
-    </Content>
-    <Content Include="assets\scripts\bootstrap.min.js.map">
-      <DependentUpon>bootstrap.js</DependentUpon>
-    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="assets\scripts\github-data.min.js.map">
       <DependentUpon>github-data.js</DependentUpon>
-    </Content>
-    <Content Include="assets\scripts\jquery-2.0.3.min.js.map">
-      <DependentUpon>jquery-2.0.3.js</DependentUpon>
     </Content>
     <Content Include="assets\scripts\jquery.scrollto.min.js.map">
       <DependentUpon>jquery.scrollto.js</DependentUpon>
     </Content>
     <Content Include="assets\scripts\mousetrap.min.js.map">
       <DependentUpon>mousetrap.js</DependentUpon>
-    </Content>
-    <Content Include="assets\scripts\respond.min.js.map">
-      <DependentUpon>respond.js</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>

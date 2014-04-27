@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EndpointMvc</RootNamespace>
     <AssemblyName>EndpointMvc</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,11 +36,13 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Camalot.Common">
-      <HintPath>..\packages\Camalot.Common.1.0.5138.34321\lib\net45\Camalot.Common.dll</HintPath>
+    <Reference Include="Camalot.Common, Version=1.0.5230.15362, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Camalot.Common.1.0.5230.15362\lib\net45\Camalot.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Camalot.Common.Mvc">
-      <HintPath>..\packages\Camalot.Common.Mvc4.4.0.5138.34322\lib\net45\Camalot.Common.Mvc.dll</HintPath>
+    <Reference Include="Camalot.Common.Mvc, Version=4.0.5230.15362, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Camalot.Common.Mvc4.4.0.5230.15362\lib\net45\Camalot.Common.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -48,8 +51,9 @@
     <Reference Include="MoreLinq">
       <HintPath>..\packages\morelinq.1.0.16006\lib\net35\MoreLinq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -207,6 +211,7 @@
     <Content Include="..\EndpointMvc.Mvc5\Nuget\tools\Uninstall.ps1">
       <Link>Nuget\tools\Uninstall.ps1</Link>
     </Content>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

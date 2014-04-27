@@ -13,6 +13,12 @@
 	margin-right: 20px;
 }
 
+.logo-x.tiny {
+	height: 24px;
+	width: 24px;
+	margin-right: 5px;
+}
+
 .divider-vertical {
 	width: 1px;
 	border: none;

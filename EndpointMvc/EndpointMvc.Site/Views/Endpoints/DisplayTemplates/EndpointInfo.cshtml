@@ -23,10 +23,10 @@
 		</h3></div>
 	<div class="media-body">
 		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
-			<div class="alert alert-error">@obsolete.Description</div>
+			<div class="callout callout-error">@obsolete.Description</div>
 		}
-		@if ( deprecated != null && (bool)deprecated.Value && !String.IsNullOrWhiteSpace ( deprecated.Description ) ) {
-			<div class="alert">@deprecated.Description</div>
+		@if(deprecated != null && (bool)deprecated.Value && !String.IsNullOrWhiteSpace(deprecated.Description)) {
+			<div class="callout">@deprecated.Description</div>
 		}
 
 
@@ -36,7 +36,7 @@
 
 		@Html.DisplayFor( m => m.Gists )
 
-		<blockquote class="alert alert-success">@Model.Url</blockquote>
+		<blockquote class="callout callout-success">@Model.Url</blockquote>
 		<table class="table table-bordered table-condensed ">
 			@Html.Partial("_CustomProperties",Model.Properties)
 		</table>
