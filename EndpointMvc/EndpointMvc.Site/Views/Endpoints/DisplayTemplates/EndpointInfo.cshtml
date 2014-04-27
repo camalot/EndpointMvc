@@ -23,7 +23,7 @@
 		</h3></div>
 	<div class="media-body">
 		@if ( obsolete != null && (bool)obsolete.Value && !String.IsNullOrWhiteSpace(obsolete.Description) )  {
-			<div class="callout callout-error">@obsolete.Description</div>
+			<div class="callout callout-danger">@obsolete.Description</div>
 		}
 		@if(deprecated != null && (bool)deprecated.Value && !String.IsNullOrWhiteSpace(deprecated.Description)) {
 			<div class="callout">@deprecated.Description</div>
